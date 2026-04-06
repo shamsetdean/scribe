@@ -1,8 +1,6 @@
 <!--
   anthropotech /lab — SCRIBE
-  Copyright (c) 2026 Guettaf Shams
-  Licence : CC BY-NC-ND 4.0
-  https://creativecommons.org/licenses/by-nc-nd/4.0/
+  Copyright (c) 2026 Guettaf Shams — CC BY-NC-ND 4.0
 -->
 <!DOCTYPE html>
 <html lang="fr">
@@ -10,636 +8,686 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scribe · Lettre de motivation — Anthropotech Lab</title>
-<meta name="description" content="Guide interactif en 4 étapes pour rédiger une lettre de motivation efficace.">
+<meta name="description" content="Générez votre lettre de motivation et téléchargez-la en PDF format ISO lettre française.">
 <meta name="theme-color" content="#1a56db">
 <link rel="canonical" href="https://shamsetdean.github.io/scribe/">
-<meta property="og:title" content="Scribe · Anthropotech Lab">
-<meta property="og:description" content="Guide interactif en 4 étapes pour rédiger une lettre de motivation efficace.">
-<meta property="og:url" content="https://shamsetdean.github.io/scribe/">
-<meta property="og:type" content="website">
-<meta name="robots" content="index, follow">
-
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:linear-gradient(135deg,#e8edf8 0%,#f0f4fb 40%,#e4eaf6 100%);
+  --glass:rgba(255,255,255,0.6);
+  --glass2:rgba(255,255,255,0.38);
+  --blur:blur(16px) saturate(1.5);
+  --ink:#1a1f2e;--ink-mid:#5a6478;--ink-dim:#9aa0ae;
+  --border:rgba(255,255,255,0.72);
+  --blue:#1a56db;--green:#0e9f6e;--red:#dc2626;
+  --shadow:0 6px 24px rgba(26,46,120,0.09),0 1px 4px rgba(26,46,120,0.06);
+  --shadow-sm:0 2px 10px rgba(26,46,120,0.07);
+  --f-sans:'Inter',system-ui,sans-serif;--f-mono:'DM Mono',monospace;
+  --r:16px;--r-sm:10px;--ri:9px;--tr:.2s cubic-bezier(.4,0,.2,1)
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);background-attachment:fixed;color:var(--ink);font-family:var(--f-sans);font-weight:400;display:flex;flex-direction:column}
 
-:root {
-  --bg: #f4f6fb;
-  --ink: #1a1f2e;
-  --ink-mid: #5a6478;
-  --ink-dim: #9aa0ae;
-  --line: rgba(26,31,46,0.10);
-  --accent: #1a56db;
-  --accent2: #0e9f6e;
-  --surface: #ffffff;
-  --surface2: #f0f2f8;
-  --f-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --f-mono: 'DM Mono', 'Fira Mono', monospace;
-  --radius-card: 14px;
-}
+/* TOPBAR */
+.topbar{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:9px 1rem;border-bottom:1px solid var(--border);background:rgba(240,244,251,0.75);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);z-index:100}
+.topbar a{font-family:var(--f-mono);font-size:11px;letter-spacing:.3em;color:#5a5f6e;text-decoration:none;text-transform:lowercase;transition:color var(--tr);display:inline-flex;align-items:center}
+.topbar a .sl{color:var(--blue)}
+.topbar a .ar{display:inline-block;margin-left:.4em;opacity:0;transform:translate(-4px,4px);transition:opacity var(--tr),transform var(--tr);font-size:10px;color:var(--blue);letter-spacing:0}
+.topbar a:hover{color:var(--blue)}
+.topbar a:hover .ar{opacity:1;transform:translate(0,0)}
 
-html { font-size: 16px; scroll-behavior: smooth; }
+/* PRIVACY */
+.privacy{flex-shrink:0;background:rgba(14,159,110,.08);border-bottom:1px solid rgba(14,159,110,.15);padding:5px 1rem;text-align:center;font-size:.7rem;color:#2d6a50;display:flex;align-items:center;justify-content:center;gap:7px}
+.pdot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--f-sans);
-  font-weight: 400;
-  line-height: 1.65;
-  min-height: 100vh;
-  overflow-x: hidden;
-  padding-bottom: 3rem;
-}
+/* SOCIAL */
+.sbar{position:fixed;top:50%;right:14px;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:200}
+.sbar a{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);text-decoration:none;opacity:.38;transition:opacity var(--tr),color var(--tr),transform var(--tr)}
+.sbar a:hover{opacity:1;color:var(--blue);transform:translateX(-2px)}
+.sbar svg{width:12px;height:12px;fill:currentColor}
 
-/* ── TOPBAR ── */
-.topbar-signature {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 1rem;
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  z-index: 2000;
-  background: rgba(244,246,251,0.82);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-}
-.topbar-signature a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: #5a5f6e;
-  text-decoration: none;
-  text-transform: lowercase;
-  transition: color 0.25s ease;
-}
-.topbar-signature a .sig-slash { color: var(--accent); transition: color 0.25s ease; }
-.topbar-signature a .sig-arrow {
-  display: inline-block; margin-left: 0.4em;
-  opacity: 0; transform: translate(-4px, 4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  font-size: 10px; color: var(--accent); letter-spacing: 0;
-}
-.topbar-signature a:hover { color: var(--accent); }
-.topbar-signature a:hover .sig-arrow { opacity: 1; transform: translate(0, 0); }
+/* LAYOUT */
+.layout{flex:1;overflow:hidden;display:flex;flex-direction:column;max-width:640px;width:100%;margin:0 auto;padding:.75rem 1rem;gap:.6rem}
 
-/* ── SOCIAL BAR ── */
-.social-bar {
-  position: fixed;
-  top: 50%;
-  right: 18px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 1500;
-}
-.social-bar a {
-  display: flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px;
-  color: var(--ink-dim);
-  text-decoration: none;
-  transition: color 0.2s, transform 0.2s;
-  opacity: 0.55;
-}
-.social-bar a:hover { color: var(--accent); opacity: 1; transform: translateX(-2px); }
-.social-bar svg { width: 15px; height: 15px; fill: currentColor; }
+/* HEADER */
+.header-row{display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.site-title{font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:-.03em}
+.site-title em{font-style:normal;color:var(--blue)}
+.site-sub{font-size:.72rem;color:var(--ink-mid);margin-top:1px;font-weight:300}
 
-/* ── HERO ── */
-.hero {
-  text-align: center;
-  padding: 3rem 1rem 2rem;
-  max-width: 680px;
-  margin: 0 auto;
-}
-.hero-tag {
-  display: inline-block;
-  font-size: 0.65rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 500;
-  margin-bottom: 1rem;
-  background: rgba(26,86,219,0.08);
-  padding: 4px 12px;
-  border-radius: 50px;
-}
-.hero h1 {
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
-}
-.hero h1 span { color: var(--accent); }
-.hero p {
-  font-size: 1rem;
-  color: var(--ink-mid);
-  max-width: 460px;
-  margin: 0 auto;
-}
+/* STEPPER */
+.stepper{display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.si{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer;transition:transform .15s}
+.si:hover{transform:translateY(-1px)}
+.si-c{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;border:2px solid rgba(26,86,219,.3);color:var(--blue);background:var(--glass2);backdrop-filter:var(--blur);transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-sm)}
+.si-l{font-size:.48rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim);text-align:center;transition:color var(--tr)}
+.si.todo .si-c{border-color:rgba(26,86,219,.3);color:var(--blue);background:rgba(26,86,219,.06)}
+.si.todo .si-l{color:var(--blue)}
+.si.done .si-c{border-color:var(--green);background:rgba(14,159,110,.12);color:var(--green);transform:scale(1.08)}
+.si.done .si-l{color:var(--green)}
+.si.active .si-c{border-color:var(--blue);color:var(--blue);background:rgba(255,255,255,.9);box-shadow:0 0 0 4px rgba(26,86,219,.15),var(--shadow-sm);transform:scale(1.12)}
+.si.active .si-l{color:var(--ink);font-weight:600}
+.si.error .si-c{border-color:var(--red);color:var(--red);background:rgba(220,38,38,.08);animation:errBlink .6s infinite}
+.si.error .si-l{color:var(--red)}
+.si.skipped .si-c{border-color:rgba(26,31,46,.12);color:var(--ink-dim);background:rgba(26,31,46,.04)}
+.si.skipped .si-l{color:var(--ink-dim);opacity:.4;text-decoration:line-through}
+@keyframes errBlink{0%,100%{opacity:1;transform:scale(1.08)}50%{opacity:.3;transform:scale(.95)}}
+.sconn{flex:1;height:2px;margin-bottom:18px;max-width:38px;transition:all .5s ease;background:rgba(26,86,219,.15);border-radius:2px;position:relative;overflow:hidden}
+.sconn::after{content:'';position:absolute;left:-100%;top:0;height:100%;width:100%;background:var(--green);transition:left .5s ease;border-radius:2px}
+.sconn.done::after{left:0}
 
-/* ── PROGRESS BAR ── */
-.progress-wrap {
-  max-width: 680px;
-  margin: 1.5rem auto 0;
-  padding: 0 1rem;
-}
-.progress-labels {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.prog-label {
-  flex: 1;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  text-align: center;
-  transition: color 0.2s;
-}
-.prog-label.active { color: var(--accent); font-weight: 500; }
-.prog-label.done { color: var(--accent2); }
-.progress-track {
-  display: flex;
-  gap: 5px;
-}
-.prog-seg {
-  flex: 1; height: 3px; border-radius: 99px;
-  background: var(--line);
-  transition: background 0.3s;
-}
-.prog-seg.done { background: var(--accent2); }
-.prog-seg.active { background: var(--accent); }
+/* GUIDE ANIMATION */
+.guide{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--glass2);border:1px solid var(--border);border-radius:var(--r-sm);backdrop-filter:var(--blur);overflow:hidden;position:relative}
+.guide-arrow{font-size:1rem;animation:arrowPulse 1.2s infinite;flex-shrink:0;color:var(--blue)}
+@keyframes arrowPulse{0%,100%{transform:translateX(0);opacity:.6}50%{transform:translateX(4px);opacity:1}}
+.guide-text{font-size:.75rem;color:var(--ink-mid);line-height:1.3;flex:1}
+.guide-text strong{color:var(--ink);font-weight:600}
+.guide-dots{display:flex;gap:3px;flex-shrink:0}
+.guide-dot{width:5px;height:5px;border-radius:50%;background:rgba(26,86,219,.2);transition:all .3s}
+.guide-dot.active{background:var(--blue);transform:scale(1.3)}
+.guide-dot.done{background:var(--green)}
 
-/* ── STEP PANEL ── */
-.app-wrap {
-  max-width: 680px;
-  margin: 1.5rem auto 0;
-  padding: 0 1rem;
-}
+/* PANEL */
+.panel{flex:1;overflow-y:auto;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--shadow);animation:panelIn .25s cubic-bezier(.34,1.2,.64,1) both}
+.panel::-webkit-scrollbar{width:3px}
+.panel::-webkit-scrollbar-track{background:transparent}
+.panel::-webkit-scrollbar-thumb{background:rgba(26,31,46,.12);border-radius:4px}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  padding: 1.75rem;
-  margin-bottom: 1rem;
-  animation: panelIn 0.3s ease both;
-}
-@keyframes panelIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+.ph{display:flex;align-items:flex-start;gap:10px;margin-bottom:.9rem;padding-bottom:.8rem;border-bottom:1px solid rgba(26,31,46,.07)}
+.ph-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.ph-icon:hover{transform:scale(1.1) rotate(-5deg)}
+.ph-icon svg{width:16px;height:16px}
+.ph-text h2{font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:1px}
+.ph-text .step-n{font-size:.6rem;color:var(--ink-dim);font-family:var(--f-mono);letter-spacing:.06em}
+.ph-text .step-d{font-size:.74rem;color:var(--ink-mid);margin-top:2px;line-height:1.4}
 
-.panel-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1.25rem;
-}
-.step-badge {
-  width: 36px; height: 36px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700;
-  flex-shrink: 0;
-}
-.panel-info h2 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 1px;
-}
-.panel-info .step-num {
-  font-size: 0.7rem;
-  color: var(--ink-dim);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+/* PROGRESS RING — petit */
+.prog-wrap{display:flex;justify-content:center;margin:.3rem 0 .6rem}
+.prog-ring{position:relative;width:48px;height:48px}
+.prog-ring svg{transform:rotate(-90deg)}
+.prog-ring .track{fill:none;stroke:rgba(14,159,110,.15);stroke-width:4}
+.prog-ring .fill{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.34,1.2,.64,1)}
+.prog-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.prog-pct{font-size:.78rem;font-weight:700;color:var(--green);line-height:1}
+.prog-txt{font-size:.4rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.07em}
 
-.objective {
-  background: var(--surface2);
-  border-left: 3px solid var(--step-color, var(--accent));
-  border-radius: 0 8px 8px 0;
-  padding: 10px 14px;
-  margin-bottom: 1.25rem;
-  font-size: 0.88rem;
-  color: var(--ink-mid);
-  line-height: 1.55;
-}
+.sec{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-dim);margin:.8rem 0 .5rem;padding-bottom:4px;border-bottom:1px solid rgba(26,31,46,.07)}
 
-.tips-title {
-  font-size: 0.68rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ink-dim);
-  margin-bottom: 10px;
-}
-.tip {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin-bottom: 8px;
-  font-size: 0.88rem;
-  color: var(--ink);
-  line-height: 1.5;
-}
-.tip-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  margin-top: 8px;
-  flex-shrink: 0;
-  background: var(--step-color, var(--accent));
-}
+.civ{display:flex;gap:7px;margin-bottom:.2rem}
+.cb{flex:1;padding:8px 6px;border-radius:var(--r-sm);border:1.5px solid rgba(26,86,219,.2);background:var(--glass2);color:var(--ink-mid);font-size:.8rem;font-weight:500;font-family:var(--f-sans);cursor:pointer;transition:all .2s cubic-bezier(.34,1.3,.64,1);text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cb svg{width:14px;height:14px;stroke:currentColor;fill:none;opacity:.55;transition:opacity var(--tr)}
+.cb span{font-size:.56rem;letter-spacing:.05em;text-transform:uppercase;opacity:.55;transition:opacity var(--tr)}
+.cb:hover{border-color:var(--blue);color:var(--blue);background:rgba(255,255,255,.6);transform:translateY(-2px);box-shadow:0 4px 12px rgba(26,86,219,.15)}
+.cb.on{border-color:var(--blue);background:rgba(26,86,219,.1);color:var(--blue);transform:scale(1.04);box-shadow:0 0 0 3px rgba(26,86,219,.12)}
+.cb.on svg,.cb.on span{opacity:1}
 
-.example-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.82rem;
-  color: var(--ink-dim);
-  padding: 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  transition: color 0.2s;
-}
-.example-btn:hover { color: var(--ink); }
-.example-box {
-  display: none;
-  background: var(--surface2);
-  border-radius: 8px;
-  padding: 12px 14px;
-  margin-top: 6px;
-  font-size: 0.85rem;
-  color: var(--ink-mid);
-  line-height: 1.7;
-  font-style: italic;
-  border: 1px solid var(--line);
-  white-space: pre-wrap;
-}
-.example-box.open { display: block; }
+.fg{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.fg.one{grid-template-columns:1fr}
+.f{display:flex;flex-direction:column;gap:3px}
+.f.all{grid-column:1/-1}
+.f label{font-size:.6rem;font-weight:500;color:var(--ink-mid);letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;gap:3px;transition:color var(--tr)}
+.req{color:var(--red);font-size:.7rem}
+.f input,.f textarea{background:rgba(255,255,255,.42);border:1.5px solid rgba(26,31,46,.1);border-radius:var(--ri);padding:7px 10px;font-size:.84rem;font-family:var(--f-sans);color:var(--ink);outline:none;transition:all .2s cubic-bezier(.34,1.2,.64,1);width:100%}
+.f input::placeholder,.f textarea::placeholder{color:var(--ink-dim);font-size:.78rem}
+.f input:focus,.f textarea:focus{border-color:var(--blue);background:rgba(255,255,255,.82);box-shadow:0 0 0 3px rgba(26,86,219,.1);transform:scale(1.01)}
+.f input.done-field{border-color:var(--green);background:rgba(14,159,110,.05)}
+.f input.err-field{border-color:var(--red);animation:errBlink .6s 3}
+.f textarea{resize:vertical;line-height:1.55}
+.hint{font-size:.63rem;color:var(--ink-dim);margin-top:2px;font-style:italic;line-height:1.35}
 
-.field-wrap {
-  margin-top: 1.25rem;
-}
-.field-label {
-  font-size: 0.78rem;
-  color: var(--ink-dim);
-  display: block;
-  margin-bottom: 6px;
-}
-textarea {
-  width: 100%;
-  min-height: 120px;
-  resize: vertical;
-  font-size: 0.92rem;
-  font-family: var(--f-sans);
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(26,31,46,0.15);
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.6;
-  transition: border-color 0.2s;
-}
-textarea:focus {
-  outline: none;
-  border-color: var(--step-color, var(--accent));
-  background: var(--surface);
-}
-.char-count {
-  font-size: 0.72rem;
-  color: var(--ink-dim);
-  text-align: right;
-  margin-top: 4px;
-}
+/* STEP 4 */
+.action-step{display:flex;align-items:center;gap:11px;padding:10px 13px;background:rgba(255,255,255,.45);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:7px;transition:all .25s cubic-bezier(.34,1.2,.64,1);animation:stepIn .3s cubic-bezier(.34,1.2,.64,1) both}
+.action-step:nth-child(1){animation-delay:.05s}
+.action-step:nth-child(2){animation-delay:.12s}
+.action-step:nth-child(3){animation-delay:.19s}
+@keyframes stepIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+.action-step:hover:not(.locked){box-shadow:var(--shadow-sm);transform:translateX(3px)}
+.action-step.locked{opacity:.35;pointer-events:none;filter:grayscale(.4)}
+.action-num{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.action-num.gn{background:var(--green);transform:scale(1.15)}
+.action-num svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.action-text{flex:1;font-size:.83rem;color:var(--ink);line-height:1.35}
+.action-text span{display:block;font-size:.69rem;color:var(--ink-mid);margin-top:1px}
 
-/* ── NAV BUTTONS ── */
-.nav-row {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  margin-top: 0.5rem;
-}
-.btn {
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid rgba(26,31,46,0.15);
-  background: var(--surface);
-  color: var(--ink);
-  transition: all 0.2s;
-  font-family: var(--f-sans);
-}
-.btn:hover { background: var(--surface2); border-color: var(--ink-dim); }
-.btn:disabled { opacity: 0.35; cursor: not-allowed; }
-.btn.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.btn.primary:hover { opacity: 0.88; }
+.paste-zone{margin-top:.65rem;animation:fadeIn .3s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.paste-zone label{font-size:.6rem;font-weight:600;color:var(--ink-mid);letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:4px}
+.paste-zone textarea{width:100%;min-height:90px;max-height:120px;resize:none;background:rgba(255,255,249,.78);border:1.5px solid rgba(26,31,46,.1);border-radius:var(--r-sm);padding:9px;font-family:'Times New Roman',serif;font-size:.85rem;color:var(--ink);line-height:1.65;outline:none;transition:all .2s cubic-bezier(.34,1.2,.64,1)}
+.paste-zone textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);transform:scale(1.005)}
+.paste-zone textarea::placeholder{color:var(--ink-dim);font-family:var(--f-sans);font-size:.76rem}
 
-/* ── RECAP ── */
-.recap-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 1.5rem;
-}
-.score-circle {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  border: 3px solid;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  flex-shrink: 0;
-}
-.score-num { font-size: 18px; font-weight: 700; }
-.score-lbl { font-size: 9px; color: var(--ink-dim); letter-spacing: 0.05em; }
-.recap-intro h2 { font-size: 1.05rem; font-weight: 600; color: var(--ink); }
-.recap-intro p { font-size: 0.82rem; color: var(--ink-mid); }
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 15px;border-radius:var(--r-sm);font-size:.82rem;font-weight:500;font-family:var(--f-sans);cursor:pointer;border:none;transition:all .2s cubic-bezier(.34,1.3,.64,1);line-height:1}
+.btn svg{width:13px;height:13px;flex-shrink:0}
+.btn.pri{background:rgba(26,86,219,.9);color:#fff;box-shadow:0 3px 10px rgba(26,86,219,.28)}
+.btn.pri:hover{background:var(--blue);transform:translateY(-2px) scale(1.03);box-shadow:0 6px 16px rgba(26,86,219,.35)}
+.btn.pri:active{transform:scale(.97)}
+.btn.grn{background:rgba(14,159,110,.9);color:#fff;box-shadow:0 3px 10px rgba(14,159,110,.22)}
+.btn.grn:hover{transform:translateY(-2px) scale(1.03)}
+.btn.grn:active{transform:scale(.97)}
+.btn.gpt{background:#10a37f;color:#fff}
+.btn.gpt:hover{transform:translateY(-2px) scale(1.03)}
+.btn.gh{background:var(--glass);border:1px solid var(--border);color:var(--ink)}
+.btn.gh:hover{background:rgba(255,255,255,.82);transform:translateY(-1px)}
+.btn.danger{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.18);color:var(--red);padding:5px 12px;font-size:.74rem}
+.btn.danger:hover{background:rgba(220,38,38,.14);transform:scale(1.02)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+.btn.full{width:100%;padding:10px 16px;font-size:.88rem}
 
-.recap-part {
-  background: var(--surface2);
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 10px;
-}
-.recap-part-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 5px;
-}
-.recap-part-text {
-  font-size: 0.88rem;
-  color: var(--ink);
-  line-height: 1.65;
-  white-space: pre-wrap;
-}
-.recap-part-empty {
-  font-size: 0.82rem;
-  color: var(--ink-dim);
-  font-style: italic;
-}
+/* NAV */
+.nav-row{flex-shrink:0;display:flex;gap:8px;justify-content:space-between}
+.bnav{display:flex;align-items:center;gap:5px;padding:9px 20px;border-radius:var(--r-sm);font-size:.84rem;font-weight:500;font-family:var(--f-sans);cursor:pointer;transition:all .2s cubic-bezier(.34,1.3,.64,1);border:1px solid var(--border);background:var(--glass);color:var(--ink);backdrop-filter:var(--blur)}
+.bnav:hover{background:rgba(255,255,255,.8);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.bnav:active{transform:scale(.97)}
+.bnav:disabled{opacity:.26;cursor:not-allowed;transform:none;box-shadow:none}
+.bnav.nx{background:rgba(26,86,219,.88);border-color:transparent;color:#fff;box-shadow:0 3px 10px rgba(26,86,219,.25)}
+.bnav.nx:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 6px 16px rgba(26,86,219,.32)}
 
-.copy-btn {
-  width: 100%;
-  margin-top: 0.5rem;
-  justify-content: center;
-  background: var(--surface2);
-  border: 1px solid var(--line);
-}
-.copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* TOAST */
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(12px);background:rgba(26,31,46,.92);backdrop-filter:var(--blur);color:#fff;border-radius:50px;padding:8px 18px;font-size:.78rem;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.34,1.3,.64,1);z-index:9000;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.1)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ── RESPONSIVE ── */
-@media (max-width: 600px) {
-  .social-bar { display: none; }
-  .hero { padding: 2rem 1rem 1.5rem; }
-}
+/* SUCCESS FLASH */
+@keyframes successPop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+.success-pop{animation:successPop .4s cubic-bezier(.34,1.56,.64,1)}
+
+@media(max-width:560px){.sbar{display:none}.fg{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar-signature" role="banner">
-  <a href="https://shamsetdean.github.io/anthropotechlab/" target="_blank" rel="noopener" aria-label="Anthropotech Lab">anthropotech <span class="sig-slash">/</span>lab<span class="sig-arrow">↗</span></a>
-</div>
-
-<!-- SOCIAL BAR -->
-<div class="social-bar" role="navigation" aria-label="Réseaux sociaux">
-  <a href="https://www.linkedin.com/in/shamsguettaf/" target="_blank" rel="noopener" aria-label="LinkedIn">
-    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-  </a>
-  <a href="https://github.com/shamsetdean" target="_blank" rel="noopener" aria-label="GitHub">
-    <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-  </a>
-  <a href="https://x.com/shamsetdean" target="_blank" rel="noopener" aria-label="X">
-    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-  </a>
-  <a href="https://www.instagram.com/shamsetdean" target="_blank" rel="noopener" aria-label="Instagram">
-    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-  </a>
-  <a href="https://www.facebook.com/shamsetdean" target="_blank" rel="noopener" aria-label="Facebook">
-    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+<div class="topbar">
+  <a href="https://shamsetdean.github.io/anthropotechlab/" target="_blank" rel="noopener">
+    anthropotech <span class="sl">/</span>lab<span class="ar">↗</span>
   </a>
 </div>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-tag">Anthropotech · Lab</div>
-  <h1><span>Scribe</span></h1>
-  <p>Guide interactif en 4 étapes pour rédiger une lettre de motivation qui retient l'attention.</p>
-</header>
-
-<!-- PROGRESS -->
-<div class="progress-wrap">
-  <div class="progress-labels" id="prog-labels"></div>
-  <div class="progress-track" id="prog-track"></div>
+<div class="privacy">
+  <div class="pdot"></div>
+  Aucune donnée enregistrée, stockée ou transmise — tout reste dans votre navigateur.
 </div>
 
-<!-- MAIN -->
-<main class="app-wrap" id="app">
-  <div id="panel-area"></div>
-  <div class="nav-row">
-    <button class="btn" id="btn-prev" onclick="navigate(-1)">← Précédent</button>
-    <button class="btn primary" id="btn-next" onclick="navigate(1)">Suivant →</button>
+<nav class="sbar" aria-label="Réseaux sociaux">
+  <a href="https://www.linkedin.com/in/shamsguettaf/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+  <a href="https://github.com/shamsetdean" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+  <a href="https://x.com/shamsetdean" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+  <a href="https://www.instagram.com/shamsetdean" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+  <a href="https://www.facebook.com/shamsetdean" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+</nav>
+
+<div class="layout">
+  <div class="header-row">
+    <div>
+      <div class="site-title"><em>Scribe</em></div>
+      <div class="site-sub">Lettre de motivation · PDF ISO · Gratuit</div>
+    </div>
+    <button class="btn danger" onclick="resetAll()">
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+      Effacer
+    </button>
   </div>
-</main>
+
+  <div class="stepper" id="stepper"></div>
+
+  <!-- GUIDE ANIMÉ -->
+  <div class="guide" id="guide">
+    <span class="guide-arrow">→</span>
+    <div class="guide-text" id="guide-text"></div>
+    <div class="guide-dots" id="guide-dots"></div>
+  </div>
+
+  <div class="panel" id="panel"></div>
+
+  <div class="nav-row">
+    <button class="bnav" id="bp" onclick="nav(-1)">
+      <svg viewBox="0 0 20 20" style="width:13px;height:13px;fill:currentColor"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/></svg>
+      Précédent
+    </button>
+    <button class="bnav nx" id="bn" onclick="nav(1)">
+      Suivant
+      <svg viewBox="0 0 20 20" style="width:13px;height:13px;fill:currentColor"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-const STEPS = [
-  {
-    num: "01", label: "L'organisation",
-    color: "#1a56db", bg: "#dbeafe", textC: "#1e3a8a",
-    objective: "Montrez que vous connaissez l'organisation et que vous comprenez pourquoi vous voulez y travailler — pas juste « parce que c'est une belle entreprise ».",
-    tips: [
-      "Citez un élément concret : un projet récent, une valeur affichée, un service spécifique.",
-      "Reliez cet élément à votre envie de rejoindre l'équipe.",
-      "Évitez les formules creuses comme « entreprise dynamique et innovante ».",
-      "2 à 4 phrases suffisent : c'est une accroche, pas une fiche Wikipedia."
-    ],
-    example: "J'ai été particulièrement attentif(ve) au lancement de votre service d'accompagnement à domicile en 2023, qui traduit concrètement l'engagement de votre structure en faveur du maintien à domicile des personnes âgées. C'est précisément dans ce type de projet que je souhaite m'investir.",
-    placeholder: "Parlez de l'organisation : un projet, une valeur, un service qui vous a convaincu(e)..."
-  },
-  {
-    num: "02", label: "Vos compétences",
-    color: "#0e9f6e", bg: "#d1fae5", textC: "#065f46",
-    objective: "Mettez en regard vos compétences et le profil recherché dans l'offre. Chaque point que vous citez doit avoir un écho direct dans la fiche de poste.",
-    tips: [
-      "Relisez attentivement le profil de poste avant d'écrire ce paragraphe.",
-      "Ne listez pas toutes vos compétences : sélectionnez les 2 ou 3 qui collent le mieux.",
-      "Illustrez avec un exemple concret ou un résultat chiffré si possible.",
-      "Reformulez les mots-clés du poste avec vos propres mots, sans copier mot pour mot."
-    ],
-    example: "Fort(e) de 5 ans d'expérience en gestion de projet dans le secteur public, j'ai coordonné des équipes pluridisciplinaires et piloté des budgets en mode projet. La compétence en conduite du changement, centrale dans votre offre, est au cœur de mon parcours.",
-    placeholder: "Citez vos compétences en lien direct avec ce que demande le poste..."
-  },
-  {
-    num: "03", label: "Le rendez-vous",
-    color: "#d97706", bg: "#fef3c7", textC: "#78350f",
-    objective: "Demandez explicitement un entretien. C'est une étape que beaucoup oublient, ce qui laisse le recruteur sans porte d'entrée claire pour la suite.",
-    tips: [
-      "Formulez la demande clairement et positivement.",
-      "Proposez votre disponibilité sans être envahissant(e).",
-      "Mentionnez que vous pouvez fournir des éléments complémentaires si besoin.",
-      "Restez concis(e) : une ou deux phrases, pas un paragraphe."
-    ],
-    example: "Je serais ravi(e) de vous présenter mon parcours lors d'un entretien à votre convenance. Je reste disponible pour tout échange complémentaire et vous adresse en pièce jointe mon curriculum vitæ.",
-    placeholder: "Demandez le rendez-vous, indiquez votre disponibilité..."
-  },
-  {
-    num: "04", label: "Formule de politesse",
-    color: "#7c3aed", bg: "#ede9fe", textC: "#4c1d95",
-    objective: "Terminez par une formule respectueuse et professionnelle. Elle doit être adaptée au secteur et ne jamais paraître froide ou expédiée.",
-    tips: [
-      "Pour le secteur public ou formel : « Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées. »",
-      "Pour un secteur plus agile : « Dans l'attente de votre retour, je vous adresse mes cordiales salutations. »",
-      "Évitez « Cordialement » seul — trop sec pour une lettre.",
-      "Ajoutez votre prénom et nom sous la formule."
-    ],
-    example: "Dans l'attente de votre retour, je vous prie d'agréer, Madame, Monsieur, l'expression de mes sincères salutations.\n\nPrénom Nom",
-    placeholder: "Écrivez votre formule de politesse et votre signature..."
-  }
+const {jsPDF}=window.jspdf;
+
+const IC={
+  file:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`,
+  hand:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>`,
+  zap:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  male:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5.5 5.5M19 5h-5M19 5v5"/></svg>`,
+  female:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg>`,
+  unknown:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  dl:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+  ok:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+};
+
+const STEPS=[
+  {label:"Offre",       color:"#dc2626",icon:"file",title:"L'offre d'emploi",    desc:"Collez l'offre — tout sera extrait automatiquement."},
+  {label:"Candidat",   color:"#1a56db",icon:"user",title:"Qui êtes-vous ?",     desc:"Vos coordonnées pour l'en-tête de la lettre."},
+  {label:"Destinataire",color:"#0e9f6e",icon:"hand",title:"Le destinataire",    desc:"Complétez si le contact n'est pas dans l'offre."},
+  {label:"Prompt",     color:"#7c3aed",icon:"zap", title:"Générer & télécharger",desc:"3 étapes simples pour obtenir votre PDF."}
 ];
 
-let current = 0;
-const texts = ["", "", "", ""];
+const GUIDE_MSGS=[
+  {text:"<strong>Collez l'offre d'emploi</strong> dans la zone ci-dessous. Scribe extraira toutes les informations nécessaires."},
+  {text:"<strong>Renseignez vos coordonnées.</strong> Ces informations apparaîtront en haut à gauche de votre lettre."},
+  {text:"<strong>Précisez le destinataire</strong> si vous le connaissez. Sinon, ChatGPT le trouvera dans l'offre."},
+  {text:"<strong>3 actions :</strong> Générez le prompt → ouvrez ChatGPT → collez la réponse → téléchargez le PDF."}
+];
 
-function renderProgress() {
-  const labels = document.getElementById("prog-labels");
-  const track = document.getElementById("prog-track");
-  labels.innerHTML = STEPS.map((s, i) => {
-    let cls = "prog-label";
-    if (i < current) cls += " done";
-    else if (i === current) cls += " active";
-    return `<div class="${cls}">${s.label}</div>`;
-  }).join("");
-  track.innerHTML = STEPS.map((_, i) => {
-    let cls = "prog-seg";
-    if (i < current) cls += " done";
-    else if (i === current) cls += " active";
+const D={offre:"",civ:"",nom:"",prenom:"",adresse:"",cp:"",ville:"",email:"",tel:"",iciv:"",ititre:"",inom:"",iprenom:"",lettre:""};
+let cur=0,rawPrmt="",step3Skip=false,errFields=[];
+
+const $=id=>document.getElementById(id);
+const V=id=>{const e=$(id);return e?e.value.trim():""};
+const esc=s=>s?String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"):"";
+const capFull=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+const toast=m=>{const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2500)};
+
+function detectDest(o){return /à l['']attention de|contact\s*:|responsable\s*:|recruteur\s*:|(madame|monsieur)\s+[A-ZÀ-Ü]/i.test(o)}
+function isMairie(o){return /mairie|commune|hôtel de ville|collectivité|ville de/i.test(o)}
+
+/* ── OBFUSCATION ── */
+const BK="▓░█▒▐▌▄▀■□▪▫";
+const ZW="\u200B\u200C\u200D\u00AD";
+function obf(str){return str.split("").map((c,i)=>{if(c==="\n")return "\n";if(c===" ")return "\u00B7";return BK[(c.charCodeAt(0)+i)%BK.length]+ZW[i%ZW.length];}).join("")}
+
+/* ── PROGRESS ── */
+function progressRing(pct){
+  const r=19,circ=2*Math.PI*r,offset=circ*(1-pct/100);
+  return `<div class="prog-wrap"><div class="prog-ring">
+    <svg width="48" height="48" viewBox="0 0 48 48">
+      <circle class="track" cx="24" cy="24" r="${r}"/>
+      <circle class="fill" cx="24" cy="24" r="${r}" stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}"/>
+    </svg>
+    <div class="prog-label"><span class="prog-pct">${pct}%</span><span class="prog-txt">ok</span></div>
+  </div></div>`;
+}
+function calcPct(){
+  const req=["offre","nom","prenom","adresse","ville","email"];
+  return Math.round(req.filter(k=>D[k]&&D[k].trim()).length/req.length*100);
+}
+
+/* ── GUIDE ── */
+function renderGuide(){
+  const gt=$("guide-text"),gd=$("guide-dots");
+  if(!gt||!gd)return;
+  gt.innerHTML=GUIDE_MSGS[cur].text;
+  gd.innerHTML=STEPS.map((_,i)=>{
+    let cls="guide-dot";
+    if(i<cur)cls+=" done";
+    else if(i===cur)cls+=" active";
     return `<div class="${cls}"></div>`;
   }).join("");
 }
 
-function renderPanel() {
-  const area = document.getElementById("panel-area");
-  if (current === STEPS.length) {
-    renderRecap(area);
-    return;
-  }
-  const s = STEPS[current];
-  area.innerHTML = `
-    <div class="panel" style="--step-color:${s.color}">
-      <div class="panel-header">
-        <div class="step-badge" style="background:${s.bg};color:${s.textC}">${s.num}</div>
-        <div class="panel-info">
-          <div class="step-num">Étape ${s.num} sur 04</div>
-          <h2>${s.label}</h2>
-        </div>
-      </div>
-      <div class="objective">${s.objective}</div>
-      <div class="tips-title">Conseils</div>
-      ${s.tips.map(t => `<div class="tip"><div class="tip-dot"></div><span>${t}</span></div>`).join("")}
-      <button class="example-btn" onclick="toggleEx(this)">
-        <span>▸</span> Voir un exemple
-      </button>
-      <div class="example-box">${s.example}</div>
-      <div class="field-wrap">
-        <label class="field-label">Votre rédaction pour cette partie</label>
-        <textarea id="ta" placeholder="${s.placeholder}" oninput="saveText(this)">${texts[current]}</textarea>
-        <div class="char-count" id="cc">${texts[current].length} car.</div>
-      </div>
-    </div>
-  `;
+/* ── BUILD PROMPT ── */
+function buildPrompt(){
+  const d=D;
+  const cNom=capFull(d.nom),cPre=capFull(d.prenom);
+  const candidat=`${cPre} ${cNom}`.trim();
+  const civ=d.civ||"Monsieur";
+  const accF=d.civ==="Madame";
+  const date=new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
+  const iNom=capFull(d.inom),iPre=capFull(d.iprenom);
+  const iKnown=!!(d.inom||d.ititre);
+  const appel=d.inom?`${d.iciv||""} ${iNom},`.trim():"Madame, Monsieur,";
+  const politesse=d.inom?`${d.iciv||""} ${iNom}`.trim():"Madame, Monsieur";
+  const ville=capFull(d.ville)||"Paris";
+  const mairie=isMairie(d.offre);
+
+  return `Tu es expert en rédaction de lettres de motivation professionnelles françaises. Génère une lettre COMPLÈTE sur UNE SEULE PAGE A4, prête à imprimer.
+
+=== CANDIDAT ===
+Nom : ${cNom} | Prénom : ${cPre} | Civilité : ${civ}
+Adresse : ${capFull(d.adresse)||""} ${d.cp||""} ${ville}
+Téléphone : ${d.tel||""} | Email : ${d.email||""}
+
+=== OFFRE D'EMPLOI COMPLÈTE ===
+${d.offre}
+
+=== DESTINATAIRE ===
+${iKnown?`Civilité : ${d.iciv||""} | Titre : ${d.ititre||""} | Nom : ${iNom} | Prénom : ${iPre}`:"Extraire depuis l'offre : titre complet, nom, prénom, civilité du contact."}
+${mairie?"\nIMPORTANT : Entité = mairie/commune. Adresser TOUJOURS à : [Monsieur/Madame] le/la Maire [Prénom Nom du maire]. Même si l'offre mentionne un DRH.":""}
+
+=== INSTRUCTIONS ===
+1. Extrais : nom de l'entité, adresse complète, titre+nom+prénom du contact, numéro d'offre si présent.
+2. Identifie EXACTEMENT 4 éléments clés du profil recherché.
+3. Génère la lettre :
+
+Objet : Candidature n°[numéro si présent] — [titre du poste]
+
+${appel}
+
+§1 (2-3 phrases) : Point positif concret sur l'entité — actualité récente ou engagement.
+§2 (4-5 phrases) : Les 4 éléments du profil mis en regard avec le parcours de ${candidat}. Précis${accF?"e":""}, sans formule creuse.
+§3 (1-2 phrases) : Demande d'entretien + disponibilité.
+
+Je vous prie d'agréer, ${politesse}, l'expression de mes salutations distinguées.
+
+=== CONTRAINTES ===
+- 250 mots maximum (corps uniquement)
+- Saut de ligne après chaque point final
+- NE PAS répéter coordonnées candidat/destinataire dans le corps
+- NE PAS inclure de date dans le corps
+- Vouvoiement strict | Aucune liste à puces | Aucune URL
+- Accords genre ${accF?"féminin":"masculin"}
+- Majuscule initiale sur noms propres, villes, prénoms
+- Répondre UNIQUEMENT avec la lettre, sans commentaire`;
 }
 
-function renderRecap(area) {
-  const filled = texts.filter(t => t.trim()).length;
-  const pct = Math.round((filled / 4) * 100);
-  const color = pct === 100 ? "#0e9f6e" : pct >= 50 ? "#d97706" : "#e02424";
-  area.innerHTML = `
-    <div class="panel">
-      <div class="recap-header">
-        <div class="score-circle" style="border-color:${color};color:${color}">
-          <span class="score-num">${pct}%</span>
-          <span class="score-lbl">complet</span>
-        </div>
-        <div class="recap-intro">
-          <h2>Votre lettre</h2>
-          <p>Relisez, ajustez, puis copiez le tout.</p>
-        </div>
-      </div>
-      ${STEPS.map((s, i) => `
-        <div class="recap-part">
-          <div class="recap-part-label" style="color:${s.color}">Étape ${s.num} — ${s.label}</div>
-          ${texts[i].trim()
-            ? `<div class="recap-part-text">${texts[i]}</div>`
-            : `<div class="recap-part-empty">Non renseigné</div>`}
-        </div>
-      `).join("")}
-      <button class="btn copy-btn" onclick="copyAll()">Copier la lettre complète</button>
-    </div>
-  `;
-}
-
-function toggleEx(btn) {
-  const box = btn.nextElementSibling;
-  box.classList.toggle("open");
-  btn.querySelector("span").textContent = box.classList.contains("open") ? "▾" : "▸";
-}
-
-function saveText(ta) {
-  texts[current] = ta.value;
-  const cc = document.getElementById("cc");
-  if (cc) cc.textContent = ta.value.length + " car.";
-}
-
-function navigate(dir) {
-  const next = current + dir;
-  if (next < 0 || next > STEPS.length) return;
-  current = next;
-  refresh();
-}
-
-function refresh() {
-  renderProgress();
-  renderPanel();
-  document.getElementById("btn-prev").disabled = current === 0;
-  const btnNext = document.getElementById("btn-next");
-  if (current >= STEPS.length) {
-    btnNext.textContent = "Recommencer";
-    btnNext.onclick = () => { current = 0; texts.fill(""); refresh(); };
-  } else {
-    btnNext.textContent = current === STEPS.length - 1 ? "Voir le récap →" : "Suivant →";
-    btnNext.onclick = () => navigate(1);
-  }
-}
-
-function copyAll() {
-  const full = texts.map(t => t.trim()).filter(Boolean).join("\n\n");
-  if (!full) { alert("Aucun contenu à copier."); return; }
-  navigator.clipboard.writeText(full).then(() => {
-    const btn = document.querySelector(".copy-btn");
-    const prev = btn.textContent;
-    btn.textContent = "Copié !";
-    setTimeout(() => btn.textContent = prev, 2000);
+/* ── STEPPER ── */
+function renderStepper(){
+  const w=$("stepper");let h="";
+  STEPS.forEach((s,i)=>{
+    let cls="si";
+    const isSkip=i===2&&step3Skip;
+    const isDone=i<cur&&!isSkip;
+    const isErr=errFields.includes(i);
+    if(isErr)cls+=" error";
+    else if(isSkip)cls+=" skipped";
+    else if(isDone)cls+=" done";
+    else if(i===cur)cls+=" active";
+    else cls+=" todo";
+    const icon=isDone?`<svg viewBox="0 0 20 20" style="width:10px;height:10px;fill:currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:isSkip?"—":i+1;
+    h+=`<div class="${cls}" style="--sc:${s.color}" onclick="goTo(${i})"><div class="si-c">${icon}</div><div class="si-l">${s.label}</div></div>`;
+    if(i<STEPS.length-1)h+=`<div class="sconn ${isDone?"done":""}"></div>`;
   });
+  w.innerHTML=h;
+}
+
+/* ── PANELS ── */
+function renderPanel(){
+  const area=$("panel");
+  const s=STEPS[cur];
+  const bgC=["rgba(220,38,38,.1)","rgba(26,86,219,.1)","rgba(14,159,110,.1)","rgba(124,58,237,.1)"];
+  const pct=calcPct();
+  let body="";
+
+  if(cur===0){
+    body=`${progressRing(pct)}<div class="fg one"><div class="f all">
+      <label>Texte complet de l'offre <span class="req">*</span></label>
+      <textarea id="f_off" style="min-height:130px" placeholder="Collez l'offre ici…" oninput="vf('f_off',true)">${esc(D.offre)}</textarea>
+      <p class="hint">Entité, adresse, contact, numéro et titre extraits automatiquement.</p>
+    </div></div>`;
+
+  }else if(cur===1){
+    body=`${progressRing(pct)}
+    <div class="sec">Civilité <span class="req">*</span></div>
+    <div class="civ">
+      <button class="cb ${D.civ==="Monsieur"?"on":""}" onclick="setCiv('Monsieur',this)">${IC.male}<span>Monsieur</span></button>
+      <button class="cb ${D.civ==="Madame"?"on":""}" onclick="setCiv('Madame',this)">${IC.female}<span>Madame</span></button>
+    </div>
+    <div class="sec">Identité</div>
+    <div class="fg">
+      <div class="f"><label>Nom <span class="req">*</span></label><input id="f_nom" placeholder="Dupont" value="${esc(D.nom)}" oninput="vf('f_nom',true)"></div>
+      <div class="f"><label>Prénom <span class="req">*</span></label><input id="f_pre" placeholder="Marie" value="${esc(D.prenom)}" oninput="vf('f_pre',true)"></div>
+    </div>
+    <div class="sec">Adresse</div>
+    <div class="fg">
+      <div class="f all"><label>Rue <span class="req">*</span></label><input id="f_adr" placeholder="12 rue de la Paix" value="${esc(D.adresse)}" oninput="vf('f_adr',true)"></div>
+      <div class="f"><label>Code postal</label><input id="f_cp" placeholder="75001" value="${esc(D.cp)}"></div>
+      <div class="f"><label>Ville <span class="req">*</span></label><input id="f_vil" placeholder="Paris" value="${esc(D.ville)}" oninput="vf('f_vil',true)"></div>
+    </div>
+    <div class="sec">Contact</div>
+    <div class="fg">
+      <div class="f"><label>Email <span class="req">*</span></label><input id="f_eml" type="email" placeholder="marie.dupont@email.fr" value="${esc(D.email)}" oninput="vf('f_eml',true)"></div>
+      <div class="f"><label>Téléphone</label><input id="f_tel" type="tel" placeholder="06 12 34 56 78" value="${esc(D.tel)}"></div>
+    </div>`;
+
+  }else if(cur===2){
+    body=`${progressRing(pct)}
+    ${step3Skip?`<div style="display:flex;align-items:center;gap:6px;background:rgba(14,159,110,.1);border:1px solid rgba(14,159,110,.2);border-radius:8px;padding:7px 11px;font-size:.73rem;color:#0e9f6e;margin-bottom:.7rem;animation:fadeIn .3s ease">${IC.ok} Contact trouvé dans l'offre — vous pouvez passer directement.</div>`:""}
+    <div class="sec">Civilité</div>
+    <div class="civ">
+      <button class="cb ${D.iciv==="Monsieur"?"on":""}" onclick="setICiv('Monsieur',this)">${IC.male}<span>Monsieur</span></button>
+      <button class="cb ${D.iciv==="Madame"?"on":""}" onclick="setICiv('Madame',this)">${IC.female}<span>Madame</span></button>
+      <button class="cb ${D.iciv===""?"on":""}" onclick="setICiv('',this)">${IC.unknown}<span>Inconnu</span></button>
+    </div>
+    <div class="sec">Identité</div>
+    <div class="fg">
+      <div class="f all"><label>Titre / Fonction</label><input id="f_iti" placeholder="Directeur des Ressources Humaines" value="${esc(D.ititre)}"></div>
+      <div class="f"><label>Nom</label><input id="f_ino" placeholder="Martin" value="${esc(D.inom)}"></div>
+      <div class="f"><label>Prénom</label><input id="f_ipr" placeholder="Jean" value="${esc(D.iprenom)}"></div>
+    </div>`;
+
+  }else if(cur===3){
+    const step1done=!!rawPrmt;
+    body=`${progressRing(pct)}
+    <div class="action-step">
+      <div class="action-num ${step1done?"gn":""}">${step1done?IC.ok:"1"}</div>
+      <div class="action-text"><strong>Générer et copier le prompt</strong><span>Copié automatiquement dans le presse-papiers.</span></div>
+      <button class="btn pri" onclick="doGen()">${IC.zap} Générer</button>
+    </div>
+    <div class="action-step ${!step1done?"locked":""}">
+      <div class="action-num ${step1done?"gn":""}">${step1done?IC.ok:"2"}</div>
+      <div class="action-text"><strong>Ouvrir ChatGPT et coller</strong><span>Le prompt est prêt à coller.</span></div>
+      <button class="btn gpt" onclick="openGPT()">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor"><path d="M22.282 9.821a5.985 5.985 0 00-.516-4.91 6.046 6.046 0 00-6.51-2.9A6.065 6.065 0 004.981 4.18a5.985 5.985 0 00-3.998 2.9 6.046 6.046 0 00.743 7.097 5.98 5.98 0 00.51 4.911 6.051 6.051 0 006.515 2.9A5.985 5.985 0 0013.26 24a6.056 6.056 0 005.772-4.206 5.99 5.99 0 003.997-2.9 6.056 6.056 0 00-.747-7.073zM13.26 22.43a4.476 4.476 0 01-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 00.392-.681v-6.737l2.02 1.168a.071.071 0 01.038.052v5.583a4.504 4.504 0 01-4.494 4.494zM3.6 18.304a4.47 4.47 0 01-.535-3.014l.142.085 4.783 2.759a.771.771 0 00.78 0l5.843-3.369v2.332a.08.08 0 01-.032.067L9.73 19.958a4.5 4.5 0 01-6.13-1.654zm-1.187-10.86A4.485 4.485 0 014.42 5.07l4.764 2.756v2.35a.78.78 0 00.393.681l5.845 3.369-2.02 1.168a.083.083 0 01-.077.008L8.44 12.257a4.5 4.5 0 01-6.027-4.814zm16.612 3.87l-5.843-3.37L15.202 6.8a.082.082 0 01.077-.008l4.879 2.815a4.5 4.5 0 01-.695 8.118v-5.54a.787.787 0 00-.398-.68zm2.01-3.026l-.141-.085-4.774-2.782a.776.776 0 00-.785 0L9.491 9.589V7.258a.08.08 0 01.032-.066l4.864-2.806a4.5 4.5 0 016.125 4.667zm-12.64 4.135l-2.02-1.164a.08.08 0 01-.038-.057V6.605a4.5 4.5 0 017.375-3.453l-.142.08L8.797 5.99a.795.795 0 00-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+        ChatGPT
+      </button>
+    </div>
+    <div class="action-step ${!step1done?"locked":""}">
+      <div class="action-num">3</div>
+      <div class="action-text"><strong>Collez la réponse · téléchargez</strong><span>Copiez toute la réponse de ChatGPT et collez ci-dessous.</span></div>
+    </div>
+    ${step1done?`<div class="paste-zone">
+      <label>Réponse de ChatGPT</label>
+      <textarea id="f_rep" placeholder="Collez ici la réponse de ChatGPT…">${esc(D.lettre)}</textarea>
+    </div>
+    <div style="margin-top:.6rem"><button class="btn grn full" onclick="buildPDF()">${IC.dl} Télécharger le PDF</button></div>`:""}`;
+  }
+
+  area.innerHTML=`<div class="ph">
+    <div class="ph-icon" style="background:${bgC[cur]};color:${STEPS[cur].color}">${IC[STEPS[cur].icon]}</div>
+    <div class="ph-text"><h2>${s.title}</h2><div class="step-n">Étape 0${cur+1}</div><div class="step-d">${s.desc}</div></div>
+  </div>${body}`;
+
+  renderGuide();
+}
+
+/* ── ACTIONS ── */
+function vf(id,req){
+  const e=$(id);if(!e)return;
+  e.classList.remove("done-field","err-field");
+  if(e.value.trim())e.classList.add("done-field");
+  else if(req)e.classList.add("err-field");
+}
+function setCiv(v,el){D.civ=v;document.querySelectorAll("#panel .civ .cb").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
+function setICiv(v,el){D.iciv=v;document.querySelectorAll("#panel .civ .cb").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
+
+function save(){
+  if(cur===0)D.offre=V("f_off");
+  else if(cur===1){D.nom=V("f_nom");D.prenom=V("f_pre");D.adresse=V("f_adr");D.cp=V("f_cp");D.ville=V("f_vil");D.email=V("f_eml");D.tel=V("f_tel");}
+  else if(cur===2){D.ititre=V("f_iti");D.inom=V("f_ino");D.iprenom=V("f_ipr");}
+  else if(cur===3){const r=V("f_rep");if(r)D.lettre=r;}
+}
+
+function check(){
+  errFields=[];
+  if(!D.offre)errFields.push(0);
+  if(!D.civ||!D.nom||!D.prenom||!D.adresse||!D.ville||!D.email)errFields.push(1);
+  if(errFields.length){
+    renderStepper();
+    toast(!D.offre?"Collez l'offre d'emploi (étape 1).":"Complétez vos informations (étape 2).");
+    setTimeout(()=>{errFields=[];renderStepper();},3000);
+    return false;
+  }
+  return true;
+}
+
+function doGen(){
+  save();if(!check())return;
+  rawPrmt=buildPrompt();D.lettre="";
+  navigator.clipboard.writeText(rawPrmt)
+    .then(()=>toast("Prompt généré et copié ✓"))
+    .catch(()=>toast("Prompt généré ✓"));
+  renderPanel();
+  // Flash success sur le bouton
+  const btn=document.querySelector(".btn.pri");
+  if(btn){btn.classList.add("success-pop");setTimeout(()=>btn.classList.remove("success-pop"),500);}
+}
+
+function openGPT(){
+  if(rawPrmt)navigator.clipboard.writeText(rawPrmt).catch(()=>{});
+  window.open("https://chatgpt.com","_blank","noopener");
+  toast("ChatGPT ouvert — collez le prompt");
+}
+
+function resetAll(){
+  if(!confirm("Effacer toutes les informations saisies ?"))return;
+  Object.keys(D).forEach(k=>D[k]="");
+  rawPrmt="";step3Skip=false;errFields=[];cur=0;
+  refresh();toast("Formulaire réinitialisé");
+}
+
+/* ── PDF ── */
+function buildPDF(){
+  save();
+  const raw=D.lettre;
+  if(!raw){toast("Collez d'abord la réponse de ChatGPT.");return;}
+
+  const txt=raw
+    .replace(/https?:\/\/[^\s\n]*/g,"")
+    .replace(/\[source[^\]]*\]/gi,"")
+    .replace(/\(source[^)]*\)/gi,"")
+    .replace(/^source\s*:.*$/gim,"")
+    .replace(/\n{3,}/g,"\n\n")
+    .trim();
+
+  const doc=new jsPDF({unit:"mm",format:"a4"});
+  const cNom=capFull(D.nom),cPre=capFull(D.prenom);
+  const candidat=`${cPre} ${cNom}`;
+  const date=new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
+  const fname=`lettre_${cNom.toLowerCase().replace(/\s+/g,"_")}.pdf`;
+
+  // Positions selon modèle type.pdf
+  const xL=15;   // expéditeur gauche
+  const xR=190;  // destinataire droite
+  const cW=xR-xL;
+  // 7 tabs ≈ 105mm depuis xL = x=120 pour le destinataire aligné droite
+  const TAB7=120; // position x début bloc destinataire
+
+  doc.setFont("times","normal");
+  doc.setFontSize(11);
+  doc.setTextColor(26,31,46);
+
+  /* ── 1. EXPÉDITEUR — haut gauche, x=15, y=20 ── */
+  // PAS de civilité — juste Nom Prénom
+  let yE=20;
+  doc.text(`${cNom} ${cPre}`,xL,yE); yE+=6;
+  const adrCP=[capFull(D.adresse),D.cp].filter(Boolean).join(" ");
+  if(adrCP){doc.text(adrCP,xL,yE);yE+=5;}
+  if(D.ville){doc.text(capFull(D.ville),xL,yE);yE+=5;}
+  if(D.email){doc.text(D.email,xL,yE);}
+
+  /* ── 2 lignes vides après email ── */
+  /* ── 7 tabs puis DESTINATAIRE droite ── */
+  // Destinataire positionné à y=58 (décalé bas), aligné droite
+  const iNom=capFull(D.inom),iPre=capFull(D.iprenom);
+  const hasIdent=!!(D.inom||D.ititre||D.iciv);
+
+  let yD=58;
+  if(hasIdent){
+    // Titre + Nom + Prénom toujours complets
+    const titreComplet=[D.iciv,D.ititre,iPre,iNom].filter(Boolean).join(" ");
+    if(titreComplet){
+      const tl=doc.splitTextToSize(titreComplet,70);
+      tl.forEach(l=>{doc.text(l,xR,yD,{align:"right"});yD+=5;});
+    }
+  }
+
+  /* ── 3. LIEU ET DATE — droite, sous destinataire ── */
+  yD+=4;
+  doc.text(`${capFull(D.ville)||"Paris"},`,xR,yD,{align:"right"});yD+=5;
+  doc.text(`le ${date}`,xR,yD,{align:"right"});
+
+  /* ── 4. CORPS — y=95, tout en noir ── */
+  let yc=95;
+  const lines=txt.split("\n").map(l=>l.trim()).filter((l,i,a)=>!(l===""&&(i===0||a[i-1]==="")));
+
+  for(const line of lines){
+    if(yc>270)break;
+    if(!line){yc+=4;continue;}
+
+    if(/^objet\s*:/i.test(line)){
+      doc.setFont("times","bold");
+      const w=doc.splitTextToSize(line,cW);
+      doc.text(w,xL,yc);
+      doc.setFont("times","normal");
+      yc+=w.length*6+5;
+      continue;
+    }
+
+    const w=doc.splitTextToSize(line,cW);
+    doc.text(w,xL,yc);
+    yc+=w.length*6+2;
+    // Saut de ligne après point final
+    if(line.endsWith(".")||line.endsWith("…")){yc+=4;}
+  }
+
+  /* ── 5. SIGNATURE — bas droite y=272 ── */
+  doc.setFont("times","normal");
+  doc.text(candidat,xR,272,{align:"right"});
+
+  doc.save(fname);
+  toast("PDF téléchargé ✓");
+
+  // Animation success
+  const dlBtn=document.querySelector(".btn.grn.full");
+  if(dlBtn){dlBtn.classList.add("success-pop");setTimeout(()=>dlBtn.classList.remove("success-pop"),500);}
+
+  renderPanel();
+}
+
+/* ── NAV ── */
+function goTo(i){save();cur=i;refresh();}
+function nav(d){
+  save();
+  if(d>0){
+    if(cur===0){
+      if(!D.offre){
+        errFields=[0];renderStepper();
+        toast("Collez l'offre d'emploi avant de continuer.");
+        setTimeout(()=>{errFields=[];renderStepper();},3000);
+        return;
+      }
+      step3Skip=detectDest(D.offre);
+    }
+    if(cur===1){
+      const missing=!D.civ||!D.nom||!D.prenom||!D.adresse||!D.ville||!D.email;
+      if(missing){
+        errFields=[1];renderStepper();
+        toast("Complétez vos informations avant de continuer.");
+        setTimeout(()=>{errFields=[];renderStepper();},3000);
+        return;
+      }
+      if(step3Skip){cur=3;refresh();return;}
+    }
+    if(cur===2&&step3Skip){cur=3;refresh();return;}
+  }
+  if(d<0&&cur===3&&step3Skip){cur=1;refresh();return;}
+  const n=cur+d;
+  if(n<0||n>STEPS.length-1)return;
+  cur=n;refresh();
+}
+
+function refresh(){
+  renderStepper();renderPanel();
+  $("bp").disabled=cur===0;
+  const bn=$("bn");
+  if(cur===STEPS.length-1){bn.style.display="none";}
+  else{bn.style.display="";bn.innerHTML=`Suivant <svg viewBox="0 0 20 20" style="width:13px;height:13px;fill:currentColor"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/></svg>`;}
 }
 
 refresh();
