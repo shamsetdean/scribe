@@ -1,0 +1,648 @@
+<!--
+  anthropotech /lab — SCRIBE
+  Copyright (c) 2026 Guettaf Shams
+  Licence : CC BY-NC-ND 4.0
+  https://creativecommons.org/licenses/by-nc-nd/4.0/
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scribe · Lettre de motivation — Anthropotech Lab</title>
+<meta name="description" content="Guide interactif en 4 étapes pour rédiger une lettre de motivation efficace.">
+<meta name="theme-color" content="#1a56db">
+<link rel="canonical" href="https://shamsetdean.github.io/scribe/">
+<meta property="og:title" content="Scribe · Anthropotech Lab">
+<meta property="og:description" content="Guide interactif en 4 étapes pour rédiger une lettre de motivation efficace.">
+<meta property="og:url" content="https://shamsetdean.github.io/scribe/">
+<meta property="og:type" content="website">
+<meta name="robots" content="index, follow">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f4f6fb;
+  --ink: #1a1f2e;
+  --ink-mid: #5a6478;
+  --ink-dim: #9aa0ae;
+  --line: rgba(26,31,46,0.10);
+  --accent: #1a56db;
+  --accent2: #0e9f6e;
+  --surface: #ffffff;
+  --surface2: #f0f2f8;
+  --f-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'DM Mono', 'Fira Mono', monospace;
+  --radius-card: 14px;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-weight: 400;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 3rem;
+}
+
+/* ── TOPBAR ── */
+.topbar-signature {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 1rem;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  background: rgba(244,246,251,0.82);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+}
+.topbar-signature a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #5a5f6e;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: color 0.25s ease;
+}
+.topbar-signature a .sig-slash { color: var(--accent); transition: color 0.25s ease; }
+.topbar-signature a .sig-arrow {
+  display: inline-block; margin-left: 0.4em;
+  opacity: 0; transform: translate(-4px, 4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  font-size: 10px; color: var(--accent); letter-spacing: 0;
+}
+.topbar-signature a:hover { color: var(--accent); }
+.topbar-signature a:hover .sig-arrow { opacity: 1; transform: translate(0, 0); }
+
+/* ── SOCIAL BAR ── */
+.social-bar {
+  position: fixed;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1500;
+}
+.social-bar a {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+  opacity: 0.55;
+}
+.social-bar a:hover { color: var(--accent); opacity: 1; transform: translateX(-2px); }
+.social-bar svg { width: 15px; height: 15px; fill: currentColor; }
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.hero-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1rem;
+  background: rgba(26,86,219,0.08);
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+.hero h1 span { color: var(--accent); }
+.hero p {
+  font-size: 1rem;
+  color: var(--ink-mid);
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  max-width: 680px;
+  margin: 1.5rem auto 0;
+  padding: 0 1rem;
+}
+.progress-labels {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.prog-label {
+  flex: 1;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-align: center;
+  transition: color 0.2s;
+}
+.prog-label.active { color: var(--accent); font-weight: 500; }
+.prog-label.done { color: var(--accent2); }
+.progress-track {
+  display: flex;
+  gap: 5px;
+}
+.prog-seg {
+  flex: 1; height: 3px; border-radius: 99px;
+  background: var(--line);
+  transition: background 0.3s;
+}
+.prog-seg.done { background: var(--accent2); }
+.prog-seg.active { background: var(--accent); }
+
+/* ── STEP PANEL ── */
+.app-wrap {
+  max-width: 680px;
+  margin: 1.5rem auto 0;
+  padding: 0 1rem;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  animation: panelIn 0.3s ease both;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+.step-badge {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  flex-shrink: 0;
+}
+.panel-info h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1px;
+}
+.panel-info .step-num {
+  font-size: 0.7rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.objective {
+  background: var(--surface2);
+  border-left: 3px solid var(--step-color, var(--accent));
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  margin-bottom: 1.25rem;
+  font-size: 0.88rem;
+  color: var(--ink-mid);
+  line-height: 1.55;
+}
+
+.tips-title {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  margin-bottom: 10px;
+}
+.tip {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.tip-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+  background: var(--step-color, var(--accent));
+}
+
+.example-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--ink-dim);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  transition: color 0.2s;
+}
+.example-btn:hover { color: var(--ink); }
+.example-box {
+  display: none;
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+  font-style: italic;
+  border: 1px solid var(--line);
+  white-space: pre-wrap;
+}
+.example-box.open { display: block; }
+
+.field-wrap {
+  margin-top: 1.25rem;
+}
+.field-label {
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  display: block;
+  margin-bottom: 6px;
+}
+textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  font-size: 0.92rem;
+  font-family: var(--f-sans);
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(26,31,46,0.15);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--step-color, var(--accent));
+  background: var(--surface);
+}
+.char-count {
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* ── NAV BUTTONS ── */
+.nav-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid rgba(26,31,46,0.15);
+  background: var(--surface);
+  color: var(--ink);
+  transition: all 0.2s;
+  font-family: var(--f-sans);
+}
+.btn:hover { background: var(--surface2); border-color: var(--ink-dim); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn.primary:hover { opacity: 0.88; }
+
+/* ── RECAP ── */
+.recap-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+}
+.score-circle {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 3px solid;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.score-num { font-size: 18px; font-weight: 700; }
+.score-lbl { font-size: 9px; color: var(--ink-dim); letter-spacing: 0.05em; }
+.recap-intro h2 { font-size: 1.05rem; font-weight: 600; color: var(--ink); }
+.recap-intro p { font-size: 0.82rem; color: var(--ink-mid); }
+
+.recap-part {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.recap-part-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 5px;
+}
+.recap-part-text {
+  font-size: 0.88rem;
+  color: var(--ink);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.recap-part-empty {
+  font-size: 0.82rem;
+  color: var(--ink-dim);
+  font-style: italic;
+}
+
+.copy-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  justify-content: center;
+  background: var(--surface2);
+  border: 1px solid var(--line);
+}
+.copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .social-bar { display: none; }
+  .hero { padding: 2rem 1rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar-signature" role="banner">
+  <a href="https://shamsetdean.github.io/anthropotechlab/" target="_blank" rel="noopener" aria-label="Anthropotech Lab">anthropotech <span class="sig-slash">/</span>lab<span class="sig-arrow">↗</span></a>
+</div>
+
+<!-- SOCIAL BAR -->
+<div class="social-bar" role="navigation" aria-label="Réseaux sociaux">
+  <a href="https://www.linkedin.com/in/shamsguettaf/" target="_blank" rel="noopener" aria-label="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a href="https://github.com/shamsetdean" target="_blank" rel="noopener" aria-label="GitHub">
+    <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+  </a>
+  <a href="https://x.com/shamsetdean" target="_blank" rel="noopener" aria-label="X">
+    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  </a>
+  <a href="https://www.instagram.com/shamsetdean" target="_blank" rel="noopener" aria-label="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+  </a>
+  <a href="https://www.facebook.com/shamsetdean" target="_blank" rel="noopener" aria-label="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+  </a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">Anthropotech · Lab</div>
+  <h1><span>Scribe</span></h1>
+  <p>Guide interactif en 4 étapes pour rédiger une lettre de motivation qui retient l'attention.</p>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-labels" id="prog-labels"></div>
+  <div class="progress-track" id="prog-track"></div>
+</div>
+
+<!-- MAIN -->
+<main class="app-wrap" id="app">
+  <div id="panel-area"></div>
+  <div class="nav-row">
+    <button class="btn" id="btn-prev" onclick="navigate(-1)">← Précédent</button>
+    <button class="btn primary" id="btn-next" onclick="navigate(1)">Suivant →</button>
+  </div>
+</main>
+
+<script>
+const STEPS = [
+  {
+    num: "01", label: "L'organisation",
+    color: "#1a56db", bg: "#dbeafe", textC: "#1e3a8a",
+    objective: "Montrez que vous connaissez l'organisation et que vous comprenez pourquoi vous voulez y travailler — pas juste « parce que c'est une belle entreprise ».",
+    tips: [
+      "Citez un élément concret : un projet récent, une valeur affichée, un service spécifique.",
+      "Reliez cet élément à votre envie de rejoindre l'équipe.",
+      "Évitez les formules creuses comme « entreprise dynamique et innovante ».",
+      "2 à 4 phrases suffisent : c'est une accroche, pas une fiche Wikipedia."
+    ],
+    example: "J'ai été particulièrement attentif(ve) au lancement de votre service d'accompagnement à domicile en 2023, qui traduit concrètement l'engagement de votre structure en faveur du maintien à domicile des personnes âgées. C'est précisément dans ce type de projet que je souhaite m'investir.",
+    placeholder: "Parlez de l'organisation : un projet, une valeur, un service qui vous a convaincu(e)..."
+  },
+  {
+    num: "02", label: "Vos compétences",
+    color: "#0e9f6e", bg: "#d1fae5", textC: "#065f46",
+    objective: "Mettez en regard vos compétences et le profil recherché dans l'offre. Chaque point que vous citez doit avoir un écho direct dans la fiche de poste.",
+    tips: [
+      "Relisez attentivement le profil de poste avant d'écrire ce paragraphe.",
+      "Ne listez pas toutes vos compétences : sélectionnez les 2 ou 3 qui collent le mieux.",
+      "Illustrez avec un exemple concret ou un résultat chiffré si possible.",
+      "Reformulez les mots-clés du poste avec vos propres mots, sans copier mot pour mot."
+    ],
+    example: "Fort(e) de 5 ans d'expérience en gestion de projet dans le secteur public, j'ai coordonné des équipes pluridisciplinaires et piloté des budgets en mode projet. La compétence en conduite du changement, centrale dans votre offre, est au cœur de mon parcours.",
+    placeholder: "Citez vos compétences en lien direct avec ce que demande le poste..."
+  },
+  {
+    num: "03", label: "Le rendez-vous",
+    color: "#d97706", bg: "#fef3c7", textC: "#78350f",
+    objective: "Demandez explicitement un entretien. C'est une étape que beaucoup oublient, ce qui laisse le recruteur sans porte d'entrée claire pour la suite.",
+    tips: [
+      "Formulez la demande clairement et positivement.",
+      "Proposez votre disponibilité sans être envahissant(e).",
+      "Mentionnez que vous pouvez fournir des éléments complémentaires si besoin.",
+      "Restez concis(e) : une ou deux phrases, pas un paragraphe."
+    ],
+    example: "Je serais ravi(e) de vous présenter mon parcours lors d'un entretien à votre convenance. Je reste disponible pour tout échange complémentaire et vous adresse en pièce jointe mon curriculum vitæ.",
+    placeholder: "Demandez le rendez-vous, indiquez votre disponibilité..."
+  },
+  {
+    num: "04", label: "Formule de politesse",
+    color: "#7c3aed", bg: "#ede9fe", textC: "#4c1d95",
+    objective: "Terminez par une formule respectueuse et professionnelle. Elle doit être adaptée au secteur et ne jamais paraître froide ou expédiée.",
+    tips: [
+      "Pour le secteur public ou formel : « Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées. »",
+      "Pour un secteur plus agile : « Dans l'attente de votre retour, je vous adresse mes cordiales salutations. »",
+      "Évitez « Cordialement » seul — trop sec pour une lettre.",
+      "Ajoutez votre prénom et nom sous la formule."
+    ],
+    example: "Dans l'attente de votre retour, je vous prie d'agréer, Madame, Monsieur, l'expression de mes sincères salutations.\n\nPrénom Nom",
+    placeholder: "Écrivez votre formule de politesse et votre signature..."
+  }
+];
+
+let current = 0;
+const texts = ["", "", "", ""];
+
+function renderProgress() {
+  const labels = document.getElementById("prog-labels");
+  const track = document.getElementById("prog-track");
+  labels.innerHTML = STEPS.map((s, i) => {
+    let cls = "prog-label";
+    if (i < current) cls += " done";
+    else if (i === current) cls += " active";
+    return `<div class="${cls}">${s.label}</div>`;
+  }).join("");
+  track.innerHTML = STEPS.map((_, i) => {
+    let cls = "prog-seg";
+    if (i < current) cls += " done";
+    else if (i === current) cls += " active";
+    return `<div class="${cls}"></div>`;
+  }).join("");
+}
+
+function renderPanel() {
+  const area = document.getElementById("panel-area");
+  if (current === STEPS.length) {
+    renderRecap(area);
+    return;
+  }
+  const s = STEPS[current];
+  area.innerHTML = `
+    <div class="panel" style="--step-color:${s.color}">
+      <div class="panel-header">
+        <div class="step-badge" style="background:${s.bg};color:${s.textC}">${s.num}</div>
+        <div class="panel-info">
+          <div class="step-num">Étape ${s.num} sur 04</div>
+          <h2>${s.label}</h2>
+        </div>
+      </div>
+      <div class="objective">${s.objective}</div>
+      <div class="tips-title">Conseils</div>
+      ${s.tips.map(t => `<div class="tip"><div class="tip-dot"></div><span>${t}</span></div>`).join("")}
+      <button class="example-btn" onclick="toggleEx(this)">
+        <span>▸</span> Voir un exemple
+      </button>
+      <div class="example-box">${s.example}</div>
+      <div class="field-wrap">
+        <label class="field-label">Votre rédaction pour cette partie</label>
+        <textarea id="ta" placeholder="${s.placeholder}" oninput="saveText(this)">${texts[current]}</textarea>
+        <div class="char-count" id="cc">${texts[current].length} car.</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderRecap(area) {
+  const filled = texts.filter(t => t.trim()).length;
+  const pct = Math.round((filled / 4) * 100);
+  const color = pct === 100 ? "#0e9f6e" : pct >= 50 ? "#d97706" : "#e02424";
+  area.innerHTML = `
+    <div class="panel">
+      <div class="recap-header">
+        <div class="score-circle" style="border-color:${color};color:${color}">
+          <span class="score-num">${pct}%</span>
+          <span class="score-lbl">complet</span>
+        </div>
+        <div class="recap-intro">
+          <h2>Votre lettre</h2>
+          <p>Relisez, ajustez, puis copiez le tout.</p>
+        </div>
+      </div>
+      ${STEPS.map((s, i) => `
+        <div class="recap-part">
+          <div class="recap-part-label" style="color:${s.color}">Étape ${s.num} — ${s.label}</div>
+          ${texts[i].trim()
+            ? `<div class="recap-part-text">${texts[i]}</div>`
+            : `<div class="recap-part-empty">Non renseigné</div>`}
+        </div>
+      `).join("")}
+      <button class="btn copy-btn" onclick="copyAll()">Copier la lettre complète</button>
+    </div>
+  `;
+}
+
+function toggleEx(btn) {
+  const box = btn.nextElementSibling;
+  box.classList.toggle("open");
+  btn.querySelector("span").textContent = box.classList.contains("open") ? "▾" : "▸";
+}
+
+function saveText(ta) {
+  texts[current] = ta.value;
+  const cc = document.getElementById("cc");
+  if (cc) cc.textContent = ta.value.length + " car.";
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 0 || next > STEPS.length) return;
+  current = next;
+  refresh();
+}
+
+function refresh() {
+  renderProgress();
+  renderPanel();
+  document.getElementById("btn-prev").disabled = current === 0;
+  const btnNext = document.getElementById("btn-next");
+  if (current >= STEPS.length) {
+    btnNext.textContent = "Recommencer";
+    btnNext.onclick = () => { current = 0; texts.fill(""); refresh(); };
+  } else {
+    btnNext.textContent = current === STEPS.length - 1 ? "Voir le récap →" : "Suivant →";
+    btnNext.onclick = () => navigate(1);
+  }
+}
+
+function copyAll() {
+  const full = texts.map(t => t.trim()).filter(Boolean).join("\n\n");
+  if (!full) { alert("Aucun contenu à copier."); return; }
+  navigator.clipboard.writeText(full).then(() => {
+    const btn = document.querySelector(".copy-btn");
+    const prev = btn.textContent;
+    btn.textContent = "Copié !";
+    setTimeout(() => btn.textContent = prev, 2000);
+  });
+}
+
+refresh();
+</script>
+</body>
+</html>
