@@ -1,5 +1,5 @@
 <!--
-  anthropotech /lab — SCRIBE v2
+  anthropotech /lab — SCRIBE v4
   Copyright (c) 2026 Guettaf Shams — CC BY-NC-ND 4.0
   Aucun cookie · Aucun tracker · Conformité RGPD
 -->
@@ -8,318 +8,486 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scribe · Lettre de motivation — Anthropotech Lab</title>
+<title>Scribe v4 · Lettre de motivation — Anthropotech Lab</title>
 <meta name="description" content="Générez gratuitement votre lettre de motivation en PDF format ISO lettre française. Aucune donnée collectée.">
-<meta name="theme-color" content="#111">
+<meta name="theme-color" content="#fff">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://shamsetdean.github.io/scribe/">
-<meta property="og:title" content="Scribe · Anthropotech Lab">
-<meta property="og:description" content="Lettre de motivation PDF · Gratuit · Aucune donnée collectée">
-<meta property="og:url" content="https://shamsetdean.github.io/scribe/">
-<meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --c0:#fff;--c1:#f8f8f8;--c2:#f0f0f0;--c3:#e0e0e0;
-  --ink:#111;--ink2:#444;--ink3:#888;
-  --blue:#1a56db;--green:#0e9f6e;--red:#dc2626;--amber:#d97706;
-  --f:'Inter',system-ui,sans-serif;--fm:'DM Mono',monospace;
-  --r:10px;--tr:.18s ease;
-  --sh:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --bg:#fff;--bg1:#fafafa;--bg2:#f0f0f0;--bg3:#e8e8e8;
+  --ink:#111;--ink2:#444;--ink3:#888;--ink4:#ccc;
+  --blue:#2563eb;--green:#16a34a;--red:#dc2626;--amber:#d97706;
+  --f:'Inter',system-ui,sans-serif;--fm:'JetBrains Mono',monospace;
+  --tr:.15s ease;--r:8px;
 }
-html{font-size:16px;scroll-behavior:smooth}
-body{background:var(--c1);color:var(--ink);font-family:var(--f);font-weight:400;line-height:1.6;min-height:100vh}
+html{font-size:15px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-weight:400;line-height:1.6;min-height:100vh}
 
 /* TOPBAR */
-.topbar{background:var(--c0);border-bottom:1px solid var(--c3);padding:10px 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
-.topbar-brand{font-family:var(--fm);font-size:11px;letter-spacing:.3em;color:var(--ink3);text-decoration:none;text-transform:lowercase}
-.topbar-brand span{color:var(--blue)}
-.topbar-actions{display:flex;align-items:center;gap:12px}
-.mode-btn{background:none;border:1px solid var(--c3);border-radius:6px;padding:4px 10px;font-size:.75rem;color:var(--ink3);cursor:pointer;transition:all var(--tr);font-family:var(--f)}
-.mode-btn:hover{border-color:var(--ink3);color:var(--ink)}
-.mode-btn.active{background:var(--ink);color:var(--c0);border-color:var(--ink)}
+.topbar{border-bottom:1px solid var(--bg2);padding:10px 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}
+.brand{font-family:var(--fm);font-size:10px;letter-spacing:.35em;color:var(--ink3);text-decoration:none;text-transform:lowercase}
+.brand span{color:var(--blue)}
+.tb-right{display:flex;align-items:center;gap:4px}
+.tb-btn{background:none;border:none;font-size:.72rem;color:var(--ink3);cursor:pointer;padding:4px 9px;border-radius:4px;font-family:var(--f);transition:color var(--tr)}
+.tb-btn:hover{color:var(--ink)}
+.tb-btn.on{color:var(--ink);font-weight:500}
+.tb-sep{width:1px;height:14px;background:var(--bg2);margin:0 4px}
 
 /* PRIVACY */
-.privacy{background:#f0fdf4;border-bottom:1px solid #bbf7d0;padding:6px 2rem;font-size:.72rem;color:#166534;display:flex;align-items:center;gap:8px}
-.pdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
+.privacy{background:var(--bg1);border-bottom:1px solid var(--bg2);padding:5px 2rem;font-size:.67rem;color:var(--ink3);display:flex;align-items:center;gap:6px}
+.pdot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
+/* SOCIAL */
+.sbar{position:fixed;top:50%;right:.875rem;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;z-index:100}
+.sbar a{width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:var(--ink4);text-decoration:none;transition:color var(--tr)}
+.sbar a:hover{color:var(--ink3)}
+.sbar svg{width:10px;height:10px;fill:currentColor}
+
 /* LAYOUT */
-.layout{max-width:100%;padding:2rem}
-.cols{display:grid;grid-template-columns:280px 1fr;gap:2rem;min-height:calc(100vh - 120px)}
+.wrap{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 56px)}
 
 /* SIDEBAR */
-.sidebar{position:sticky;top:80px;height:fit-content}
-.sidebar-title{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin-bottom:1rem}
+.sidebar{border-right:1px solid var(--bg2);padding:1.75rem 1.25rem;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;display:flex;flex-direction:column;gap:1.5rem}
+.sidebar::-webkit-scrollbar{width:0}
+.s-ttl{font-size:.58rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.6rem}
 
-/* STEPPER VERTICAL */
-.vstep{display:flex;flex-direction:column;gap:0}
-.vs-item{display:flex;align-items:flex-start;gap:12px;padding:.6rem 0;cursor:pointer;transition:opacity var(--tr)}
-.vs-item:hover{opacity:.8}
-.vs-left{display:flex;flex-direction:column;align-items:center;gap:0}
-.vs-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;border:2px solid var(--c3);color:var(--ink3);background:var(--c0);flex-shrink:0;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
-.vs-line{width:2px;flex:1;min-height:20px;background:var(--c3);margin:3px 0;border-radius:2px;transition:background .4s}
-.vs-info{padding-top:4px}
-.vs-label{font-size:.8rem;font-weight:500;color:var(--ink3);transition:color var(--tr)}
-.vs-sub{font-size:.68rem;color:var(--ink3);margin-top:1px;opacity:.7}
-
-/* STEP STATES */
-.vs-item.todo .vs-circle{border-color:rgba(26,86,219,.3);color:var(--blue)}
-.vs-item.todo .vs-label{color:var(--blue)}
-.vs-item.done .vs-circle{border-color:var(--green);background:rgba(14,159,110,.1);color:var(--green);transform:scale(1.05)}
-.vs-item.done .vs-label{color:var(--green)}
-.vs-item.done .vs-line{background:var(--green)}
-.vs-item.active .vs-circle{border-color:var(--blue);background:var(--blue);color:#fff;transform:scale(1.1);box-shadow:0 0 0 4px rgba(26,86,219,.15)}
-.vs-item.active .vs-label{color:var(--ink);font-weight:600}
-.vs-item.error .vs-circle{border-color:var(--red);color:var(--red);background:rgba(220,38,38,.08);animation:errPulse .6s infinite}
-.vs-item.error .vs-label{color:var(--red)}
-.vs-item.skipped .vs-circle{border-color:var(--c3);color:var(--ink3);opacity:.4}
-.vs-item.skipped .vs-label{text-decoration:line-through;opacity:.4}
-@keyframes errPulse{0%,100%{transform:scale(1)}50%{transform:scale(.9);opacity:.5}}
+/* STEPPER */
+.vstep{display:flex;flex-direction:column}
+.vs{display:flex;gap:.625rem;cursor:pointer;padding:.3rem 0;transition:opacity var(--tr)}
+.vs:hover{opacity:.65}
+.vs-left{display:flex;flex-direction:column;align-items:center}
+.vs-c{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;border:1.5px solid var(--ink4);color:var(--ink3);flex-shrink:0;transition:all .2s cubic-bezier(.34,1.4,.64,1)}
+.vs-ln{width:1px;flex:1;min-height:12px;background:var(--bg2);margin:2px 0;transition:background .3s}
+.vs-info{padding-top:2px}
+.vs-lbl{font-size:.75rem;font-weight:500;color:var(--ink3);transition:color var(--tr);line-height:1.2}
+.vs-sub{font-size:.62rem;color:var(--ink4);margin-top:1px}
+.vs.todo .vs-c{border-color:rgba(37,99,235,.35);color:var(--blue)}
+.vs.todo .vs-lbl{color:var(--blue)}
+.vs.done .vs-c{border-color:var(--green);background:var(--green);color:#fff;transform:scale(1.06)}
+.vs.done .vs-lbl{color:var(--green)}
+.vs.done .vs-ln{background:var(--green)}
+.vs.active .vs-c{border-color:var(--blue);background:var(--blue);color:#fff;transform:scale(1.12);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.vs.active .vs-lbl{color:var(--ink);font-weight:600}
+.vs.error .vs-c{border-color:var(--red);color:var(--red);background:rgba(220,38,38,.07);animation:ep .55s infinite}
+.vs.error .vs-lbl{color:var(--red)}
+.vs.skipped .vs-c{border-color:var(--ink4);color:var(--ink4)}
+.vs.skipped .vs-lbl{opacity:.35;text-decoration:line-through}
+@keyframes ep{0%,100%{transform:scale(1)}50%{transform:scale(.86)}}
 
 /* PROGRESS */
-.prog-bar-wrap{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--c3)}
-.prog-bar-label{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.5rem;display:flex;justify-content:space-between}
-.prog-bar-track{height:4px;background:var(--c3);border-radius:2px;overflow:hidden}
-.prog-bar-fill{height:100%;background:var(--green);border-radius:2px;transition:width .5s cubic-bezier(.34,1.2,.64,1)}
+.prog{padding-top:.875rem;border-top:1px solid var(--bg2)}
+.prog-lbl{display:flex;justify-content:space-between;font-size:.63rem;color:var(--ink3);margin-bottom:.35rem}
+.prog-t{height:2px;background:var(--bg2);border-radius:2px;overflow:hidden}
+.prog-f{height:100%;background:var(--green);border-radius:2px;transition:width .35s ease}
 
-/* WORD COUNT */
-.word-count{font-size:.65rem;color:var(--ink3);margin-top:.4rem;font-family:var(--fm)}
+/* STATS */
+.stat-card{background:var(--bg1);border:1px solid var(--bg2);border-radius:var(--r);padding:.75rem;margin-top:.25rem}
+.stat-list{display:flex;flex-direction:column;gap:.25rem}
+.stat-r{display:flex;justify-content:space-between;font-size:.68rem;color:var(--ink3)}
+.stat-v{font-family:var(--fm);color:var(--ink);font-size:.65rem}
 
-/* COMPLETION */
-.completion-ring{display:flex;justify-content:center;margin:.75rem 0}
+/* SIDEBAR LINKS */
+.sb-links{margin-top:auto;display:flex;flex-direction:column;gap:.3rem}
+.sb-link{background:none;border:none;font-size:.7rem;color:var(--ink3);cursor:pointer;text-align:left;padding:0;font-family:var(--f);transition:color var(--tr)}
+.sb-link:hover{color:var(--ink)}
 
-/* SIDEBAR STATS */
-.stat-box{background:var(--c0);border:1px solid var(--c3);border-radius:var(--r);padding:.75rem;margin-top:1rem}
-.stat-row{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--ink2);padding:.25rem 0;border-bottom:1px solid var(--c2)}
-.stat-row:last-child{border:none}
-.stat-val{font-weight:600;color:var(--ink);font-family:var(--fm)}
+/* MAIN */
+.main{padding:2rem 3rem 4rem;max-width:760px}
 
-/* MAIN CONTENT */
-.main{}
-.panel{background:var(--c0);border:1px solid var(--c3);border-radius:var(--r);padding:2rem;box-shadow:var(--sh);animation:panelIn .25s cubic-bezier(.34,1.2,.64,1)}
-@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-.panel-header{margin-bottom:1.75rem;padding-bottom:1.25rem;border-bottom:1px solid var(--c2)}
-.panel-tag{font-family:var(--fm);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:.4rem}
-.panel-title{font-size:1.25rem;font-weight:600;color:var(--ink);letter-spacing:-.02em}
-.panel-desc{font-size:.84rem;color:var(--ink3);margin-top:.3rem}
+/* PANEL */
+.ph{margin-bottom:1.75rem}
+.ph-tag{font-family:var(--fm);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:.3rem}
+.ph-title{font-size:1.3rem;font-weight:600;letter-spacing:-.025em;color:var(--ink);line-height:1.2}
+.ph-desc{font-size:.8rem;color:var(--ink3);margin-top:.3rem}
 
 /* GUIDE */
-.guide{background:linear-gradient(135deg,rgba(26,86,219,.04),rgba(26,86,219,.02));border:1px solid rgba(26,86,219,.15);border-radius:var(--r);padding:.875rem 1rem;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:.75rem}
-.guide-arrow{color:var(--blue);font-size:.9rem;animation:arrowSlide 1.4s infinite;flex-shrink:0;margin-top:1px}
-@keyframes arrowSlide{0%,100%{transform:translateX(0);opacity:.5}60%{transform:translateX(5px);opacity:1}}
-.guide-msg{font-size:.82rem;color:var(--ink2);line-height:1.5}
-.guide-msg strong{color:var(--ink);font-weight:600}
+.guide{font-size:.78rem;color:var(--ink2);line-height:1.55;padding:.7rem .875rem;border-left:2px solid var(--blue);background:var(--bg1);margin-bottom:1.5rem}
+.guide strong{color:var(--ink);font-weight:500}
 
-/* FIELDS */
-.field-group{margin-bottom:1.25rem}
-.field-group-title{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--c2)}
-.field-grid{display:grid;gap:.75rem;grid-template-columns:1fr 1fr}
-.field-grid.one{grid-template-columns:1fr}
-.field-grid.three{grid-template-columns:1fr 1fr 1fr}
-.field{display:flex;flex-direction:column;gap:.3rem}
-.field.span2{grid-column:1/-1}
-.field label{font-size:.67rem;font-weight:500;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
-.field label .opt{font-weight:400;opacity:.6;text-transform:none;letter-spacing:0}
-.req{color:var(--red)}
-.field input,.field textarea,.field select{background:var(--c1);border:1.5px solid var(--c3);border-radius:7px;padding:8px 11px;font-size:.88rem;font-family:var(--f);color:var(--ink);outline:none;transition:all .18s cubic-bezier(.34,1.2,.64,1);width:100%}
-.field input::placeholder,.field textarea::placeholder{color:var(--ink3);font-size:.82rem}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);background:var(--c0);box-shadow:0 0 0 3px rgba(26,86,219,.08)}
-.field input.ok{border-color:var(--green);background:#f0fdf4}
-.field input.err{border-color:var(--red);animation:shake .3s ease}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+/* SECTION */
+.section{margin-bottom:1.5rem}
+.section-ttl{font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.625rem;padding-bottom:.35rem;border-bottom:1px solid var(--bg2)}
+
+/* GRID */
+.grid{display:grid;gap:.625rem;grid-template-columns:1fr 1fr}
+.grid.one{grid-template-columns:1fr}
+.grid.three{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:.25rem}
+.field.s2{grid-column:1/-1}
+.field label{font-size:.62rem;font-weight:500;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase;display:flex;justify-content:space-between}
+.field label .opt{font-weight:400;text-transform:none;letter-spacing:0;opacity:.55;font-family:var(--f)}
+.req{color:var(--red);margin-left:1px}
+.field input,.field textarea,.field select{background:var(--bg1);border:1px solid var(--bg2);border-radius:var(--r);padding:7px 10px;font-size:.82rem;font-family:var(--f);color:var(--ink);outline:none;transition:border-color var(--tr),background var(--tr);width:100%}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink4);font-size:.78rem}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);background:var(--bg)}
+.field input.ok{border-color:var(--green)}
+.field input.err{border-color:var(--red)}
 .field textarea{resize:vertical;line-height:1.6}
 .field select{cursor:pointer}
-.hint{font-size:.67rem;color:var(--ink3);margin-top:.2rem;font-style:italic}
+.hint{font-size:.63rem;color:var(--ink3);margin-top:.2rem}
 
-/* TABS (offre/url) */
-.tab-row{display:flex;gap:0;border:1.5px solid var(--c3);border-radius:8px;overflow:hidden;margin-bottom:1rem}
-.tab-btn{flex:1;padding:8px;font-size:.8rem;font-weight:500;font-family:var(--f);cursor:pointer;border:none;background:var(--c1);color:var(--ink3);transition:all var(--tr)}
-.tab-btn.on{background:var(--blue);color:#fff}
-.tab-btn:first-child{border-right:1px solid var(--c3)}
+/* TABS */
+.tabs{display:flex;border:1px solid var(--bg2);border-radius:var(--r);overflow:hidden;margin-bottom:.75rem;width:fit-content}
+.tab{padding:5px 14px;font-size:.73rem;font-weight:500;cursor:pointer;border:none;background:var(--bg1);color:var(--ink3);transition:all var(--tr);font-family:var(--f);border-right:1px solid var(--bg2)}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--ink);color:#fff}
 
-/* TYPE BUTTONS */
-.type-row{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
-.type-btn{padding:6px 14px;border-radius:20px;border:1.5px solid var(--c3);background:var(--c1);color:var(--ink3);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s cubic-bezier(.34,1.3,.64,1);font-family:var(--f)}
-.type-btn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
-.type-btn.on{background:var(--blue);color:#fff;border-color:var(--blue);transform:scale(1.04)}
+/* PILLS */
+.pills{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.625rem}
+.pill{padding:4px 11px;border-radius:20px;border:1px solid var(--bg2);background:var(--bg1);color:var(--ink3);font-size:.72rem;cursor:pointer;transition:all var(--tr);font-family:var(--f)}
+.pill:hover{border-color:var(--ink3);color:var(--ink)}
+.pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* CIV BUTTONS */
-.civ-row{display:flex;gap:.5rem;margin-bottom:.5rem}
-.civ-btn{flex:1;padding:8px;border-radius:8px;border:1.5px solid var(--c3);background:var(--c1);color:var(--ink3);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s cubic-bezier(.34,1.3,.64,1);font-family:var(--f);display:flex;align-items:center;justify-content:center;gap:6px}
-.civ-btn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
-.civ-btn.on{border-color:var(--blue);background:rgba(26,86,219,.07);color:var(--blue);transform:scale(1.02)}
-.civ-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* CIV */
+.civ{display:flex;gap:.4rem;margin-bottom:.5rem}
+.civ-btn{padding:6px 14px;border-radius:var(--r);border:1px solid var(--bg2);background:var(--bg1);color:var(--ink3);font-size:.78rem;cursor:pointer;transition:all var(--tr);font-family:var(--f);display:flex;align-items:center;gap:5px}
+.civ-btn:hover{border-color:var(--ink3);color:var(--ink)}
+.civ-btn.on{border-color:var(--blue);color:var(--blue);background:rgba(37,99,235,.06)}
+.civ-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 
 /* KEYWORDS */
-.keywords-wrap{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
-.keyword-tag{display:flex;align-items:center;gap:4px;background:rgba(26,86,219,.08);border:1px solid rgba(26,86,219,.2);border-radius:4px;padding:3px 8px;font-size:.75rem;color:var(--blue);animation:tagIn .2s ease}
-@keyframes tagIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
-.keyword-tag button{background:none;border:none;cursor:pointer;color:var(--blue);font-size:.8rem;line-height:1;padding:0;opacity:.6}
-.keyword-tag button:hover{opacity:1}
+.kw-wrap{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem}
+.kw{display:inline-flex;align-items:center;gap:3px;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.15);border-radius:3px;padding:2px 7px;font-size:.7rem;color:var(--blue)}
+.kw button{background:none;border:none;cursor:pointer;color:var(--blue);font-size:.72rem;opacity:.55;line-height:1;padding:0;margin-left:1px}
+.kw button:hover{opacity:1}
 
-/* STEP 4 ACTIONS */
-.action-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem}
-.action-item{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:var(--c1);border:1.5px solid var(--c3);border-radius:var(--r);transition:all .2s cubic-bezier(.34,1.2,.64,1)}
-.action-item:not(.locked):hover{border-color:var(--blue);transform:translateX(3px);box-shadow:var(--sh)}
-.action-item.locked{opacity:.35;pointer-events:none}
-.action-item.done-step{border-color:var(--green);background:#f0fdf4}
-.action-n{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
-.action-n.gn{background:var(--green);transform:scale(1.1)}
-.action-body{flex:1}
-.action-body strong{font-size:.88rem;color:var(--ink);display:block;margin-bottom:2px}
-.action-body span{font-size:.75rem;color:var(--ink3)}
+/* STEP 4 */
+.actions{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.25rem}
+.act{display:flex;align-items:center;gap:.875rem;padding:.75rem .875rem;border:1px solid var(--bg2);border-radius:var(--r);transition:border-color var(--tr)}
+.act:not(.locked):hover{border-color:var(--bg3)}
+.act.locked{opacity:.28;pointer-events:none}
+.act.done-s{border-color:var(--green);background:#f0fdf4}
+.act-n{width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;font-size:.62rem;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s cubic-bezier(.34,1.4,.64,1)}
+.act-n.gn{background:var(--green);transform:scale(1.1)}
+.act-n svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.act-body{flex:1}
+.act-body strong{font-size:.82rem;color:var(--ink);display:block;margin-bottom:1px;font-weight:600}
+.act-body span{font-size:.7rem;color:var(--ink3)}
 
-/* PREVIEW */
-.preview-wrap{background:var(--c1);border:1.5px solid var(--c3);border-radius:var(--r);padding:1.5rem;font-family:'Times New Roman',serif;font-size:.88rem;color:var(--ink);line-height:1.85;white-space:pre-wrap;margin-top:1rem;position:relative;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.preview-label{font-family:var(--f);font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
+/* PASTE INSTRUCTIONS */
+.paste-instructions{background:rgba(37,99,235,.04);border:1px dashed rgba(37,99,235,.25);border-radius:var(--r);padding:1rem 1.125rem;margin-bottom:1rem}
+.paste-instructions-title{font-size:.8rem;font-weight:600;color:var(--blue);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.paste-step{display:flex;align-items:flex-start;gap:.625rem;font-size:.78rem;color:var(--ink2);line-height:1.45;margin-bottom:.5rem}
+.paste-step:last-child{margin-bottom:0}
+.paste-num{width:18px;height:18px;border-radius:50%;background:var(--blue);color:#fff;font-size:.58rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.paste-arrow{text-align:center;font-size:1rem;color:var(--blue);animation:arrowB 1.2s infinite;margin:.35rem 0}
+@keyframes arrowB{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(4px);opacity:1}}
+
+/* RESPONSE */
+.resp-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+.resp-hdr span{font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.wc{font-size:.63rem;color:var(--ink3);font-family:var(--fm)}
+.resp-ta{width:100%;min-height:280px;resize:vertical;background:var(--bg1);border:1px solid var(--bg2);border-radius:var(--r);padding:.875rem;font-family:'Times New Roman',serif;font-size:.88rem;color:var(--ink);line-height:1.85;outline:none;transition:border-color var(--tr)}
+.resp-ta:focus{border-color:var(--blue)}
+.resp-ta::placeholder{color:var(--ink4);font-family:var(--f);font-size:.8rem;line-height:1.6}
 
 /* SCORE */
-.score-wrap{display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap}
-.score-item{flex:1;min-width:100px;background:var(--c1);border:1px solid var(--c3);border-radius:8px;padding:.6rem .75rem;text-align:center}
-.score-val{font-size:1.1rem;font-weight:700;font-family:var(--fm)}
-.score-lbl{font-size:.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.score-val.good{color:var(--green)}
-.score-val.mid{color:var(--amber)}
-.score-val.bad{color:var(--red)}
+.score-row{display:flex;gap:.4rem;margin-top:.625rem;flex-wrap:wrap}
+.score-item{display:flex;flex-direction:column;align-items:center;padding:.4rem .625rem;border:1px solid var(--bg2);border-radius:var(--r);min-width:64px;background:var(--bg1)}
+.score-v{font-size:.95rem;font-weight:600;font-family:var(--fm);line-height:1}
+.score-l{font-size:.55rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.score-v.g{color:var(--green)}.score-v.m{color:var(--amber)}.score-v.b{color:var(--red)}
 
 /* REGEN */
-.regen-wrap{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
-.regen-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--c3);background:var(--c1);color:var(--ink3);font-size:.75rem;cursor:pointer;transition:all var(--tr);font-family:var(--f)}
-.regen-btn:hover{border-color:var(--blue);color:var(--blue)}
+.regen{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.625rem;align-items:center}
+.regen-lbl{font-size:.63rem;color:var(--ink3)}
+.regen-btn{padding:3px 9px;border-radius:4px;border:1px solid var(--bg2);background:var(--bg);color:var(--ink3);font-size:.7rem;cursor:pointer;transition:all var(--tr);font-family:var(--f)}
+.regen-btn:hover{border-color:var(--ink3);color:var(--ink)}
+
+/* PREVIEW */
+.preview{margin-top:1.125rem;padding:1.125rem;border:1px solid var(--bg2);border-radius:var(--r);font-family:'Times New Roman',serif;font-size:.87rem;color:var(--ink);line-height:1.85;white-space:pre-wrap;background:var(--bg)}
+
+/* EXTRA BLOCKS */
+.xblock{margin-top:.875rem;padding:.875rem;border:1px solid var(--bg2);border-radius:var(--r);background:var(--bg1)}
+.xblock-ttl{font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
+.xblock-body{font-size:.78rem;color:var(--ink2);line-height:1.65;white-space:pre-wrap}
 
 /* QR */
-.qr-wrap{margin-top:1rem;display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--c1);border:1px solid var(--c3);border-radius:8px}
-.qr-box{width:80px;height:80px;flex-shrink:0}
-.qr-info{font-size:.75rem;color:var(--ink3);line-height:1.5}
-
-/* LINKEDIN POST */
-.linkedin-wrap{background:#f0f7ff;border:1px solid #bfdbfe;border-radius:var(--r);padding:1rem;margin-top:1rem;animation:fadeIn .3s ease}
-.linkedin-label{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#1e40af;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
-.linkedin-text{font-size:.82rem;color:var(--ink2);line-height:1.6;white-space:pre-wrap;font-family:var(--f)}
-
-/* EMAIL PREVIEW */
-.email-wrap{background:#fafaf9;border:1px solid var(--c3);border-radius:var(--r);padding:1rem;margin-top:1rem;animation:fadeIn .3s ease}
-.email-subject{font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.5rem;font-family:var(--fm)}
-.email-body{font-size:.82rem;color:var(--ink2);line-height:1.65}
+.qr-wrap{display:flex;align-items:center;gap:.875rem;margin-top:.875rem;padding:.75rem;border:1px solid var(--bg2);border-radius:var(--r)}
+.qr-box{width:68px;height:68px;flex-shrink:0}
+.qr-info{font-size:.7rem;color:var(--ink3);line-height:1.5}
 
 /* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:8px;font-size:.84rem;font-weight:500;font-family:var(--f);cursor:pointer;border:none;transition:all .2s cubic-bezier(.34,1.3,.64,1);line-height:1}
-.btn svg{width:14px;height:14px;flex-shrink:0}
-.btn.pri{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(26,86,219,.3)}
-.btn.pri:hover{background:#1548c0;transform:translateY(-1px);box-shadow:0 4px 14px rgba(26,86,219,.35)}
-.btn.grn{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(14,159,110,.25)}
-.btn.grn:hover{transform:translateY(-1px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:7px 14px;border-radius:var(--r);font-size:.78rem;font-weight:500;font-family:var(--f);cursor:pointer;border:none;transition:all var(--tr);line-height:1}
+.btn.pri{background:var(--blue);color:#fff}
+.btn.pri:hover{background:#1d4ed8}
+.btn.grn{background:var(--green);color:#fff}
+.btn.grn:hover{background:#15803d}
 .btn.gpt{background:#10a37f;color:#fff}
-.btn.gpt:hover{transform:translateY(-1px)}
-.btn.ghost{background:var(--c0);border:1.5px solid var(--c3);color:var(--ink2)}
-.btn.ghost:hover{border-color:var(--ink3);transform:translateY(-1px)}
-.btn.sm{padding:6px 12px;font-size:.78rem}
-.btn.full{width:100%}
-.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
-.btn:active{transform:scale(.97)!important}
+.btn.gpt:hover{background:#0d8f6e}
+.btn.ghost{background:var(--bg);border:1px solid var(--bg2);color:var(--ink2)}
+.btn.ghost:hover{border-color:var(--bg3);color:var(--ink)}
+.btn.sm{padding:4px 9px;font-size:.7rem}
+.btn:disabled{opacity:.28;cursor:not-allowed}
+.btn-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-top:.625rem}
 
 /* NAV */
-.nav-row{display:flex;justify-content:space-between;gap:.75rem;margin-top:1.5rem}
+.nav{display:flex;gap:.4rem;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--bg2)}
 
-/* HELP BUTTON */
-.help-fab{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:300;transition:all .2s cubic-bezier(.34,1.3,.64,1)}
-.help-fab:hover{transform:scale(1.1)}
+/* HELP FAB — gauche */
+.help-fab{position:fixed;bottom:1.25rem;left:1.25rem;width:32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;z-index:300;transition:background var(--tr)}
+.help-fab:hover{background:#333}
 
-/* FAQ */
-.faq-modal{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:400;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
-.faq-modal.open{opacity:1;pointer-events:all}
-.faq-box{background:var(--c0);border-radius:var(--r);padding:2rem;max-width:540px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:modalIn .25s cubic-bezier(.34,1.2,.64,1)}
-@keyframes modalIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.faq-title{font-size:1.1rem;font-weight:600;margin-bottom:1.25rem}
-.faq-q{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;margin-top:1rem}
-.faq-a{font-size:.82rem;color:var(--ink3);line-height:1.55}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:400;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .15s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--bg);border-radius:10px;padding:1.5rem;max-width:480px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.modal-ttl{font-size:.95rem;font-weight:600}
+.faq-q{font-size:.8rem;font-weight:600;margin:.75rem 0 .2rem}
+.faq-a{font-size:.75rem;color:var(--ink3);line-height:1.55}
 
 /* LEGAL */
-.legal-section{max-width:720px;margin:0 auto;padding:2rem;display:none}
-.legal-section.open{display:block}
-.legal-title{font-size:1.5rem;font-weight:600;margin-bottom:1.5rem;letter-spacing:-.02em}
-.legal-h2{font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem}
-.legal-p{font-size:.85rem;color:var(--ink2);line-height:1.7;margin-bottom:.5rem}
+.legal{max-width:640px;margin:0 auto;padding:2rem;display:none}
+.legal.open{display:block}
+.legal-h1{font-size:1.2rem;font-weight:600;margin-bottom:1.25rem;letter-spacing:-.02em}
+.legal-h2{font-size:.8rem;font-weight:600;margin:1rem 0 .35rem}
+.legal-p{font-size:.78rem;color:var(--ink2);line-height:1.65;margin-bottom:.35rem}
+.legal-source{font-size:.73rem;color:var(--ink3);background:var(--bg1);border:1px solid var(--bg2);border-radius:4px;padding:.5rem .75rem;margin-top:.5rem}
+.legal-source a{color:var(--blue);text-decoration:none}
+.legal-source a:hover{text-decoration:underline}
 
-/* TUTORIAL */
-.tutorial{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem}
-.tutorial-box{background:var(--c0);border-radius:var(--r);padding:2rem;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25)}
-.tut-step{display:none;animation:fadeIn .3s ease}
-.tut-step.active{display:block}
-.tut-num{font-family:var(--fm);font-size:.65rem;color:var(--ink3);margin-bottom:.5rem}
-.tut-title{font-size:1.1rem;font-weight:600;margin-bottom:.75rem}
-.tut-desc{font-size:.85rem;color:var(--ink2);line-height:1.6}
-.tut-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem}
-.tut-dots{display:flex;gap:6px}
-.tut-dot{width:6px;height:6px;border-radius:50%;background:var(--c3);transition:all var(--tr)}
-.tut-dot.on{background:var(--blue);transform:scale(1.3)}
+/* TUTORIAL VIDEO */
+.tut-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem}
+.tut-box{background:var(--bg);border-radius:12px;width:100%;max-width:680px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2)}
+.tut-video{position:relative;background:var(--ink);min-height:340px;overflow:hidden}
+/* Slides */
+.tut-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s ease;pointer-events:none;padding:2rem}
+.tut-slide.on{opacity:1;pointer-events:all}
+/* Slide 0 — Intro */
+.slide-intro{text-align:center;color:#fff}
+.slide-intro .s-logo{font-family:var(--fm);font-size:2.5rem;font-weight:700;letter-spacing:-.04em;margin-bottom:.5rem}
+.slide-intro .s-logo span{color:#818cf8}
+.slide-intro p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:1.5rem}
+.slide-intro .s-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;font-size:.72rem;color:rgba(255,255,255,.7)}
+/* Slide mockups */
+.slide-mockup{width:100%;display:flex;flex-direction:column;gap:.875rem}
+.slide-title{font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.25rem;display:flex;align-items:center;gap:6px}
+.slide-title .s-num{width:20px;height:20px;border-radius:50%;background:#2563eb;color:#fff;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.slide-sub{font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:.875rem}
+/* Mock UI elements */
+.mock-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:.875rem}
+.mock-label{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.35rem}
+.mock-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:6px 10px;font-size:.75rem;color:rgba(255,255,255,.5);width:100%}
+.mock-input.filled{border-color:#2563eb;color:rgba(255,255,255,.85);background:rgba(37,99,235,.1)}
+.mock-textarea{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:8px 10px;font-size:.72rem;color:rgba(255,255,255,.4);width:100%;height:60px;display:flex;align-items:flex-start;overflow:hidden;line-height:1.5}
+.mock-textarea.filled{border-color:#2563eb;color:rgba(255,255,255,.75);background:rgba(37,99,235,.08)}
+.mock-row{display:flex;gap:.5rem}
+.mock-row .mock-input{flex:1}
+.mock-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:5px;font-size:.72rem;font-weight:600;cursor:default}
+.mock-btn.blue{background:#2563eb;color:#fff}
+.mock-btn.green{background:#16a34a;color:#fff}
+.mock-btn.gpt{background:#10a37f;color:#fff}
+.mock-btn.ghost{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6)}
+.mock-stepper{display:flex;align-items:center;gap:.35rem;margin-bottom:.875rem}
+.mock-step{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.35)}
+.mock-step.done{background:#16a34a;border-color:#16a34a;color:#fff}
+.mock-step.active{background:#2563eb;border-color:#2563eb;color:#fff}
+.mock-step.todo{border-color:rgba(37,99,235,.4);color:#818cf8}
+.mock-conn{width:16px;height:1px;background:rgba(255,255,255,.15)}
+.mock-conn.done{background:#16a34a}
+.mock-arrow{font-size:1rem;color:#818cf8;text-align:center;animation:arrowB 1s infinite}
+.mock-action{display:flex;align-items:center;gap:.75rem;padding:.625rem .875rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;margin-bottom:.35rem}
+.mock-action.done-s{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.06)}
+.mock-action-n{width:18px;height:18px;border-radius:50%;background:#2563eb;color:#fff;font-size:.58rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mock-action-n.gn{background:#16a34a}
+.mock-action-body{flex:1}
+.mock-action-body strong{font-size:.72rem;color:rgba(255,255,255,.85);display:block}
+.mock-action-body span{font-size:.62rem;color:rgba(255,255,255,.4)}
+/* Slide bg accents */
+.tut-slide::before{content:'';position:absolute;inset:0;pointer-events:none}
+.tut-slide-0::before{background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(79,70,229,.15) 0%,transparent 70%)}
+.tut-slide-1::before{background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(37,99,235,.12) 0%,transparent 60%)}
+.tut-slide-2::before{background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(16,185,129,.1) 0%,transparent 60%)}
+.tut-slide-3::before{background:radial-gradient(ellipse 60% 80% at 50% 30%,rgba(168,85,247,.1) 0%,transparent 60%)}
+.tut-slide-4::before{background:radial-gradient(ellipse 60% 80% at 50% 70%,rgba(22,163,74,.1) 0%,transparent 60%)}
+/* Progress bar */
+.tut-progress{height:3px;background:var(--bg2);position:relative}
+.tut-progress-fill{height:100%;background:var(--blue);transition:width .4s ease}
+/* Bottom controls */
+.tut-controls{padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bg2)}
+.tut-dots-wrap{display:flex;gap:5px}
+.tut-dot{width:5px;height:5px;border-radius:50%;background:var(--bg2);transition:all .2s;cursor:pointer}
+.tut-dot.on{background:var(--blue);transform:scale(1.4)}
+.tut-ctrl-btns{display:flex;gap:.5rem;align-items:center}
+
+/* Typing animation */
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink-cur{0%,100%{border-color:var(--blue)}50%{border-color:transparent}}
+.mock-typed{display:inline-block;overflow:hidden;white-space:nowrap;border-right:2px solid var(--blue);animation:typing 1.2s steps(30,end) .3s both,blink-cur .6s step-end 1.5s 3}
+
+/* Slide-in animation for mock elements */
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.tut-slide.on .mock-card{animation:slideUp .35s ease both}
+.tut-slide.on .mock-card:nth-child(2){animation-delay:.1s}
+.tut-slide.on .mock-card:nth-child(3){animation-delay:.2s}
+.tut-slide.on .mock-action{animation:slideUp .3s ease both}
+.tut-slide.on .mock-action:nth-child(2){animation-delay:.08s}
+.tut-slide.on .mock-action:nth-child(3){animation-delay:.16s}
 
 /* TOAST */
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);background:rgba(17,17,17,.92);color:#fff;border-radius:50px;padding:8px 18px;font-size:.78rem;opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.3,.64,1);z-index:600;white-space:nowrap}
+.toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%) translateY(6px);background:rgba(17,17,17,.9);color:#fff;border-radius:4px;padding:6px 14px;font-size:.72rem;opacity:0;pointer-events:none;transition:all .18s ease;z-index:600;white-space:nowrap}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* SOCIAL */
-.sbar{position:fixed;top:50%;right:1rem;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:100}
-.sbar a{width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--ink3);text-decoration:none;opacity:.35;transition:all var(--tr)}
-.sbar a:hover{opacity:.8;color:var(--blue);transform:translateX(-2px)}
-.sbar svg{width:12px;height:12px;fill:currentColor}
 
-/* DARK MODE */
-body.dark{--c0:#111;--c1:#1a1a1a;--c2:#222;--c3:#333;--ink:#f0f0f0;--ink2:#bbb;--ink3:#777}
-body.dark .topbar{background:#111;border-color:#222}
-body.dark .privacy{background:#052e16;border-color:#166534}
-body.dark .panel{background:#1a1a1a;border-color:#333}
+/* ── DASHBOARD ── */
+.dashboard{padding:1.75rem 2.5rem 4rem;max-width:960px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem}
+.dash-title{font-size:1.1rem;font-weight:600;letter-spacing:-.02em}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.5rem}
+.kpi{background:var(--bg);border:1px solid var(--bg2);border-radius:var(--r);padding:.875rem}
+.kpi-val{font-size:1.4rem;font-weight:700;font-family:var(--fm);line-height:1}
+.kpi-lbl{font-size:.6rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem}
+.kpi-trend{font-size:.63rem;color:var(--green);margin-top:.2rem}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.chart-card{background:var(--bg);border:1px solid var(--bg2);border-radius:var(--r);padding:.875rem}
+.chart-title{font-size:.72rem;font-weight:600;color:var(--ink);margin-bottom:.625rem}
+.cand-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.cand-table th{text-align:left;font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);padding:.45rem .625rem;border-bottom:2px solid var(--bg2)}
+.cand-table td{padding:.5rem .625rem;border-bottom:1px solid var(--bg2);color:var(--ink2);vertical-align:middle}
+.cand-table tr:hover td{background:var(--bg1)}
+.status-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:.63rem;font-weight:500;cursor:pointer;transition:all var(--tr)}
+.status-badge.envoyee{background:rgba(37,99,235,.1);color:var(--blue)}
+.status-badge.relance{background:rgba(217,119,6,.1);color:var(--amber)}
+.status-badge.entretien{background:rgba(124,58,237,.1);color:#7c3aed}
+.status-badge.refus{background:rgba(220,38,38,.1);color:var(--red)}
+.status-badge.acceptee{background:rgba(22,163,74,.1);color:var(--green)}
+.objectif-wrap{background:var(--bg1);border:1px solid var(--bg2);border-radius:var(--r);padding:.875rem;margin-top:.75rem}
+.obj-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;font-size:.78rem;font-weight:500;flex-wrap:wrap;gap:.4rem}
+.obj-bar{height:6px;background:var(--bg2);border-radius:6px;overflow:hidden}
+.obj-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:6px;transition:width .5s ease}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day-name{font-size:.55rem;text-align:center;color:var(--ink3);font-weight:500;padding:.15rem 0}
+.cal-day{aspect-ratio:1;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--ink3);position:relative}
+.cal-day.has-cand{background:rgba(37,99,235,.12);color:var(--blue);font-weight:600}
+.cal-day.has-relance{background:rgba(217,119,6,.12);color:var(--amber);font-weight:600}
+.cal-day.today{border:1.5px solid var(--blue)}
+.cal-dot{width:3px;height:3px;border-radius:50%;background:currentColor;position:absolute;bottom:1px;left:50%;transform:translateX(-50%)}
+.badges-wrap{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.badge-item{display:flex;align-items:center;gap:.35rem;padding:.3rem .625rem;border-radius:20px;font-size:.7rem;font-weight:500;border:1px solid var(--bg2);color:var(--ink3)}
+.badge-item.earned{border-color:var(--amber);color:var(--amber);background:rgba(217,119,6,.07)}
+.carte-wrap{background:var(--ink);color:#fff;border-radius:var(--r);padding:1.125rem;display:flex;justify-content:space-between;align-items:center;margin-top:.875rem}
+.carte-info{display:flex;flex-direction:column;gap:.2rem}
+.carte-name{font-size:.95rem;font-weight:600;letter-spacing:-.02em}
+.carte-detail{font-size:.7rem;color:rgba(255,255,255,.55)}
+.carte-qr{width:56px;height:56px;background:#fff;border-radius:3px;overflow:hidden;flex-shrink:0}
+/* ALERTS */
+.alert{padding:.5rem .75rem;border-radius:var(--r-sm);font-size:.75rem;display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.625rem;line-height:1.4}
+.alert svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+.alert.warn{background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.2);color:var(--amber)}
+.alert.info{background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);color:var(--blue)}
+.alert.success{background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.2);color:var(--green)}
+.alert.danger{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);color:var(--red)}
+/* COMPETENCES */
+.comp-grid{display:grid;gap:.35rem;grid-template-columns:1fr 1fr;margin-top:.4rem}
+.comp-item{display:flex;align-items:center;gap:.4rem;padding:.4rem .6rem;border:1px solid var(--bg2);border-radius:var(--r-sm);cursor:pointer;transition:all var(--tr);font-size:.75rem;color:var(--ink2)}
+.comp-item:hover{border-color:var(--blue)}
+.comp-item.checked{border-color:var(--green);background:rgba(22,163,74,.05);color:var(--green)}
+.comp-check{width:13px;height:13px;border-radius:3px;border:1.5px solid var(--ink4);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.comp-item.checked .comp-check{background:var(--green);border-color:var(--green)}
+.comp-check svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+/* SCORE PERSO */
+.score-perso{background:var(--bg1);border:1px solid var(--bg2);border-radius:var(--r);padding:.875rem;margin-top:.75rem}
+.score-perso-title{font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.625rem;display:flex;align-items:center;justify-content:space-between}
+.score-perso-pct{font-size:1.1rem;font-weight:700;font-family:var(--fm);color:var(--green)}
+.score-checks{display:flex;flex-direction:column;gap:.3rem}
+.score-check{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--ink3)}
+.score-check.ok{color:var(--green)}.score-check.nok{color:var(--ink4)}
+/* VERSIONS */
+.versions-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin-top:.75rem}
+.version-card{border:1.5px solid var(--bg2);border-radius:var(--r-sm);padding:.75rem;cursor:pointer;transition:all var(--tr)}
+.version-card:hover{border-color:var(--blue)}
+.version-card.active{border-color:var(--blue);background:rgba(37,99,235,.04)}
+.version-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.version-label.safe{color:var(--green)}.version-label.bold{color:#7c3aed}
+.version-preview{font-size:.72rem;color:var(--ink3);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* READY */
+.ready-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green);color:#fff;font-size:.7rem;font-weight:600;border-radius:20px;padding:3px 11px;margin-top:.625rem;animation:badgePop .3s cubic-bezier(.34,1.5,.64,1)}
+@keyframes badgePop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+/* XBLOCK */
+.xblock{margin-top:.625rem;border:1px solid var(--bg2);border-radius:var(--r-sm);overflow:hidden}
+.xblock-header{display:flex;justify-content:space-between;align-items:center;padding:.55rem .75rem;background:var(--bg1);cursor:pointer}
+.xblock-title{font-size:.63rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)}
+.xblock-body{padding:.75rem;font-size:.76rem;color:var(--ink2);line-height:1.6;white-space:pre-wrap;display:none}
+.xblock-body.open{display:block}
+/* CELEBRATION */
+.celebration{position:fixed;inset:0;z-index:600;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.confetti{position:absolute;width:7px;height:7px;border-radius:2px;animation:confettiFall 2.5s ease forwards}
+@keyframes confettiFall{0%{transform:translateY(-80px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.celeb-msg{background:var(--bg);border:2px solid var(--green);border-radius:var(--r);padding:1.25rem 1.75rem;text-align:center;pointer-events:all;animation:mIn .3s ease}
+.celeb-icon{font-size:2rem;display:block;margin-bottom:.35rem}
+.celeb-title{font-size:1rem;font-weight:700;color:var(--green)}
+.celeb-sub{font-size:.75rem;color:var(--ink3);margin-top:.2rem}
+/* ACCESSIBILITY */
+body.dyslexic{font-family:'OpenDyslexic',sans-serif!important;letter-spacing:.05em;word-spacing:.1em;line-height:1.85}
+body.dyslexic *{font-family:'OpenDyslexic',sans-serif!important}
+body.high-contrast{--bg:#000;--bg1:#111;--bg2:#222;--bg3:#333;--ink:#fff;--ink2:#eee;--ink3:#ccc;--ink4:#888;--blue:#60a5fa;--green:#4ade80}
+/* PASTE BOX */
+.paste-box{background:rgba(37,99,235,.04);border:1px dashed rgba(37,99,235,.28);border-radius:var(--r-sm);padding:.75rem .875rem;margin-bottom:.75rem}
+.paste-box-title{font-size:.76rem;font-weight:600;color:var(--blue);margin-bottom:.55rem;display:flex;align-items:center;gap:5px}
+.paste-step{display:flex;align-items:flex-start;gap:.45rem;font-size:.74rem;color:var(--ink2);line-height:1.4;margin-bottom:.35rem}
+.paste-step:last-child{margin-bottom:0}
+.paste-n{width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:.55rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* TOOLTIP */
+.tip-icon{width:13px;height:13px;border-radius:50%;background:var(--bg2);color:var(--ink3);font-size:.55rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help;margin-left:3px}
+/* TIMER */
+.timer-badge{font-family:var(--fm);font-size:.63rem;color:var(--ink3);background:var(--bg1);border:1px solid var(--bg2);border-radius:20px;padding:3px 8px;display:flex;align-items:center;gap:4px}
+.timer-dot{width:4px;height:4px;border-radius:50%;background:var(--green);animation:blink 1s infinite}
+/* SAVED */
+.saved-ind{font-size:.6rem;color:var(--green);font-family:var(--fm);display:none;align-items:center;gap:3px}
+.saved-ind.show{display:inline-flex}
+/* ENTRETIEN */
+.eq-item{padding:.55rem .75rem;background:var(--bg1);border:1px solid var(--bg2);border-radius:var(--r-sm);margin-bottom:.4rem}
+.eq-q{font-size:.78rem;font-weight:500;color:var(--ink);margin-bottom:.2rem}
+.eq-a{font-size:.72rem;color:var(--ink3);line-height:1.45}
+@media(max-width:760px){.kpi-row{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:1fr}.versions-wrap{grid-template-columns:1fr}}
 
-/* FONT SIZE */
-body.fs-sm{font-size:14px}
-body.fs-lg{font-size:18px}
+/* DARK */
+body.dark{--bg:#0f0f0f;--bg1:#1a1a1a;--bg2:#272727;--bg3:#333;--ink:#f0f0f0;--ink2:#aaa;--ink3:#666;--ink4:#444}
+body.dark .topbar{background:rgba(15,15,15,.96)}
+body.dark .field input,body.dark .field textarea,body.dark .field select{background:rgba(20,20,20,.8);color:var(--ink)}
+body.dark .resp-ta{background:rgba(20,20,20,.8);color:var(--ink)}
 
-@media(max-width:900px){
-  .cols{grid-template-columns:1fr}
-  .sidebar{position:static;display:flex;flex-direction:row;gap:1rem;flex-wrap:wrap}
-  .vstep{flex-direction:row;overflow-x:auto}
-  .vs-line{display:none}
+@media(max-width:760px){
+  .wrap{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:1rem 1rem 3rem}
   .sbar{display:none}
-}
-@media(max-width:600px){
-  .layout{padding:1rem}
-  .field-grid{grid-template-columns:1fr}
-  .field-grid.three{grid-template-columns:1fr 1fr}
-  .panel{padding:1.25rem}
+  .grid,.grid.three{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <a href="https://shamsetdean.github.io/anthropotechlab/" target="_blank" rel="noopener" class="topbar-brand">
-    anthropotech <span>/</span>lab
-  </a>
-  <div class="topbar-actions">
-    <button class="mode-btn" id="mode-guide" onclick="setMode('guide')" title="Mode guidé">Guidé</button>
-    <button class="mode-btn active" id="mode-fast" onclick="setMode('fast')" title="Mode rapide">Rapide</button>
-    <button class="mode-btn" onclick="toggleDark()">◐</button>
-    <button class="mode-btn" onclick="setFS('sm')">A-</button>
-    <button class="mode-btn" onclick="setFS('lg')">A+</button>
-    <button class="mode-btn" onclick="showLegal()">Mentions légales</button>
+  <a href="https://shamsetdean.github.io/anthropotechlab/" target="_blank" rel="noopener" class="brand">anthropotech <span>/</span>lab</a>
+  <div class="tb-right">
+    <button class="tb-btn on" id="m-guide" onclick="setMode('guide')">Guidé</button>
+    <button class="tb-btn" id="m-fast" onclick="setMode('fast')">Rapide</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" id="m-demo" onclick="loadDemo()" title="Mode démo">Démo</button>
+    <button class="tb-btn" onclick="showDash()" title="Tableau de bord">📊</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" id="m-dyslexic" onclick="toggleDyslexic()" title="Mode dyslexie">Dy</button>
+    <button class="tb-btn" id="m-contrast" onclick="toggleContrast()" title="Contraste élevé">◑</button>
+    <button class="tb-btn" onclick="document.body.classList.toggle('dark')" title="Mode sombre">◐</button>
+    <button class="tb-btn" onclick="setFS(-1)" title="Réduire la police">A−</button>
+    <button class="tb-btn" onclick="setFS(1)" title="Augmenter la police">A+</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" onclick="showLegal()">Légal</button>
   </div>
 </div>
 
-<!-- PRIVACY -->
-<div class="privacy">
-  <div class="pdot"></div>
-  Aucun cookie · Aucun tracker · Aucune donnée collectée ni stockée sur un serveur · Conformité RGPD · Tout reste dans votre navigateur
-</div>
+<div class="privacy"><div class="pdot"></div>Aucun cookie · Aucun tracker · Aucune collecte · RGPD · Tout reste dans votre navigateur</div>
 
-<!-- SOCIAL -->
-<nav class="sbar" aria-label="Réseaux sociaux">
+<nav class="sbar">
   <a href="https://www.linkedin.com/in/shamsguettaf/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
   <a href="https://github.com/shamsetdean" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
   <a href="https://x.com/shamsetdean" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
@@ -327,132 +495,263 @@ body.fs-lg{font-size:18px}
   <a href="https://www.facebook.com/shamsetdean" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
 </nav>
 
-<!-- MAIN APP -->
-<div class="layout" id="app-layout">
-  <div class="cols">
-    <!-- SIDEBAR -->
+<div id="app-wrap">
+  <div class="wrap">
     <aside class="sidebar">
-      <div class="sidebar-title">Progression</div>
-      <div class="vstep" id="vstep"></div>
-      <div class="prog-bar-wrap">
-        <div class="prog-bar-label">
-          <span>Profil complété</span>
-          <span id="pct-label">0%</span>
+      <div>
+        <div class="s-ttl">Progression</div>
+        <div class="vstep" id="vstep"></div>
+      </div>
+      <div class="prog">
+        <div class="prog-lbl"><span>Profil</span><span id="pct-lbl">0%</span></div>
+        <div class="prog-t"><div class="prog-f" id="prog-f" style="width:0"></div></div>
+      </div>
+      <div>
+        <div class="s-ttl">Session</div>
+        <div class="stat-list">
+          <div class="stat-r"><span>Candidat</span><span class="stat-v" id="st-name">—</span></div>
+          <div class="stat-r"><span>Lettres</span><span class="stat-v" id="st-count">0</span></div>
+          <div class="stat-r"><span>Mode</span><span class="stat-v" id="st-mode">Guidé</span></div>
         </div>
-        <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-fill" style="width:0%"></div></div>
       </div>
-      <div class="stat-box">
-        <div class="stat-row"><span>Lettres générées</span><span class="stat-val" id="stat-count">0</span></div>
-        <div class="stat-row"><span>Session</span><span class="stat-val" id="stat-session">—</span></div>
-        <div class="stat-row"><span>Mode</span><span class="stat-val" id="stat-mode">Rapide</span></div>
-      </div>
-      <div style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap">
-        <button class="btn ghost sm" onclick="resetAll()">↺ Effacer</button>
-        <button class="btn ghost sm" onclick="sharePrompt()">⤴ Partager</button>
+      <div class="sb-links">
+        <button class="sb-link" onclick="replayTut()">▶ Voir la présentation</button>
+        <button class="sb-link" onclick="replayTut()">▶ Voir la présentation</button>
+        <button class="sb-link" onclick="showDash()">📊 Tableau de bord</button>
+        <button class="sb-link" onclick="showBibliotheque()">📚 Bibliothèque</button>
+        <button class="sb-link" onclick="resetAll()">↺ Tout effacer</button>
+        <button class="sb-link" onclick="sharePrompt()">⤴ Partager</button>
+        <button class="sb-link" onclick="showLegal()">Mentions légales</button>
       </div>
     </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-      <div class="panel" id="panel"></div>
-      <div class="nav-row" id="nav-row">
-        <button class="btn ghost" id="btn-prev" onclick="nav(-1)" aria-label="Étape précédente">← Précédent</button>
-        <button class="btn pri" id="btn-next" onclick="nav(1)" aria-label="Étape suivante">Suivant →</button>
-      </div>
-    </main>
+    <main class="main" id="panel"></main>
   </div>
 </div>
 
 <!-- LEGAL -->
-<div class="legal-section" id="legal">
-  <button class="btn ghost sm" onclick="hideLegal()" style="margin-bottom:1.5rem">← Retour</button>
-  <h1 class="legal-title">Mentions légales & Politique de confidentialité</h1>
+<div class="legal" id="legal">
+  <button class="btn ghost sm" onclick="hideLegal()" style="margin-bottom:1.25rem">← Retour</button>
+  <h1 class="legal-h1">Mentions légales & Confidentialité</h1>
   <h2 class="legal-h2">Éditeur</h2>
-  <p class="legal-p">Scribe est un outil développé par Guettaf Shams (Anthropotech · Lab) dans le cadre d'un projet personnel non commercial.<br>Contact : shamsetdean@gmail.com</p>
+  <p class="legal-p">Scribe est développé par Guettaf Shams (Anthropotech · Lab) — projet personnel non commercial.<br>Contact : shamsetdean@gmail.com</p>
   <h2 class="legal-h2">Hébergement</h2>
-  <p class="legal-p">Ce site est hébergé sur GitHub Pages (Microsoft Corporation, 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA). GitHub Pages ne dépose pas de cookies tiers sur les visiteurs.</p>
+  <p class="legal-p">GitHub Pages — Microsoft Corporation, 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA.</p>
   <h2 class="legal-h2">Données personnelles & RGPD</h2>
-  <p class="legal-p">Scribe est conçu selon le principe de <strong>privacy by design</strong> et <strong>privacy by default</strong>, conformément au Règlement Général sur la Protection des Données (RGPD – Règlement UE 2016/679) et à la loi Informatique et Libertés modifiée.</p>
-  <p class="legal-p"><strong>Aucune donnée n'est collectée, transmise, ni stockée sur un serveur.</strong> Toutes les informations saisies (nom, adresse, email, offre d'emploi) restent exclusivement dans votre navigateur via le localStorage de votre appareil. Ces données ne quittent jamais votre appareil.</p>
-  <p class="legal-p">Le prompt généré est copié dans votre presse-papiers et collé par vous-même dans ChatGPT (service tiers soumis aux conditions d'OpenAI). Scribe n'a aucun contrôle sur le traitement effectué par ChatGPT.</p>
+  <p class="legal-p">Scribe applique les principes de <em>privacy by design</em> et <em>privacy by default</em> conformément au RGPD (UE 2016/679) et à la loi Informatique et Libertés.</p>
+  <p class="legal-p"><strong>Aucune donnée n'est collectée, transmise ni stockée sur un serveur.</strong> Les informations saisies restent exclusivement dans votre navigateur via le localStorage. Elles ne quittent jamais votre appareil.</p>
+  <p class="legal-p">Le prompt est collé par vous-même dans ChatGPT (service tiers OpenAI). Scribe n'a aucun contrôle sur ce traitement.</p>
   <h2 class="legal-h2">Cookies & trackers</h2>
-  <p class="legal-p"><strong>Aucun cookie n'est déposé.</strong> Aucun outil d'analyse (Google Analytics, Matomo, etc.) n'est utilisé. Aucun traceur publicitaire. Aucun réseau social tiers n'est intégré de manière traçante.</p>
-  <h2 class="legal-h2">Droits des utilisateurs</h2>
-  <p class="legal-p">Conformément aux articles 15 à 22 du RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données. Ces droits s'exercent directement via le bouton "Effacer" de l'application, qui supprime l'intégralité des données du localStorage. Pour toute question : shamsetdean@gmail.com</p>
-  <h2 class="legal-h2">Propriété intellectuelle</h2>
-  <p class="legal-p">Le code source de Scribe est protégé par la licence Creative Commons BY-NC-ND 4.0. Toute reproduction commerciale est interdite sans autorisation écrite préalable.</p>
+  <p class="legal-p">Aucun cookie. Aucun outil d'analyse. Aucun traceur publicitaire. Aucun réseau social tiers intégré de manière traçante.</p>
+  <h2 class="legal-h2">Droits</h2>
+  <p class="legal-p">Droits d'accès, rectification et effacement exercés directement via le bouton "Tout effacer". Contact : shamsetdean@gmail.com</p>
   <h2 class="legal-h2">Responsabilité</h2>
-  <p class="legal-p">Scribe est un outil d'aide à la rédaction. Les lettres générées sont produites par une intelligence artificielle tierce (ChatGPT / OpenAI). L'éditeur de Scribe ne saurait être tenu responsable du contenu généré. L'utilisateur est seul responsable de l'utilisation et de l'envoi des lettres produites.</p>
+  <p class="legal-p">Les lettres sont générées par une IA tierce (ChatGPT / OpenAI). L'éditeur n'est pas responsable du contenu généré. L'utilisateur est seul responsable de l'envoi des lettres produites.</p>
+  <h2 class="legal-h2">Propriété intellectuelle</h2>
+  <p class="legal-p">Code source sous licence CC BY-NC-ND 4.0. Reproduction commerciale interdite sans autorisation écrite.</p>
+  <h2 class="legal-h2">Référentiel éditorial</h2>
+  <p class="legal-p">Les règles de rédaction intégrées dans le prompt de génération sont fondées sur les recommandations officielles de l'ONISEP :</p>
+  <div class="legal-source">
+    ONISEP — <em>La lettre de motivation : les règles de base</em><br>
+    <a href="https://www.onisep.fr/vers-l-emploi/recherche-d-emploi/la-lettre-de-motivation-les-regles-de-base" target="_blank" rel="noopener">https://www.onisep.fr/vers-l-emploi/recherche-d-emploi/la-lettre-de-motivation-les-regles-de-base</a>
+  </div>
+  <div class="legal-source" style="margin-top:.5rem">
+    France Travail — <em>Rédiger une lettre de motivation efficace</em><br>
+    <a href="https://www.francetravail.fr/candidat/vos-recherches/preparer-candidature/la-lettre-de-motivation.html" target="_blank" rel="noopener">https://www.francetravail.fr/candidat/vos-recherches/preparer-candidature/la-lettre-de-motivation.html</a>
+  </div>
   <h2 class="legal-h2">Droit applicable</h2>
-  <p class="legal-p">Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français sont seuls compétents.</p>
-  <p class="legal-p" style="margin-top:1.5rem;color:var(--ink3);font-size:.75rem">Dernière mise à jour : avril 2026</p>
+  <p class="legal-p">Les présentes mentions légales sont soumises au droit français. Tribunaux français compétents en cas de litige.</p>
+  <p class="legal-p" style="margin-top:1rem;font-size:.7rem;color:var(--ink3)">Dernière mise à jour : avril 2026</p>
 </div>
 
-<!-- FAQ MODAL -->
-<div class="faq-modal" id="faq-modal" onclick="closeFaq(event)">
-  <div class="faq-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
-      <div class="faq-title" style="margin:0">Questions fréquentes</div>
-      <button class="btn ghost sm" onclick="closeFaqDirect()">✕</button>
+<!-- FAQ -->
+<div class="modal-bg" id="faq-bg" onclick="if(event.target===this)closeFaq()">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-ttl">Questions fréquentes</div>
+      <button class="btn ghost sm" onclick="closeFaq()">✕</button>
     </div>
     <div class="faq-q">Comment ça marche ?</div>
-    <div class="faq-a">Remplissez les 4 étapes, générez le prompt, collez-le dans ChatGPT, copiez la réponse et téléchargez votre lettre en PDF.</div>
+    <div class="faq-a">Remplissez les 4 étapes → générez le prompt → collez dans ChatGPT → copiez la réponse → téléchargez le PDF.</div>
     <div class="faq-q">Mes données sont-elles sécurisées ?</div>
-    <div class="faq-a">Oui. Aucune donnée ne quitte votre navigateur. Tout est traité localement. Scribe ne possède aucun serveur.</div>
+    <div class="faq-a">Oui. Aucune donnée ne quitte votre navigateur. Aucun serveur. Aucune collecte.</div>
     <div class="faq-q">Faut-il un compte ChatGPT ?</div>
-    <div class="faq-a">Non. ChatGPT gratuit sans compte fonctionne parfaitement pour générer la lettre.</div>
-    <div class="faq-q">La lettre est-elle conforme à la norme ISO française ?</div>
-    <div class="faq-a">Oui. Le PDF généré respecte exactement la norme de la lettre française : expéditeur haut gauche, destinataire bas droite, lieu et date, objet, corps, formule de politesse, signature.</div>
-    <div class="faq-q">Puis-je modifier la lettre avant de la télécharger ?</div>
-    <div class="faq-a">Oui. La zone de collage est éditable — vous pouvez corriger ou ajuster le texte avant de générer le PDF.</div>
+    <div class="faq-a">Non. ChatGPT gratuit sans compte fonctionne parfaitement.</div>
+    <div class="faq-q">La lettre respecte-t-elle la norme française ?</div>
+    <div class="faq-a">Oui. Le PDF respecte exactement la norme ISO lettre française et les règles de l'ONISEP.</div>
+    <div class="faq-q">Puis-je modifier la lettre avant de télécharger ?</div>
+    <div class="faq-a">Oui. La zone de collage est entièrement éditable avant la génération du PDF.</div>
     <div class="faq-q">Raccourcis clavier</div>
-    <div class="faq-a">→ ou Tab : étape suivante · ← : étape précédente · G : générer le prompt · Échap : fermer cette fenêtre</div>
+    <div class="faq-a">→ : suivant · ← : précédent · G : générer le prompt · Échap : fermer</div>
   </div>
 </div>
 
-<!-- TUTORIAL -->
-<div class="tutorial" id="tutorial" style="display:none">
-  <div class="tutorial-box">
-    <div class="tut-step active" id="tut-0">
-      <div class="tut-num">01 / 03</div>
-      <div class="tut-title">Bienvenue sur Scribe</div>
-      <div class="tut-desc">Scribe génère votre lettre de motivation en PDF format ISO lettre française, en quelques minutes, gratuitement et sans créer de compte.</div>
-    </div>
-    <div class="tut-step" id="tut-1">
-      <div class="tut-num">02 / 03</div>
-      <div class="tut-title">Comment ça marche ?</div>
-      <div class="tut-desc">1. Collez l'offre d'emploi<br>2. Renseignez vos informations<br>3. Précisez le destinataire<br>4. Générez le prompt → collez dans ChatGPT → téléchargez le PDF</div>
-    </div>
-    <div class="tut-step" id="tut-2">
-      <div class="tut-num">03 / 03</div>
-      <div class="tut-title">Vos données restent chez vous</div>
-      <div class="tut-desc">Aucun cookie, aucun tracker, aucune collecte. Tout reste dans votre navigateur. Scribe est 100% conforme au RGPD.</div>
-    </div>
-    <div class="tut-nav">
-      <div class="tut-dots">
-        <div class="tut-dot on" id="td0"></div>
-        <div class="tut-dot" id="td1"></div>
-        <div class="tut-dot" id="td2"></div>
+<!-- TUTORIAL VIDEO -->
+<div class="tut-bg" id="tut-bg" style="display:none">
+  <div class="tut-box">
+
+    <!-- VIDEO AREA -->
+    <div class="tut-video">
+
+      <!-- Slide 0 : Intro -->
+      <div class="tut-slide tut-slide-0 on" id="tut-0">
+        <div class="slide-intro">
+          <div class="s-logo">Scribe<span>.</span></div>
+          <p>Votre lettre de motivation professionnelle<br>en PDF format ISO, en 4 étapes.</p>
+          <div class="s-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Gratuit · Sans compte · Aucune donnée collectée
+          </div>
+        </div>
       </div>
-      <div style="display:flex;gap:.5rem">
-        <button class="btn ghost sm" onclick="skipTutorial()">Passer</button>
+
+      <!-- Slide 1 : Offre -->
+      <div class="tut-slide tut-slide-1" id="tut-1">
+        <div class="slide-mockup">
+          <div>
+            <div class="slide-title"><div class="s-num">1</div> L'offre d'emploi</div>
+            <div class="slide-sub">Collez le texte ou l'URL de l'offre — tout est extrait automatiquement</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-label">Texte complet de l'offre</div>
+            <div class="mock-textarea filled">La Mairie de Paris recrute un Chargé de communication (H/F) — Réf. 2026-COM-042. Missions : rédaction de contenus, gestion des réseaux sociaux, coordination des publications...</div>
+          </div>
+          <div class="mock-card" style="display:flex;gap:.5rem;align-items:center">
+            <div style="flex:1">
+              <div class="mock-label">Type</div>
+              <div style="display:flex;gap:.3rem;margin-top:.3rem">
+                <div style="padding:3px 10px;border-radius:20px;background:#2563eb;color:#fff;font-size:.62rem;font-weight:600">Candidature</div>
+                <div style="padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.4);font-size:.62rem">Relance</div>
+                <div style="padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.4);font-size:.62rem">Spontanée</div>
+              </div>
+            </div>
+            <div style="flex:1">
+              <div class="mock-label">Ton</div>
+              <div class="mock-input filled" style="margin-top:.3rem">Formel ▾</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 : Candidat -->
+      <div class="tut-slide tut-slide-2" id="tut-2">
+        <div class="slide-mockup">
+          <div>
+            <div class="slide-title"><div class="s-num">2</div> Vos coordonnées</div>
+            <div class="slide-sub">Renseignez votre profil — mémorisé automatiquement</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-row" style="margin-bottom:.4rem">
+              <div style="flex:1"><div class="mock-label">Nom</div><div class="mock-input filled">Dupont</div></div>
+              <div style="flex:1"><div class="mock-label">Prénom</div><div class="mock-input filled">Marie</div></div>
+            </div>
+            <div style="margin-bottom:.4rem"><div class="mock-label">Email</div><div class="mock-input filled">marie.dupont@email.fr</div></div>
+            <div class="mock-row">
+              <div style="flex:1"><div class="mock-label">Expérience</div><div class="mock-input filled">5 ans</div></div>
+              <div style="flex:1"><div class="mock-label">Points forts</div><div class="mock-input filled">Rédaction · Digital</div></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:6px;font-size:.68rem;color:rgba(22,163,74,.9)">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Profil mémorisé — vous n'aurez pas à le ressaisir
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 : Prompt + ChatGPT -->
+      <div class="tut-slide tut-slide-3" id="tut-3">
+        <div class="slide-mockup">
+          <div>
+            <div class="slide-title"><div class="s-num">4</div> Générer · ChatGPT · PDF</div>
+            <div class="slide-sub">3 actions simples pour obtenir votre lettre</div>
+          </div>
+          <div class="mock-action done-s">
+            <div class="mock-action-n gn"><svg viewBox="0 0 20 20" style="width:9px;height:9px;fill:#fff"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div>
+            <div class="mock-action-body"><strong>Prompt généré et copié ✓</strong><span>Dans votre presse-papiers</span></div>
+            <div class="mock-btn blue" style="font-size:.62rem;padding:4px 10px">Générer</div>
+          </div>
+          <div class="mock-action done-s">
+            <div class="mock-action-n gn"><svg viewBox="0 0 20 20" style="width:9px;height:9px;fill:#fff"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div>
+            <div class="mock-action-body"><strong>ChatGPT ouvert ✓</strong><span>Prompt collé, lettre générée</span></div>
+            <div class="mock-btn gpt" style="font-size:.62rem;padding:4px 10px">ChatGPT →</div>
+          </div>
+          <div class="mock-action">
+            <div class="mock-action-n">3</div>
+            <div class="mock-action-body"><strong>Collez la réponse</strong><span>Ctrl+C dans ChatGPT → Ctrl+V ici → PDF</span></div>
+          </div>
+          <div class="mock-arrow">↓</div>
+          <div style="display:flex;gap:.4rem">
+            <div class="mock-btn green" style="font-size:.65rem">⬇ Télécharger PDF</div>
+            <div class="mock-btn ghost" style="font-size:.65rem">Copier</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4 : RGPD -->
+      <div class="tut-slide tut-slide-4" id="tut-4">
+        <div class="slide-intro">
+          <div style="font-size:2rem;margin-bottom:.75rem">🔒</div>
+          <div class="s-logo" style="font-size:1.5rem;margin-bottom:.5rem">Vos données restent <span>chez vous</span></div>
+          <p style="font-size:.82rem;margin-bottom:1.25rem">Scribe ne collecte, ne stocke<br>et ne transmet aucune donnée.</p>
+          <div style="display:flex;flex-direction:column;gap:.4rem;max-width:280px;margin:0 auto">
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(255,255,255,.65)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Aucun cookie</div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(255,255,255,.65)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Aucun tracker</div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(255,255,255,.65)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>100% conforme RGPD</div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(255,255,255,.65)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>localStorage uniquement</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tut-video -->
+
+    <!-- PROGRESS BAR -->
+    <div class="tut-progress"><div class="tut-progress-fill" id="tut-prog" style="width:0%"></div></div>
+
+    <!-- CONTROLS -->
+    <div class="tut-controls">
+      <div class="tut-dots-wrap">
+        <div class="tut-dot on" onclick="goTutSlide(0)"></div>
+        <div class="tut-dot" onclick="goTutSlide(1)"></div>
+        <div class="tut-dot" onclick="goTutSlide(2)"></div>
+        <div class="tut-dot" onclick="goTutSlide(3)"></div>
+        <div class="tut-dot" onclick="goTutSlide(4)"></div>
+      </div>
+      <div class="tut-ctrl-btns">
+        <button class="btn ghost sm" onclick="skipTut()">Passer</button>
+        <button class="btn ghost sm" id="tut-prev-btn" onclick="prevTut()" style="display:none">←</button>
         <button class="btn pri sm" id="tut-btn" onclick="nextTut()">Suivant →</button>
       </div>
     </div>
+
+  </div><!-- /tut-box -->
+</div>
+
+<!-- HELP FAB — gauche -->
+<button class="help-fab" onclick="openFaq()" aria-label="Aide et FAQ" title="Aide">?</button>
+<div class="toast" id="toast"></div>
+
+<!-- TABLEAU DE BORD -->
+<div id="dash-wrap" style="display:none"><div class="dashboard" id="dashboard"></div></div>
+
+<!-- BIBLIOTHEQUE MODAL -->
+<div id="biblio-bg" style="position:fixed;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(2px);z-index:400;display:none;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--bg);border-radius:10px;padding:1.5rem;max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.15)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--bg2)">
+      <div style="font-size:.9rem;font-weight:600">Bibliothèque de formulations</div>
+      <button class="btn ghost sm" onclick="closeBiblio()">✕</button>
+    </div>
+    <div id="biblio-content"></div>
   </div>
 </div>
 
-<!-- HELP FAB -->
-<button class="help-fab" onclick="openFaq()" aria-label="Aide et FAQ" title="Aide">?</button>
-
-<div class="toast" id="toast"></div>
+<!-- CELEBRATION -->
+<div class="celebration" id="celebration" style="display:none">
+  <div class="celeb-msg" id="celeb-msg"></div>
+</div>
 
 <script>
 const {jsPDF}=window.jspdf;
 
-/* ══════════════════════════════════════
-   ÉTAT GLOBAL
-══════════════════════════════════════ */
+/* ══ STEPS ══ */
 const STEPS=[
   {id:"offre",   label:"Offre",        sub:"Texte ou URL"},
   {id:"candidat",label:"Candidat",     sub:"Vos coordonnées"},
@@ -460,167 +759,128 @@ const STEPS=[
   {id:"prompt",  label:"Prompt",       sub:"Générer & exporter"}
 ];
 
+/* ══ DATA ══ */
 const D={
-  // Offre
-  offreMode:"text", offreText:"", offreUrl:"", posteVise:"",
-  typeLettre:"candidature", // candidature | relance | spontanee
-  langue:"fr", ton:"formel",
-  // Candidat
-  nom:"",prenom:"",adresse:"",cp:"",ville:"",email:"",tel:"",linkedin:"",
-  experience:"",dernier_poste:"",niveau:"",secteur:"",
-  pointsForts:[],
-  // Destinataire
+  offreMode:"text",offreText:"",offreUrl:"",posteVise:"",
+  typeLettre:"candidature",langue:"fr",ton:"formel",
+  civ:"",nom:"",prenom:"",adresse:"",cp:"",ville:"",email:"",tel:"",linkedin:"",
+  experience:"",dernier_poste:"",niveau:"",secteur:"",pointsForts:[],
   iciv:"",ititre:"",inom:"",iprenom:"",
-  // Résultat
-  lettre:"",prompt:""
+  lettre:""
 };
 
-let cur=0, step3Skip=false, errFields=[], mode="fast", tutStep=0;
+let cur=0,step3Skip=false,errFields=[],mode="guide",tutStep=0;
 let lettreCount=parseInt(localStorage.getItem("scribe_count")||"0");
-let rawPrompt="";
-let qrInstance=null;
+let rawPrompt="",gptOpened=false;
+let qrDone=false,fsBase=15;
 
-/* ══════════════════════════════════════
-   UTILS
-══════════════════════════════════════ */
+/* ══ UTILS ══ */
 const $=id=>document.getElementById(id);
 const V=id=>{const e=$(id);return e?e.value.trim():""};
 const esc=s=>s?String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"):"";
 const capFull=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
-const toast=m=>{const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2500)};
+const toast=m=>{const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2400)};
 
-function detectDest(o){return /à l['']attention de|contact\s*:|responsable\s*:|recruteur\s*:|(madame|monsieur)\s+[A-ZÀ-Ü]/i.test(o)}
-function isMairie(o){return /mairie|commune|hôtel de ville|collectivité|ville de/i.test(o)}
+const detectDest=o=>/à l['']attention de|contact\s*:|responsable\s*:|recruteur\s*:|(madame|monsieur)\s+[A-ZÀ-Ü]/i.test(o);
+const isMairie=o=>/mairie|commune|hôtel de ville|collectivité|ville de/i.test(o);
 
-/* ══════════════════════════════════════
-   LOCALSTORAGE
-══════════════════════════════════════ */
-function saveToStorage(){
-  try{
-    const toSave={nom:D.nom,prenom:D.prenom,adresse:D.adresse,cp:D.cp,ville:D.ville,email:D.email,tel:D.tel,linkedin:D.linkedin,experience:D.experience,dernier_poste:D.dernier_poste,niveau:D.niveau,secteur:D.secteur,pointsForts:D.pointsForts};
-    localStorage.setItem("scribe_candidat",JSON.stringify(toSave));
-  }catch(e){}
-}
-function loadFromStorage(){
-  try{
-    const s=localStorage.getItem("scribe_candidat");
-    if(s){const p=JSON.parse(s);Object.assign(D,p);}
-  }catch(e){}
-}
+/* ══ STORAGE ══ */
+function saveSt(){try{localStorage.setItem("scribe_c",JSON.stringify({nom:D.nom,prenom:D.prenom,adresse:D.adresse,cp:D.cp,ville:D.ville,email:D.email,tel:D.tel,linkedin:D.linkedin,experience:D.experience,dernier_poste:D.dernier_poste,niveau:D.niveau,secteur:D.secteur,pointsForts:D.pointsForts,civ:D.civ}));}catch(e){}}
+function loadSt(){try{const s=localStorage.getItem("scribe_c");if(s)Object.assign(D,JSON.parse(s));}catch(e){}}
 
-/* ══════════════════════════════════════
-   MODE & DISPLAY
-══════════════════════════════════════ */
+/* ══ MODE & DISPLAY ══ */
 function setMode(m){
   mode=m;
-  $("mode-guide").classList.toggle("active",m==="guide");
-  $("mode-fast").classList.toggle("active",m==="fast");
-  $("stat-mode").textContent=m==="guide"?"Guidé":"Rapide";
+  $("m-guide").classList.toggle("on",m==="guide");
+  $("m-fast").classList.toggle("on",m==="fast");
+  $("st-mode").textContent=m==="guide"?"Guidé":"Rapide";
+  renderPanel();
 }
-function toggleDark(){document.body.classList.toggle("dark")}
-function setFS(s){document.body.className=document.body.className.replace(/fs-\w+/g,"");if(s!=="md")document.body.classList.add("fs-"+s)}
+function setFS(d){fsBase=Math.max(12,Math.min(19,fsBase+d));document.documentElement.style.fontSize=fsBase+"px";}
 
-/* ══════════════════════════════════════
-   TUTORIAL
-══════════════════════════════════════ */
-function initTutorial(){
-  if(!localStorage.getItem("scribe_tut_done")){
-    $("tutorial").style.display="flex";
-  }
+/* ══ TUTORIAL ══ */
+function initTut(){if(!localStorage.getItem("scribe_tut"))$("tut-bg").style.display="flex";}
+const TUT_TOTAL=5;
+function goTutSlide(n){
+  // Remove active from current
+  $("tut-"+tutStep).classList.remove("on");
+  // Update dots
+  document.querySelectorAll(".tut-dot").forEach((d,i)=>d.classList.toggle("on",i===n));
+  tutStep=n;
+  $("tut-"+tutStep).classList.add("on");
+  // Progress bar
+  $("tut-prog").style.width=((tutStep/(TUT_TOTAL-1))*100)+"%";
+  // Buttons
+  $("tut-prev-btn").style.display=tutStep>0?"":"none";
+  $("tut-btn").textContent=tutStep>=TUT_TOTAL-1?"Commencer →":"Suivant →";
 }
 function nextTut(){
-  $("tut-"+tutStep).classList.remove("active");
-  $("td"+tutStep).classList.remove("on");
-  tutStep++;
-  if(tutStep>=3){skipTutorial();return;}
-  $("tut-"+tutStep).classList.add("active");
-  $("td"+tutStep).classList.add("on");
-  $("tut-btn").textContent=tutStep===2?"Commencer →":"Suivant →";
+  if(tutStep>=TUT_TOTAL-1){skipTut();return;}
+  goTutSlide(tutStep+1);
 }
-function skipTutorial(){
-  $("tutorial").style.display="none";
-  localStorage.setItem("scribe_tut_done","1");
+function prevTut(){
+  if(tutStep>0)goTutSlide(tutStep-1);
 }
+function skipTut(){$("tut-bg").style.display="none";localStorage.setItem("scribe_tut","1");}
+function replayTut(){tutStep=0;goTutSlide(0);$("tut-bg").style.display="flex";}
 
-/* ══════════════════════════════════════
-   LEGAL
-══════════════════════════════════════ */
-function showLegal(){$("app-layout").style.display="none";$("legal").classList.add("open");window.scrollTo(0,0)}
-function hideLegal(){$("app-layout").style.display="";$("legal").classList.remove("open")}
+/* ══ LEGAL ══ */
+function showLegal(){$("app-wrap").style.display="none";$("legal").classList.add("open");window.scrollTo(0,0);}
+function hideLegal(){$("app-wrap").style.display="";$("legal").classList.remove("open");}
 
-/* ══════════════════════════════════════
-   FAQ
-══════════════════════════════════════ */
-function openFaq(){$("faq-modal").classList.add("open")}
-function closeFaq(e){if(e.target===$("faq-modal"))$("faq-modal").classList.remove("open")}
-function closeFaqDirect(){$("faq-modal").classList.remove("open")}
+/* ══ FAQ ══ */
+function openFaq(){$("faq-bg").classList.add("open");}
+function closeFaq(){$("faq-bg").classList.remove("open");}
 
-/* ══════════════════════════════════════
-   PROGRESS
-══════════════════════════════════════ */
+/* ══ PROGRESS ══ */
 function calcPct(){
   const req=["nom","prenom","adresse","ville","email"];
-  const offreOk=!!(D.offreText||D.offreUrl||D.posteVise);
-  const done=(offreOk?1:0)+req.filter(k=>D[k]&&D[k].trim()).length;
-  return Math.round(done/(req.length+1)*100);
+  const ok=(D.offreText||D.offreUrl||D.posteVise)?1:0;
+  return Math.round((ok+req.filter(k=>D[k]&&D[k].trim()).length)/(req.length+1)*100);
 }
-function updateProgress(){
-  const pct=calcPct();
-  $("prog-fill").style.width=pct+"%";
-  $("pct-label").textContent=pct+"%";
-  $("stat-count").textContent=lettreCount;
-  $("stat-session").textContent=D.nom?capFull(D.prenom)+" "+capFull(D.nom).charAt(0)+".":"—";
+function updateProg(){
+  const p=calcPct();
+  $("prog-f").style.width=p+"%";
+  $("pct-lbl").textContent=p+"%";
+  $("st-count").textContent=lettreCount;
+  $("st-name").textContent=D.nom?capFull(D.prenom)+" "+capFull(D.nom).charAt(0)+".":"—";
 }
 
-/* ══════════════════════════════════════
-   STEPPER VERTICAL
-══════════════════════════════════════ */
+/* ══ STEPPER ══ */
 function renderStepper(){
   const w=$("vstep");let h="";
   STEPS.forEach((s,i)=>{
-    const isSkip=i===2&&step3Skip;
-    const isDone=i<cur&&!isSkip;
+    const skip=i===2&&step3Skip;
+    const done=i<cur&&!skip;
     const isErr=errFields.includes(i);
-    let cls="vs-item ";
+    let cls="vs ";
     if(isErr)cls+="error";
-    else if(isSkip)cls+="skipped";
-    else if(isDone)cls+="done";
+    else if(skip)cls+="skipped";
+    else if(done)cls+="done";
     else if(i===cur)cls+="active";
     else cls+="todo";
-    const icon=isDone?`<svg viewBox="0 0 20 20" style="width:11px;height:11px;fill:currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:isSkip?"—":i+1;
-    const showLine=i<STEPS.length-1;
-    h+=`<div class="${cls}" onclick="goTo(${i})" role="button" aria-label="Étape ${i+1}: ${s.label}" tabindex="0">
-      <div class="vs-left">
-        <div class="vs-circle">${icon}</div>
-        ${showLine?`<div class="vs-line"></div>`:""}
-      </div>
-      <div class="vs-info">
-        <div class="vs-label">${s.label}</div>
-        <div class="vs-sub">${isSkip?"Trouvé dans l'offre":s.sub}</div>
-      </div>
+    const icon=done?`<svg viewBox="0 0 20 20" style="width:9px;height:9px;fill:#fff"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:skip?"—":i+1;
+    h+=`<div class="${cls}" onclick="goTo(${i})" role="button" tabindex="0" aria-label="Étape ${i+1}">
+      <div class="vs-left"><div class="vs-c">${icon}</div>${i<STEPS.length-1?`<div class="vs-ln"></div>`:""}</div>
+      <div class="vs-info"><div class="vs-lbl">${s.label}</div><div class="vs-sub">${skip?"Trouvé dans l'offre":s.sub}</div></div>
     </div>`;
   });
   w.innerHTML=h;
 }
 
-/* ══════════════════════════════════════
-   GUIDE MESSAGE
-══════════════════════════════════════ */
+/* ══ GUIDES ══ */
 const GUIDES=[
   "Collez le <strong>texte de l'offre</strong> ou son <strong>URL publique</strong>. Toutes les informations seront extraites automatiquement.",
   "Renseignez <strong>vos coordonnées</strong>. Elles apparaîtront en haut à gauche de votre lettre.",
-  "Précisez le <strong>destinataire</strong> si vous le connaissez. Sinon, passez directement à l'étape suivante.",
-  "<strong>3 actions :</strong> Générez le prompt → ouvrez ChatGPT → collez la réponse → téléchargez le PDF."
+  "Précisez le <strong>destinataire</strong> si vous le connaissez. Sinon, passez directement.",
+  "<strong>3 étapes :</strong> Générez le prompt → ouvrez ChatGPT → collez la réponse → téléchargez le PDF."
 ];
 
-/* ══════════════════════════════════════
-   BUILD PROMPT
-══════════════════════════════════════ */
+/* ══ BUILD PROMPT — RÈGLE D'OR ONISEP ══ */
 function buildPrompt(){
   const d=D;
   const cNom=capFull(d.nom),cPre=capFull(d.prenom);
   const candidat=`${cPre} ${cNom}`.trim();
-  const civ=d.civ||"Monsieur";
   const accF=d.civ==="Madame";
   const date=new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
   const iNom=capFull(d.inom),iPre=capFull(d.iprenom);
@@ -628,15 +888,14 @@ function buildPrompt(){
   const politesse=d.inom?`${d.iciv||""} ${iNom}`.trim():"Madame, Monsieur";
   const ville=capFull(d.ville)||"Paris";
   const mairie=isMairie(d.offreText+d.offreUrl);
-  const offreContent=d.offreUrl?`URL de l'offre (va lire cette page) : ${d.offreUrl}`:d.offreText||"[Offre non renseignée]";
-
+  const offreContent=d.offreUrl?`URL de l'offre (lis cette page) : ${d.offreUrl}`:d.offreText||"[Offre non renseignée]";
   const tonMap={formel:"formel et soutenu",dynamique:"dynamique et engagé",institutionnel:"institutionnel et sobre"};
   const langMap={fr:"Français",en:"English",es:"Español"};
-  const typeMap={candidature:"lettre de candidature classique",relance:"lettre de relance (déjà postulé sans réponse)",spontanee:"candidature spontanée (sans offre précise)"};
+  const typeMap={candidature:"candidature classique",relance:"lettre de relance (déjà postulé sans réponse)",spontanee:"candidature spontanée"};
   const niveauMap={bac:"Bac",bac2:"Bac+2",bac3:"Bac+3",bac5:"Bac+5",doc:"Doctorat"};
   const secteurMap={public:"secteur public",prive:"secteur privé",asso:"secteur associatif"};
 
-  return `Tu es expert en rédaction de lettres de motivation professionnelles. Génère en ${langMap[d.langue]||"Français"} une lettre COMPLÈTE sur UNE SEULE PAGE A4, prête à imprimer, au format ISO lettre française.
+  return `Tu es expert en rédaction de lettres de motivation professionnelles françaises. Génère en ${langMap[d.langue]||"Français"} une lettre COMPLÈTE, personnalisée, tenant sur UNE SEULE PAGE A4, prête à imprimer.
 
 === CONTEXTE ===
 Type : ${typeMap[d.typeLettre]||"candidature"}
@@ -654,111 +913,126 @@ ${d.niveau?"Niveau d'études : "+niveauMap[d.niveau]:""}
 ${d.secteur?"Secteur cible : "+secteurMap[d.secteur]:""}
 ${d.pointsForts.length?"Points forts : "+d.pointsForts.join(", "):""}
 
-=== OFFRE ===
+=== OFFRE D'EMPLOI ===
 ${offreContent}
 
 === DESTINATAIRE ===
 ${(d.inom||d.ititre)?`Civilité : ${d.iciv||""} | Titre : ${d.ititre||""} | Nom : ${iNom} | Prénom : ${iPre}`:"Extraire depuis l'offre : titre complet, nom, prénom, civilité."}
-${mairie?"\nIMPORTANT : Entité = mairie/commune. Toujours adresser à : Monsieur/Madame le/la Maire [Prénom Nom]. Même si l'offre mentionne un DRH.":""}
+${mairie?"\nIMPORTANT : Entité = mairie/commune. Toujours adresser : Monsieur/Madame le/la Maire [Prénom Nom].":""}
 
-=== INSTRUCTIONS ===
-1. Extrais : nom entité, adresse complète, titre+nom+prénom contact, numéro d'offre si présent.
-2. Identifie EXACTEMENT 4 éléments clés du profil recherché.
-${d.pointsForts.length?"3. Intègre naturellement ces points forts dans le §2 : "+d.pointsForts.join(", "):"3. Pour chaque élément du profil, montre comment le candidat y correspond."}
-4. Génère la lettre :
+=== RÈGLES DE RÉDACTION (sources : ONISEP + France Travail) ===
+OBJECTIF UNIQUE : donner envie au recruteur de rencontrer ${candidat} pour décrocher un entretien.
 
+LONGUEUR : 10 à 15 lignes maximum. Court et ciblé vaut toujours mieux qu'un long texte peu pertinent.
+
+PERSONNALISATION OBLIGATOIRE :
+- Aucune phrase toute faite ("dynamique et motivé", "passionné par…")
+- Aucun copier-coller de modèle générique
+- Ne pas répéter le CV — apporter un éclairage complémentaire
+- Chaque lettre adaptée spécifiquement à l'entreprise ET au poste
+
+ACCROCHE (§1) :
+- Expliquer pourquoi ${candidat} écrit — réponse à annonce ou démarche spontanée
+- Montrer une connaissance précise de l'entreprise : secteur, projets, actualité, valeurs
+- Citer 1 ou 2 aspects concrets (pas vagues). Exemple : "J'ai lu votre récente actualité sur…" / "Lors d'une visite, j'ai découvert…"
+- Prouver qu'on s'est renseigné — c'est la preuve de l'intérêt et de la compréhension des besoins
+
+PROFIL (§2) :
+- Présenter le parcours et les compétences en lien DIRECT avec le poste
+- Exemples concrets et chiffrés (délais, quantités, résultats mesurables)
+- Montrer l'adéquation : compétences techniques, expériences, qualités personnelles, langues, projets
+- Si le parcours ne correspond pas parfaitement : valoriser bénévolat, engagement associatif, sport, projets d'études
+- Éviter le "moi, je" — valoriser la contribution apportée à l'entreprise
+- Intégrer naturellement les points forts si fournis
+
+CONCLUSION (§3) :
+- Ouverture vers un entretien avec disponibilité
+- Mentionner le CV joint
+- Formule de politesse simple et professionnelle
+
+FORME :
+- Phrases courtes — paragraphes aérés — zéro faute d'orthographe
+- Objet clair avec référence de l'annonce si disponible
+- Ton professionnel et naturel — refléter la personnalité du candidat
+
+=== STRUCTURE OBLIGATOIRE ===
 Objet : Candidature${d.typeLettre==="relance"?" — Relance":""} n°[numéro si présent] — [titre du poste]
 
 ${appel}
 
-§1 — 2 PHRASES EXACTEMENT : Point positif concret sur l'entité.
+§1 — 2 PHRASES EXACTEMENT : Accroche personnalisée sur l'entité — fait concret, actualité récente ou aspect spécifique montrant que ${candidat} s'est renseigné.
 
-§2 — 3 PHRASES EXACTEMENT : Correspondance profil / parcours de ${candidat}. Utilise les points forts si fournis.
+§2 — 3 PHRASES EXACTEMENT : Lien compétences/expérience de ${candidat} avec le poste. Exemples concrets et chiffrés. Points forts intégrés naturellement${d.pointsForts.length?" ("+d.pointsForts.join(", ")+")":""}.
 
-§3 — 1 PHRASE EXACTEMENT : Demande d'entretien + disponibilité.
+§3 — 1 PHRASE EXACTEMENT : Demande d'entretien avec disponibilité.
 
 Je vous prie d'agréer, ${politesse}, l'expression de mes salutations distinguées.
 
 === CONTRAINTES ABSOLUES ===
-- §1 = 2 phrases exactement | §2 = 3 phrases exactement | §3 = 1 phrase exactement
+- §1 = 2 phrases | §2 = 3 phrases | §3 = 1 phrase
 - Retour à la ligne après chaque point final
 - NE PAS répéter coordonnées dans le corps
 - NE PAS inclure de date dans le corps
 - Vouvoiement strict | Aucune liste à puces | Aucune URL
 - Accords genre ${accF?"féminin":"masculin"}
 - Majuscule initiale sur noms propres, villes, prénoms
-- Répondre UNIQUEMENT avec la lettre, sans commentaire`;
+- Répondre UNIQUEMENT avec la lettre, sans commentaire ni explication`;
 }
 
-/* ══════════════════════════════════════
-   SCORE QUALITÉ
-══════════════════════════════════════ */
+/* ══ SCORE ══ */
 function scoreLettre(txt){
   const words=txt.split(/\s+/).filter(w=>w).length;
   const hasObjet=/objet\s*:/i.test(txt);
   const hasPolitesse=/je vous prie|veuillez agr/i.test(txt);
-  const hasSignature=/[A-Z][a-z]+\s+[A-Z][a-z]+\s*$/m.test(txt.trim());
   const noUrl=!/https?:\/\//.test(txt);
-  const okLength=words>=80&&words<=320;
-  const score=Math.round(([hasObjet,hasPolitesse,hasSignature,noUrl,okLength].filter(Boolean).length/5)*100);
+  const okLen=words>=80&&words<=320;
+  const score=Math.round(([hasObjet,hasPolitesse,noUrl,okLen].filter(Boolean).length/4)*100);
   return {score,words,hasObjet,hasPolitesse};
 }
 
-/* ══════════════════════════════════════
-   EMAIL COURT
-══════════════════════════════════════ */
+/* ══ EMAIL / LINKEDIN ══ */
 function buildEmail(){
   const cNom=capFull(D.nom),cPre=capFull(D.prenom);
-  const iNom=capFull(D.inom);
-  const dest=D.inom?`${D.iciv||""} ${iNom}`.trim():"Madame, Monsieur";
+  const dest=D.inom?`${D.iciv||""} ${capFull(D.inom)}`.trim():"Madame, Monsieur";
   const subj=`Candidature — ${D.posteVise||"[Poste]"}`;
-  const body=`${dest},\n\nVeuillez trouver ci-joint ma lettre de motivation et mon curriculum vitæ pour le poste de ${D.posteVise||"[Poste]"}.\n\nJe reste à votre disposition pour tout renseignement complémentaire.\n\nCordialement,\n${cPre} ${cNom}\n${D.tel||""}\n${D.email||""}`;
+  const body=`${dest},\n\nVeuillez trouver ci-joint ma lettre de motivation et mon CV pour le poste de ${D.posteVise||"[Poste]"}.\n\nJe reste à votre disposition.\n\nCordialement,\n${cPre} ${cNom}\n${D.tel||""}\n${D.email||""}`;
   return {subj,body};
 }
-
-/* ══════════════════════════════════════
-   LINKEDIN POST
-══════════════════════════════════════ */
 function buildLinkedIn(){
   const cNom=capFull(D.nom),cPre=capFull(D.prenom);
-  return `Je candidate actuellement au poste de ${D.posteVise||"[Poste]"}${D.entite?" chez "+D.entite:""}.\n\nFort${D.civ==="Madame"?"e":""} de ${D.experience||"plusieurs années d'"}expérience${D.dernier_poste?" en tant que "+D.dernier_poste:""}, je suis convaincu${D.civ==="Madame"?"e":""} de pouvoir apporter une réelle valeur ajoutée.\n\n${D.pointsForts.length?"Mes atouts : "+D.pointsForts.join(" · ")+"\n\n":""}N'hésitez pas à me contacter.\n\n#Emploi #Candidature ${D.posteVise?"#"+D.posteVise.replace(/\s+/g,""):""}`;
+  return `Je candidate au poste de ${D.posteVise||"[Poste]"}.\n\nFort${D.civ==="Madame"?"e":""} de ${D.experience||"plusieurs années d'"}expérience${D.dernier_poste?" en tant que "+D.dernier_poste:""}, je souhaite apporter ma contribution.\n\n${D.pointsForts.length?"Mes atouts : "+D.pointsForts.join(" · ")+"\n\n":""}N'hésitez pas à me contacter.\n\n${cPre} ${cNom}`;
 }
 
-/* ══════════════════════════════════════
-   RENDER PANEL
-══════════════════════════════════════ */
+/* ══ RENDER PANEL ══ */
 function renderPanel(){
   const area=$("panel");
   const s=STEPS[cur];
+  const showGuide=mode==="guide";
+  const guide=showGuide?`<div class="guide">${GUIDES[cur]}</div>`:"";
   let body="";
 
-  // GUIDE (mode guidé)
-  const guideHtml=mode==="guide"?`<div class="guide"><span class="guide-arrow">→</span><div class="guide-msg">${GUIDES[cur]}</div></div>`:"";
-
   if(cur===0){
-    body=`${guideHtml}
-    <div class="field-group">
-      <div class="field-group-title">Type de lettre</div>
-      <div class="type-row">
-        <button class="type-btn ${D.typeLettre==="candidature"?"on":""}" onclick="setTypeLettre('candidature',this)">Candidature</button>
-        <button class="type-btn ${D.typeLettre==="relance"?"on":""}" onclick="setTypeLettre('relance',this)">Relance</button>
-        <button class="type-btn ${D.typeLettre==="spontanee"?"on":""}" onclick="setTypeLettre('spontanee',this)">Spontanée</button>
+    body=`${guide}
+    <div class="section">
+      <div class="section-ttl">Type de lettre</div>
+      <div class="pills">
+        <button class="pill ${D.typeLettre==="candidature"?"on":""}" onclick="setV('typeLettre','candidature',this,'pill')">Candidature</button>
+        <button class="pill ${D.typeLettre==="relance"?"on":""}" onclick="setV('typeLettre','relance',this,'pill')">Relance</button>
+        <button class="pill ${D.typeLettre==="spontanee"?"on":""}" onclick="setV('typeLettre','spontanee',this,'pill')">Spontanée</button>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Ton & Langue</div>
-      <div class="field-grid">
-        <div class="field">
-          <label>Ton</label>
-          <select id="f_ton" onchange="D.ton=this.value">
+    <div class="section">
+      <div class="section-ttl">Ton & Langue</div>
+      <div class="grid">
+        <div class="field"><label>Ton</label>
+          <select onchange="D.ton=this.value">
             <option value="formel" ${D.ton==="formel"?"selected":""}>Formel</option>
             <option value="dynamique" ${D.ton==="dynamique"?"selected":""}>Dynamique</option>
             <option value="institutionnel" ${D.ton==="institutionnel"?"selected":""}>Institutionnel</option>
           </select>
         </div>
-        <div class="field">
-          <label>Langue</label>
-          <select id="f_langue" onchange="D.langue=this.value">
+        <div class="field"><label>Langue</label>
+          <select onchange="D.langue=this.value">
             <option value="fr" ${D.langue==="fr"?"selected":""}>Français</option>
             <option value="en" ${D.langue==="en"?"selected":""}>English</option>
             <option value="es" ${D.langue==="es"?"selected":""}>Español</option>
@@ -766,59 +1040,59 @@ function renderPanel(){
         </div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Offre d'emploi</div>
-      <div class="tab-row">
-        <button class="tab-btn ${D.offreMode==="text"?"on":""}" onclick="setOffreMode('text')">Texte de l'offre</button>
-        <button class="tab-btn ${D.offreMode==="url"?"on":""}" onclick="setOffreMode('url')">URL de l'offre</button>
+    <div class="section">
+      <div class="section-ttl">Offre d'emploi</div>
+      <div class="tabs">
+        <button class="tab ${D.offreMode==="text"?"on":""}" onclick="setOffreMode('text')">Texte</button>
+        <button class="tab ${D.offreMode==="url"?"on":""}" onclick="setOffreMode('url')">URL</button>
       </div>
-      ${D.offreMode==="text"?`<div class="field"><textarea id="f_off" style="min-height:160px" placeholder="Collez ici le texte complet de l'offre…" oninput="D.offreText=this.value;updateProgress()">${esc(D.offreText)}</textarea></div>`:
-      `<div class="field"><input id="f_url" type="url" placeholder="https://..." value="${esc(D.offreUrl)}" oninput="D.offreUrl=this.value;updateProgress()"><p class="hint">ChatGPT lira cette page directement.</p></div>`}
+      ${D.offreMode==="text"
+        ?`<div class="field"><textarea style="min-height:180px" placeholder="Collez ici le texte complet de l'offre…" oninput="D.offreText=this.value;updateProg()">${esc(D.offreText)}</textarea></div>`
+        :`<div class="field"><input type="url" placeholder="https://…" value="${esc(D.offreUrl)}" oninput="D.offreUrl=this.value;updateProg()"><p class="hint">ChatGPT lira cette page directement.</p></div>`}
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Poste visé <span style="color:var(--ink3);font-size:.7rem;font-weight:400">(si pas d'offre précise)</span></div>
-      <div class="field"><input id="f_poste" type="text" placeholder="Ex : Chargé de communication" value="${esc(D.posteVise)}" oninput="D.posteVise=this.value"></div>
+    <div class="section">
+      <div class="section-ttl">Poste visé <span style="font-size:.65rem;font-weight:400;color:var(--ink3);text-transform:none;letter-spacing:0">(si pas d'offre précise)</span></div>
+      <div class="field"><input type="text" placeholder="Ex : Chargé de communication" value="${esc(D.posteVise)}" oninput="D.posteVise=this.value;updateProg()"></div>
     </div>`;
 
   }else if(cur===1){
-    const pf=D.pointsForts;
-    body=`${guideHtml}
-    <div class="field-group">
-      <div class="field-group-title">Civilité <span class="req">*</span></div>
-      <div class="civ-row">
+    body=`${guide}
+    <div class="section">
+      <div class="section-ttl">Civilité <span class="req">*</span></div>
+      <div class="civ">
         <button class="civ-btn ${D.civ==="Monsieur"?"on":""}" onclick="setCiv('Monsieur',this)"><svg viewBox="0 0 24 24"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5.5 5.5M19 5h-5M19 5v5"/></svg>Monsieur</button>
         <button class="civ-btn ${D.civ==="Madame"?"on":""}" onclick="setCiv('Madame',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg>Madame</button>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Identité</div>
-      <div class="field-grid">
-        <div class="field"><label>Nom <span class="req">*</span></label><input id="f_nom" placeholder="Dupont" value="${esc(D.nom)}" oninput="vf(this,true);D.nom=this.value;saveToStorage();updateProgress()"></div>
-        <div class="field"><label>Prénom <span class="req">*</span></label><input id="f_pre" placeholder="Marie" value="${esc(D.prenom)}" oninput="vf(this,true);D.prenom=this.value;saveToStorage();updateProgress()"></div>
+    <div class="section">
+      <div class="section-ttl">Identité</div>
+      <div class="grid">
+        <div class="field"><label>Nom <span class="req">*</span></label><input placeholder="Dupont" value="${esc(D.nom)}" oninput="D.nom=this.value;vf(this,true);saveSt();updateProg()"></div>
+        <div class="field"><label>Prénom <span class="req">*</span></label><input placeholder="Marie" value="${esc(D.prenom)}" oninput="D.prenom=this.value;vf(this,true);saveSt();updateProg()"></div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Adresse</div>
-      <div class="field-grid">
-        <div class="field span2"><label>Rue <span class="req">*</span></label><input id="f_adr" placeholder="12 rue de la Paix" value="${esc(D.adresse)}" oninput="vf(this,true);D.adresse=this.value;saveToStorage();updateProgress()"></div>
-        <div class="field"><label>Code postal</label><input id="f_cp" placeholder="75001" value="${esc(D.cp)}" oninput="D.cp=this.value;saveToStorage()"></div>
-        <div class="field"><label>Ville <span class="req">*</span></label><input id="f_vil" placeholder="Paris" value="${esc(D.ville)}" oninput="vf(this,true);D.ville=this.value;saveToStorage();updateProgress()"></div>
+    <div class="section">
+      <div class="section-ttl">Adresse</div>
+      <div class="grid">
+        <div class="field s2"><label>Rue <span class="req">*</span></label><input placeholder="12 rue de la Paix" value="${esc(D.adresse)}" oninput="D.adresse=this.value;vf(this,true);saveSt();updateProg()"></div>
+        <div class="field"><label>Code postal</label><input placeholder="75001" value="${esc(D.cp)}" oninput="D.cp=this.value;saveSt()"></div>
+        <div class="field"><label>Ville <span class="req">*</span></label><input placeholder="Paris" value="${esc(D.ville)}" oninput="D.ville=this.value;vf(this,true);saveSt();updateProg()"></div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Contact</div>
-      <div class="field-grid">
-        <div class="field"><label>Email <span class="req">*</span></label><input id="f_eml" type="email" placeholder="marie.dupont@email.fr" value="${esc(D.email)}" oninput="vfEmail(this);D.email=this.value;saveToStorage();updateProgress()"></div>
-        <div class="field"><label>Téléphone <span class="opt">(optionnel)</span></label><input id="f_tel" type="tel" placeholder="06 12 34 56 78" value="${esc(D.tel)}" oninput="D.tel=this.value;saveToStorage()"></div>
-        <div class="field span2"><label>LinkedIn <span class="opt">(optionnel)</span></label><input id="f_li" type="url" placeholder="linkedin.com/in/prenom-nom" value="${esc(D.linkedin)}" oninput="D.linkedin=this.value;saveToStorage()"></div>
+    <div class="section">
+      <div class="section-ttl">Contact</div>
+      <div class="grid">
+        <div class="field"><label>Email <span class="req">*</span></label><input type="email" placeholder="marie.dupont@email.fr" value="${esc(D.email)}" oninput="D.email=this.value;vfEmail(this);saveSt();updateProg()"></div>
+        <div class="field"><label>Téléphone <span class="opt">(optionnel)</span></label><input type="tel" placeholder="06 12 34 56 78" value="${esc(D.tel)}" oninput="D.tel=this.value;saveSt()"></div>
+        <div class="field s2"><label>LinkedIn <span class="opt">(optionnel)</span></label><input type="url" placeholder="linkedin.com/in/…" value="${esc(D.linkedin)}" oninput="D.linkedin=this.value;saveSt()"></div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Profil</div>
-      <div class="field-grid three">
-        <div class="field"><label>Expérience (ans)</label><input id="f_exp" type="number" min="0" max="50" placeholder="5" value="${esc(D.experience)}" oninput="D.experience=this.value;saveToStorage()"></div>
+    <div class="section">
+      <div class="section-ttl">Profil</div>
+      <div class="grid three">
+        <div class="field"><label>Expérience (ans)</label><input type="number" min="0" max="50" placeholder="5" value="${esc(D.experience)}" oninput="D.experience=this.value;saveSt()"></div>
         <div class="field"><label>Niveau d'études</label>
-          <select id="f_niv" onchange="D.niveau=this.value;saveToStorage()">
+          <select onchange="D.niveau=this.value;saveSt()">
             <option value="">—</option>
             <option value="bac" ${D.niveau==="bac"?"selected":""}>Bac</option>
             <option value="bac2" ${D.niveau==="bac2"?"selected":""}>Bac+2</option>
@@ -828,238 +1102,277 @@ function renderPanel(){
           </select>
         </div>
         <div class="field"><label>Secteur cible</label>
-          <select id="f_sec" onchange="D.secteur=this.value;saveToStorage()">
+          <select onchange="D.secteur=this.value;saveSt()">
             <option value="">—</option>
             <option value="public" ${D.secteur==="public"?"selected":""}>Public</option>
             <option value="prive" ${D.secteur==="prive"?"selected":""}>Privé</option>
             <option value="asso" ${D.secteur==="asso"?"selected":""}>Associatif</option>
           </select>
         </div>
-        <div class="field span2"><label>Dernier poste occupé</label><input id="f_dp" placeholder="Chargé de communication" value="${esc(D.dernier_poste)}" oninput="D.dernier_poste=this.value;saveToStorage()"></div>
+        <div class="field s2"><label>Dernier poste occupé</label><input placeholder="Chargé de communication" value="${esc(D.dernier_poste)}" oninput="D.dernier_poste=this.value;saveSt()"></div>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Points forts <span style="color:var(--ink3);font-size:.7rem;font-weight:400">— 3 mots-clés max, Entrée pour valider</span></div>
-      <div class="field"><input id="f_pf" placeholder="Ex : Rédaction, Management, Digital…" onkeydown="addPointFort(event)" ${pf.length>=3?"disabled":""}></div>
-      <div class="keywords-wrap" id="kw-wrap">${pf.map((k,i)=>`<div class="keyword-tag">${esc(k)}<button onclick="removePointFort(${i})">×</button></div>`).join("")}</div>
+    <div class="section">
+      <div class="section-ttl">Points forts <span style="font-size:.62rem;font-weight:400;color:var(--ink3);text-transform:none;letter-spacing:0">— 3 max, Entrée pour valider</span></div>
+      <div class="field"><input id="f-pf" placeholder="Ex : Rédaction, Management…" onkeydown="addPF(event)" ${D.pointsForts.length>=3?"disabled":""}></div>
+      <div class="kw-wrap" id="kw-wrap">${D.pointsForts.map((k,i)=>`<div class="kw">${esc(k)}<button onclick="removePF(${i})">×</button></div>`).join("")}</div>
     </div>`;
 
   }else if(cur===2){
-    body=`${guideHtml}
-    ${step3Skip?`<div style="display:flex;align-items:center;gap:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#166534">
-      <svg viewBox="0 0 20 20" style="width:16px;height:16px;fill:currentColor;flex-shrink:0"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
-      Contact détecté dans l'offre — vous pouvez passer directement à l'étape suivante.
-    </div>`:""}
-    <div class="field-group">
-      <div class="field-group-title">Civilité</div>
-      <div class="civ-row">
+    body=`${guide}
+    ${step3Skip?`<div style="font-size:.75rem;color:var(--green);padding:.5rem .75rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:4px;margin-bottom:1rem">✓ Contact trouvé dans l'offre — vous pouvez passer directement.</div>`:""}
+    <div class="section">
+      <div class="section-ttl">Civilité</div>
+      <div class="civ">
         <button class="civ-btn ${D.iciv==="Monsieur"?"on":""}" onclick="setICiv('Monsieur',this)"><svg viewBox="0 0 24 24"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5.5 5.5M19 5h-5M19 5v5"/></svg>Monsieur</button>
         <button class="civ-btn ${D.iciv==="Madame"?"on":""}" onclick="setICiv('Madame',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg>Madame</button>
         <button class="civ-btn ${D.iciv===""?"on":""}" onclick="setICiv('',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Inconnu</button>
       </div>
     </div>
-    <div class="field-group">
-      <div class="field-group-title">Identité</div>
-      <div class="field-grid">
-        <div class="field span2"><label>Titre / Fonction</label><input id="f_iti" placeholder="Directeur des Ressources Humaines" value="${esc(D.ititre)}" oninput="D.ititre=this.value"></div>
-        <div class="field"><label>Nom</label><input id="f_ino" placeholder="Martin" value="${esc(D.inom)}" oninput="D.inom=this.value"></div>
-        <div class="field"><label>Prénom</label><input id="f_ipr" placeholder="Jean" value="${esc(D.iprenom)}" oninput="D.iprenom=this.value"></div>
+    <div class="section">
+      <div class="section-ttl">Identité</div>
+      <div class="grid">
+        <div class="field s2"><label>Titre / Fonction</label><input placeholder="Directeur des Ressources Humaines" value="${esc(D.ititre)}" oninput="D.ititre=this.value"></div>
+        <div class="field"><label>Nom</label><input placeholder="Martin" value="${esc(D.inom)}" oninput="D.inom=this.value"></div>
+        <div class="field"><label>Prénom</label><input placeholder="Jean" value="${esc(D.iprenom)}" oninput="D.iprenom=this.value"></div>
       </div>
     </div>`;
 
   }else if(cur===3){
-    const step1done=!!rawPrompt;
+    const s1done=!!rawPrompt;
+    const s2done=s1done&&gptOpened;
     const hasTxt=!!D.lettre;
     const sc=hasTxt?scoreLettre(D.lettre):null;
+    const sp=hasTxt?scorePersonalisation(D.lettre):null;
     const {subj,body:emailBody}=buildEmail();
     const liPost=buildLinkedIn();
+    if(!offreAnalysis||!offreAnalysis.questions){try{if(D.offreText||D.offreUrl)offreAnalysis=analyzeOffre(D.offreText||D.offreUrl);}catch(e){}}
 
-    body=`${guideHtml}
-    <div class="action-list">
-      <div class="action-item ${step1done?"done-step":""}">
-        <div class="action-n ${step1done?"gn":""}">${step1done?`<svg viewBox="0 0 20 20" style="width:11px;height:11px;fill:currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:"1"}</div>
-        <div class="action-body"><strong>Générer et copier le prompt</strong><span>Copié automatiquement dans le presse-papiers.</span></div>
-        <button class="btn pri sm" onclick="doGen()">Générer</button>
+    body=`${guide}
+    <div class="actions">
+      <div class="act ${s1done?"done-s":""}">
+        <div class="act-n ${s1done?"gn":""}">${s1done?`<svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:"1"}</div>
+        <div class="act-body"><strong>Générer et copier le prompt</strong><span>Copié automatiquement dans le presse-papiers.</span></div>
+        <div style="display:flex;gap:.35rem;flex-shrink:0">
+          <button class="btn pri sm" onclick="doGen('safe')" title="Version équilibrée">Safe</button>
+          <button class="btn sm" style="background:rgba(124,58,237,.1);color:#7c3aed;border:1px solid rgba(124,58,237,.25)" onclick="doGen('bold')" title="Version plus affirmée">Audacieux</button>
+        </div>
       </div>
-      <div class="action-item ${!step1done?"locked":step1done?"done-step":""}">
-        <div class="action-n ${step1done?"gn":""}">${step1done?`<svg viewBox="0 0 20 20" style="width:11px;height:11px;fill:currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:"2"}</div>
-        <div class="action-body"><strong>Ouvrir ChatGPT et coller</strong><span>Le prompt est prêt à coller.</span></div>
+      <div class="act ${!s1done?"locked":s2done?"done-s":""}">
+        <div class="act-n ${s2done?"gn":s1done?"":""}">${s2done?`<svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:"2"}</div>
+        <div class="act-body"><strong>Ouvrir ChatGPT et coller</strong><span>Le prompt est prêt à coller.</span></div>
         <button class="btn gpt sm" onclick="openGPT()">ChatGPT →</button>
       </div>
-      <div class="action-item ${!step1done?"locked":""}">
-        <div class="action-n">3</div>
-        <div class="action-body"><strong>Collez la réponse ci-dessous</strong><span>Copiez toute la réponse de ChatGPT.</span></div>
+      <div class="act ${!s2done?"locked":""}">
+        <div class="act-n">3</div>
+        <div class="act-body"><strong>Collez la réponse ci-dessous</strong><span>Copiez toute la réponse de ChatGPT.</span></div>
       </div>
     </div>
 
-    ${step1done?`
-    <div class="field">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">
-        <label style="font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Réponse de ChatGPT</label>
-        <span class="word-count" id="wc">0 mot</span>
+    ${s2done?`
+    <div class="paste-instructions">
+      <div class="paste-instructions-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Comment coller la réponse de ChatGPT ?
       </div>
-      <textarea id="f_rep" style="min-height:140px;font-family:'Times New Roman',serif;font-size:.88rem;line-height:1.7;background:#fafaf9" placeholder="Collez ici la réponse de ChatGPT…" oninput="onLettre(this)">${esc(D.lettre)}</textarea>
+      <div class="paste-step"><div class="paste-num">1</div><span>Dans ChatGPT, <strong>sélectionnez tout le texte</strong> de la réponse (clic en début → Maj+clic en fin, ou Ctrl+A)</span></div>
+      <div class="paste-step"><div class="paste-num">2</div><span><strong>Copiez</strong> le texte sélectionné (Ctrl+C sur PC, ⌘+C sur Mac)</span></div>
+      <div class="paste-step"><div class="paste-num">3</div><span><strong>Revenez ici</strong> et cliquez dans la zone ci-dessous</span></div>
+      <div class="paste-step"><div class="paste-num">4</div><span><strong>Collez</strong> (Ctrl+V sur PC, ⌘+V sur Mac) → Scribe génère le PDF au bon format</span></div>
+      <div class="paste-arrow">↓</div>
     </div>
+    <div class="resp-hdr">
+      <span>Réponse de ChatGPT</span>
+      <span class="wc" id="wc">0 mot</span>
+    </div>
+    <textarea class="resp-ta" id="f-rep" placeholder="Collez ici la lettre générée par ChatGPT — Scribe la mettra automatiquement en page au format ISO lettre française et générera le PDF…" oninput="onLettre(this)">${esc(D.lettre)}</textarea>
 
-    ${hasTxt?`
-    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem">
-      <button class="btn grn" onclick="buildPDF()">⬇ Télécharger PDF</button>
-      <button class="btn ghost" onclick="copyLettre()">Copier la lettre</button>
-      <button class="btn ghost sm" onclick="buildDocx()">⬇ .docx</button>
+    <!-- BLOC DYNAMIQUE — affiché/masqué par onLettre() -->
+    <div id="btn-dl-row" class="btn-row" style="margin-top:.75rem;${hasTxt?"":"display:none"}">
+      <button class="btn grn" onclick="buildPDF()">⬇ PDF</button>
+      <button class="btn ghost" onclick="copyLettre()">Copier</button>
+      <button class="btn ghost sm" onclick="buildDocx()">⬇ .txt</button>
       <button class="btn ghost sm" onclick="sendEmail()">✉ Email</button>
+      <button class="btn ghost sm" onclick="speak()">🔊 Lire</button>
+      <button class="btn ghost sm" onclick="printDirect()">🖨 Imprimer</button>
     </div>
-
-    <div class="score-wrap">
-      <div class="score-item"><div class="score-val ${sc.score>=80?"good":sc.score>=50?"mid":"bad"}">${sc.score}%</div><div class="score-lbl">Score</div></div>
-      <div class="score-item"><div class="score-val ${sc.words<=300?"good":"mid"}">${sc.words}</div><div class="score-lbl">Mots</div></div>
-      <div class="score-item"><div class="score-val ${sc.hasObjet?"good":"bad"}">${sc.hasObjet?"✓":"✗"}</div><div class="score-lbl">Objet</div></div>
-      <div class="score-item"><div class="score-val ${sc.hasPolitesse?"good":"bad"}">${sc.hasPolitesse?"✓":"✗"}</div><div class="score-lbl">Politesse</div></div>
+    <div id="score-wrap" class="score-row" style="${hasTxt?"":"display:none"}">
+      <div class="score-item"><div class="score-v ${hasTxt?(sc.score>=80?"g":sc.score>=50?"m":"b"):"g"}" id="sc-score">${hasTxt?sc.score+"%":"—"}</div><div class="score-l">Score</div></div>
+      <div class="score-item"><div class="score-v ${hasTxt?(sc.words<=300?"g":"m"):"g"}" id="sc-words">${hasTxt?sc.words:"—"}</div><div class="score-l">Mots</div></div>
+      <div class="score-item"><div class="score-v ${hasTxt?(sc.hasObjet?"g":"b"):"g"}" id="sc-objet">${hasTxt?(sc.hasObjet?"✓":"✗"):"—"}</div><div class="score-l">Objet</div></div>
+      <div class="score-item"><div class="score-v ${hasTxt?(sc.hasPolitesse?"g":"b"):"g"}" id="sc-pol">${hasTxt?(sc.hasPolitesse?"✓":"✗"):"—"}</div><div class="score-l">Politesse</div></div>
     </div>
-
-    <div class="regen-wrap">
-      <span style="font-size:.72rem;color:var(--ink3)">Régénérer :</span>
-      <button class="regen-btn" onclick="regenSection('§1')">§1 Accroche</button>
-      <button class="regen-btn" onclick="regenSection('§2')">§2 Profil</button>
-      <button class="regen-btn" onclick="regenSection('§3')">§3 Entretien</button>
+    <div class="regen">
+      <span class="regen-lbl">Améliorer :</span>
+      <button class="regen-btn" onclick="regenSec('§1')" title="Améliorer l'accroche">§1 Accroche</button>
+      <button class="regen-btn" onclick="regenSec('§2')" title="Améliorer le profil">§2 Profil</button>
+      <button class="regen-btn" onclick="regenSec('§3')" title="Améliorer la conclusion">§3 Conclusion</button>
+      <button class="regen-btn" onclick="regenAlt()" title="3 reformulations du §2">3 reformulations §2</button>
     </div>
-
-    <div class="preview-wrap" id="preview">
-      <div class="preview-label">Aperçu <span style="font-size:.6rem;font-weight:400;color:var(--ink3)">Format approximatif</span></div>
-      ${esc(D.lettre)}
+    <div id="preview-wrap">
+      <div style="font-size:.72rem;font-weight:500;display:flex;justify-content:space-between;color:var(--ink3);margin-bottom:.4rem"><span>Aperçu — passages génériques surlignés</span></div>
+      <div class="preview">${highlightGenerics(D.lettre)}</div>
     </div>
-
-    <div class="linkedin-wrap">
-      <div class="linkedin-label">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#1e40af"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        Version LinkedIn
-        <button class="btn ghost sm" onclick="copyLinkedIn()" style="margin-left:auto">Copier</button>
+    ${sp?`<div class="score-perso">
+      <div class="score-perso-title">Score de personnalisation <span class="score-perso-pct">${sp.pct}%</span></div>
+      <div class="score-checks">${sp.checks.map(ch=>`<div class="score-check ${ch.ok?"ok":"nok"}"><svg viewBox="0 0 20 20" width="11" height="11" fill="${ch.ok?"var(--green)":"var(--ink4)"}"><path fill-rule="evenodd" d="${ch.ok?"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z":"M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"}"/></svg>${ch.label}</div>`).join("")}</div>
+    </div>`:""}
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">🎯 Questions d'entretien probables</div>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="linkedin-text">${esc(liPost)}</div>
+      <div class="xblock-body">${offreAnalysis&&offreAnalysis.questions?offreAnalysis.questions.map(q=>`<div class="eq-item"><div class="eq-q">Q : ${esc(q.q)}</div><div class="eq-a">💡 ${esc(q.r)}</div></div>`).join(""):"Générez le prompt pour obtenir les questions."}</div>
     </div>
-
-    <div class="email-wrap">
-      <div class="email-subject">Objet : ${esc(subj)}</div>
-      <div class="email-body">${esc(emailBody)}</div>
-      <button class="btn ghost sm" style="margin-top:.5rem" onclick="sendEmail()">Ouvrir dans votre messagerie</button>
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">💼 Post LinkedIn</div>
+        <div style="display:flex;gap:.3rem;align-items:center"><button class="btn ghost xs" onclick="event.stopPropagation();copyLinkedIn()">Copier</button><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="xblock-body">${esc(liPost)}</div>
     </div>
-
-    <div id="qr-section" style="margin-top:.75rem"></div>
-    `:""}
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">✉️ Email de candidature</div>
+        <div style="display:flex;gap:.3rem;align-items:center"><button class="btn ghost xs" onclick="event.stopPropagation();sendEmail()">Envoyer</button><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="xblock-body"><strong>Objet : ${esc(subj)}</strong>\n\n${esc(emailBody)}</div>
+    </div>
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">🤝 Contact recruteur</div>
+        <div style="display:flex;gap:.3rem;align-items:center"><button class="btn ghost xs" onclick="event.stopPropagation();navigator.clipboard.writeText(buildMessageContact()).then(()=>toast('Copié ✓'))">Copier</button><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="xblock-body">${esc(buildMessageContact())}</div>
+    </div>
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">📅 Relance J+10</div>
+        <div style="display:flex;gap:.3rem;align-items:center"><button class="btn ghost xs" onclick="event.stopPropagation();navigator.clipboard.writeText(buildSuivi()).then(()=>toast('Copié ✓'))">Copier</button><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="xblock-body">${esc(buildSuivi())}</div>
+    </div>
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">🙏 Remerciement post-entretien</div>
+        <div style="display:flex;gap:.3rem;align-items:center"><button class="btn ghost xs" onclick="event.stopPropagation();navigator.clipboard.writeText(buildMerci()).then(()=>toast('Copié ✓'))">Copier</button><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="xblock-body">${esc(buildMerci())}</div>
+    </div>
+    <div class="xblock">
+      <div class="xblock-header" onclick="toggleXblock(this)">
+        <div class="xblock-title">📋 Résumé 500 caractères</div>
+        <div style="display:flex;gap:.3rem;align-items:center"><button class="btn ghost xs" onclick="event.stopPropagation();navigator.clipboard.writeText(buildResumeCourt()).then(()=>toast('Copié ✓'))">Copier</button><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="xblock-body">${esc(buildResumeCourt())}</div>
+    </div>
+    <div style="margin-top:.875rem;background:var(--ink);color:#fff;border-radius:var(--r);padding:1rem;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:.9rem;font-weight:600">${esc(capFull(D.prenom))} ${esc(capFull(D.nom))}</div><div style="font-size:.68rem;color:rgba(255,255,255,.5)">${esc(D.posteVise||D.dernier_poste||"")}</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">${esc(D.email||"")}${D.tel?" · "+esc(D.tel):""}</div></div>
+      <div class="carte-qr" id="carte-qr"></div>
+    </div>
+    <div id="qr-section"></div>
     `:""}`;
   }
 
-  area.innerHTML=`
-    <div class="panel-header">
-      <div class="panel-tag">Étape 0${cur+1} / 04</div>
-      <div class="panel-title">${STEPS[cur].label==="Offre"?"L'offre d'emploi":STEPS[cur].label==="Candidat"?"Qui êtes-vous ?":STEPS[cur].label==="Destinataire"?"Le destinataire":"Générer & exporter"}</div>
-      <div class="panel-desc">${STEPS[cur].sub}</div>
-    </div>
-    ${body}`;
+  area.innerHTML=`<div class="ph">
+    <div class="ph-tag">Étape 0${cur+1} / 04</div>
+    <div class="ph-title">${["L'offre d'emploi","Qui êtes-vous ?","Le destinataire","Générer & exporter"][cur]}</div>
+    <div class="ph-desc">${STEPS[cur].sub}</div>
+  </div>${body}
+  <div class="nav">
+    <button class="btn ghost" id="btn-prev" onclick="nav(-1)" ${cur===0?"disabled":""}>← Précédent</button>
+    ${cur<STEPS.length-1?`<button class="btn pri" id="btn-next" onclick="nav(1)">Suivant →</button>`:""}
+  </div>`;
 
-  // Word count update
-  if(D.lettre&&$("wc")){
-    const w=D.lettre.split(/\s+/).filter(x=>x).length;
-    $("wc").textContent=w+" mot"+(w>1?"s":"");
-  }
-
-  updateProgress();
+  // word count init
+  if(D.lettre&&$("wc")){const w=D.lettre.split(/\s+/).filter(x=>x).length;$("wc").textContent=w+" mot"+(w>1?"s":"");}
+  // init carte QR
+  setTimeout(()=>{
+    const qrEl=$("carte-qr");
+    if(qrEl&&!qrEl.innerHTML.trim()){
+      try{new QRCode(qrEl,{text:window.location.href,width:56,height:56,colorDark:"#111",colorLight:"#fff"});}catch(e){}
+    }
+  },100);
+  updateProg();renderStepper();
 }
 
-/* ══════════════════════════════════════
-   ACTIONS
-══════════════════════════════════════ */
-function vf(el,req){
-  el.classList.remove("ok","err");
-  if(el.value.trim())el.classList.add("ok");
-  else if(req)el.classList.add("err");
-}
-function vfEmail(el){
-  el.classList.remove("ok","err");
-  const v=el.value.trim();
-  if(!v)return;
-  if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))el.classList.add("ok");
-  else el.classList.add("err");
-}
-function setCiv(v,el){D.civ=v;document.querySelectorAll("#panel .civ-row .civ-btn").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
-function setICiv(v,el){D.iciv=v;document.querySelectorAll("#panel .civ-row .civ-btn").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
+/* ══ ACTIONS ══ */
+function vf(el,req){el.classList.remove("ok","err");if(el.value.trim())el.classList.add("ok");else if(req)el.classList.add("err");}
+function vfEmail(el){el.classList.remove("ok","err");const v=el.value.trim();if(!v)return;/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?el.classList.add("ok"):el.classList.add("err");}
+function setCiv(v,el){D.civ=v;document.querySelectorAll("#panel .civ .civ-btn").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
+function setICiv(v,el){D.iciv=v;document.querySelectorAll("#panel .civ .civ-btn").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
 function setOffreMode(m){D.offreMode=m;renderPanel();}
-function setTypeLettre(t,el){D.typeLettre=t;document.querySelectorAll(".type-btn").forEach(b=>b.classList.remove("on"));el.classList.add("on");}
-
-function addPointFort(e){
-  if(e.key!=="Enter")return;
-  e.preventDefault();
-  const val=e.target.value.trim();
-  if(!val||D.pointsForts.length>=3)return;
-  D.pointsForts.push(val);
-  saveToStorage();
-  renderPanel();
-}
-function removePointFort(i){D.pointsForts.splice(i,1);saveToStorage();renderPanel();}
+function setV(key,val,el,cls){D[key]=val;document.querySelectorAll("."+cls).forEach(b=>b.classList.remove("on"));el.classList.add("on");}
+function addPF(e){if(e.key!=="Enter")return;e.preventDefault();const v=e.target.value.trim();if(!v||D.pointsForts.length>=3)return;D.pointsForts.push(v);saveSt();renderPanel();}
+function removePF(i){D.pointsForts.splice(i,1);saveSt();renderPanel();}
 
 function onLettre(ta){
   D.lettre=ta.value;
   const w=D.lettre.split(/\s+/).filter(x=>x).length;
   if($("wc"))$("wc").textContent=w+" mot"+(w>1?"s":"");
-  // Show download button dynamically
-  const dlBtns=document.querySelector(".btn.grn");
-  if(dlBtns)dlBtns.style.display=D.lettre.trim()?"":"none";
+  // Afficher/masquer le bloc PDF dynamiquement sans re-render complet
+  const hasTxt=D.lettre.trim().length>20;
+  const btnRow=$("btn-dl-row");
+  const scoreWrap=$("score-wrap");
+  const previewWrap=$("preview-wrap");
+  if(btnRow)btnRow.style.display=hasTxt?"flex":"none";
+  if(scoreWrap){
+    if(hasTxt){
+      const sc=scoreLettre(D.lettre);
+      scoreWrap.style.display="flex";
+      $("sc-score").textContent=sc.score+"%";$("sc-score").className="score-v "+(sc.score>=80?"g":sc.score>=50?"m":"b");
+      $("sc-words").textContent=sc.words;$("sc-words").className="score-v "+(sc.words<=300?"g":"m");
+      $("sc-objet").textContent=sc.hasObjet?"✓":"✗";$("sc-objet").className="score-v "+(sc.hasObjet?"g":"b");
+      $("sc-pol").textContent=sc.hasPolitesse?"✓":"✗";$("sc-pol").className="score-v "+(sc.hasPolitesse?"g":"b");
+    } else scoreWrap.style.display="none";
+  }
+  if(previewWrap){
+    if(hasTxt){previewWrap.style.display="block";previewWrap.querySelector(".preview").textContent=D.lettre;}
+    else previewWrap.style.display="none";
+  }
+  if(hasTxt&&!qrDone){genQR();qrDone=true;}
 }
 
 function doGen(){
-  save();
   if(!checkReady())return;
   rawPrompt=buildPrompt();
-  D.lettre="";
+  D.lettre="";gptOpened=false;
   navigator.clipboard.writeText(rawPrompt)
     .then(()=>toast("Prompt généré et copié ✓"))
-    .catch(()=>toast("Prompt généré ✓ — copiez manuellement"));
+    .catch(()=>toast("Prompt généré ✓"));
   renderPanel();
 }
 
 function openGPT(){
   if(rawPrompt)navigator.clipboard.writeText(rawPrompt).catch(()=>{});
   window.open("https://chatgpt.com","_blank","noopener");
+  gptOpened=true;
   toast("ChatGPT ouvert — collez le prompt");
+  renderPanel();
 }
 
-function copyLettre(){
-  if(!D.lettre){toast("Aucune lettre à copier.");return;}
-  navigator.clipboard.writeText(D.lettre).then(()=>toast("Lettre copiée ✓"));
-}
-
-function copyLinkedIn(){
-  navigator.clipboard.writeText(buildLinkedIn()).then(()=>toast("Post LinkedIn copié ✓"));
-}
-
-function sendEmail(){
-  const {subj,body}=buildEmail();
-  const to=D.email_dest||"";
-  window.location.href=`mailto:${to}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
-}
-
-function regenSection(sec){
+function copyLettre(){if(!D.lettre){toast("Aucune lettre.");return;}navigator.clipboard.writeText(D.lettre).then(()=>toast("Lettre copiée ✓"));}
+function copyLinkedIn(){navigator.clipboard.writeText(buildLinkedIn()).then(()=>toast("Post LinkedIn copié ✓"));}
+function sendEmail(){const{subj,body}=buildEmail();window.location.href=`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;}
+function regenAlt(){
   if(!rawPrompt){toast("Générez d'abord le prompt.");return;}
-  const addPrmt=`\n\nRégénère UNIQUEMENT ${sec} de la lettre ci-dessus (2 phrases pour §1, 3 pour §2, 1 pour §3). Réponds uniquement avec le nouveau paragraphe, sans commentaire.`;
-  navigator.clipboard.writeText(rawPrompt+addPrmt).then(()=>{
-    window.open("https://chatgpt.com","_blank","noopener");
-    toast(`Prompt de régénération ${sec} copié ✓`);
-  });
+  const p=rawPrompt+'\n\nGénère 3 reformulations différentes du §2 uniquement. Chacune avec une accroche différente et des exemples distincts. Numérote-les 1/ 2/ 3/. Réponds UNIQUEMENT avec les 3 versions.';
+  navigator.clipboard.writeText(p).then(()=>{window.open("https://chatgpt.com","_blank","noopener");toast("Prompt 3 reformulations copié ✓");});
+}
+function regenSec(sec){if(!rawPrompt){toast("Générez d'abord le prompt.");return;}const p=rawPrompt+`\n\nRégénère UNIQUEMENT ${sec} (2 phrases pour §1, 3 pour §2, 1 pour §3). Réponds uniquement avec le nouveau paragraphe.`;navigator.clipboard.writeText(p).then(()=>{window.open("https://chatgpt.com","_blank","noopener");toast(`Prompt ${sec} copié ✓`);});}
+function sharePrompt(){if(!rawPrompt){toast("Générez d'abord le prompt.");return;}navigator.clipboard.writeText(window.location.href).then(()=>toast("URL copiée ✓"));}
+
+function genQR(){
+  const qs=$("qr-section");
+  if(!qs)return;
+  qs.innerHTML=`<div class="qr-wrap"><div class="qr-box" id="qr-c"></div><div class="qr-info">Flashez pour ouvrir Scribe sur mobile.</div></div>`;
+  try{new QRCode($("qr-c"),{text:window.location.href,width:68,height:68,colorDark:"#111",colorLight:"#fff"});}catch(e){}
 }
 
-function sharePrompt(){
-  if(!rawPrompt){toast("Générez d'abord le prompt.");return;}
-  const encoded=btoa(unescape(encodeURIComponent(rawPrompt)));
-  const url=`${window.location.origin}${window.location.pathname}?p=${encoded.slice(0,200)}`;
-  navigator.clipboard.writeText(url).then(()=>toast("Lien copié ✓ (données partielles)"));
-}
-
-/* ══════════════════════════════════════
-   VALIDATION
-══════════════════════════════════════ */
+/* ══ VALIDATION ══ */
 function checkReady(){
   errFields=[];
-  const offreOk=!!(D.offreText||D.offreUrl||D.posteVise);
-  if(!offreOk)errFields.push(0);
+  if(!(D.offreText||D.offreUrl||D.posteVise))errFields.push(0);
   if(!D.civ||!D.nom||!D.prenom||!D.adresse||!D.ville||!D.email)errFields.push(1);
   if(errFields.length){
     renderStepper();
@@ -1070,18 +1383,20 @@ function checkReady(){
   return true;
 }
 
-function save(){
-  if(cur===3){const r=V("f_rep");if(r)D.lettre=r;}
-}
-
-/* ══════════════════════════════════════
-   PDF — MODÈLE EXACT type.pdf
-══════════════════════════════════════ */
+/* ══ PDF — MODÈLE EXACT type.pdf ══
+   POSITIONS (mm sur A4 210x297) :
+   Expéditeur  : x=20  y=20  gauche   — Nom Prénom / adresse CP / Ville / Email / Tel
+   Destinataire: x=190 y=55  droite   — Titre / Nom Prénom  (aligné droite)
+   Lieu+date   : x=190        droite   — sous destinataire +8mm
+   Objet       : x=20  y=90  gauche   — gras
+   Corps       : x=20  y=102 gauche   — §1×2ph / §2×3ph / §3×1ph / saut après point
+   Signature   : x=190 y=272 droite   — Prénom Nom
+══ */
 function buildPDF(){
-  save();
   const raw=D.lettre.trim();
   if(!raw){toast("Collez d'abord la réponse de ChatGPT.");return;}
 
+  // Nettoyage du texte
   const txt=raw
     .replace(/https?:\/\/[^\s\n]*/g,"")
     .replace(/\[source[^\]]*\]/gi,"")
@@ -1090,169 +1405,683 @@ function buildPDF(){
     .trim();
 
   const doc=new jsPDF({unit:"mm",format:"a4"});
-  const cNom=capFull(D.nom),cPre=capFull(D.prenom);
+  const cNom=capFull(D.nom), cPre=capFull(D.prenom);
   const candidat=`${cPre} ${cNom}`;
   const dateStr=new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
   const dateFile=new Date().toISOString().slice(0,10);
   const fname=`lettre_${cNom.toLowerCase().replace(/\s+/g,"_")}_${dateFile}.pdf`;
 
-  const xL=15,xR=190,cW=xR-xL;
+  // Constantes de mise en page
+  const xL  = 20;   // marge gauche
+  const xR  = 190;  // alignement droite (marge droite 20mm)
+  const cW  = xR - xL; // largeur corps = 170mm
+  const lh  = 5.5;  // interligne normal
+  const lhB = 6;    // interligne corps lettre
+
   doc.setFont("times","normal");
   doc.setFontSize(11);
   doc.setTextColor(26,31,46);
 
-  /* EXPÉDITEUR — haut gauche x=15, y=20 — sans civilité */
-  let yE=20;
-  doc.text(`${cNom} ${cPre}`,xL,yE); yE+=6;
-  const adrCP=[capFull(D.adresse),D.cp].filter(Boolean).join(" ");
-  if(adrCP){doc.text(adrCP,xL,yE);yE+=5;}
-  if(D.ville){doc.text(capFull(D.ville),xL,yE);yE+=5;}
-  if(D.email){doc.text(D.email,xL,yE);yE+=5;}
-  if(D.tel){doc.text(D.tel,xL,yE);}
+  /* ─────────────────────────────────────────
+     BLOC 1 — EXPÉDITEUR
+     Haut gauche, y=20
+     Sans civilité : Nom Prénom
+     Adresse + CP sur une ligne
+     Ville seule
+     Email
+     Téléphone (si renseigné)
+  ───────────────────────────────────────── */
+  let yExp = 20;
+  doc.text(`${cNom} ${cPre}`, xL, yExp);              yExp += lh+1;
+  const adrCp = [capFull(D.adresse), D.cp].filter(Boolean).join(" ");
+  if(adrCp){ doc.text(adrCp, xL, yExp);               yExp += lh; }
+  if(D.ville){ doc.text(capFull(D.ville), xL, yExp);  yExp += lh; }
+  if(D.email){ doc.text(D.email, xL, yExp);            yExp += lh; }
+  if(D.tel)  { doc.text(D.tel,   xL, yExp); }
 
-  /* 2 sauts de ligne + 7 tabs → DESTINATAIRE bas droite y=62 */
-  const iNom=capFull(D.inom),iPre=capFull(D.iprenom);
-  const hasIdent=!!(D.inom||D.ititre||D.iciv);
-  let yD=62;
+  /* ─────────────────────────────────────────
+     BLOC 2 — DESTINATAIRE
+     Plus bas à droite, y=55
+     Titre sur une ligne (Monsieur/Madame le Maire…)
+     Nom Prénom sur la ligne suivante
+  ───────────────────────────────────────── */
+  const iNom = capFull(D.inom);
+  const iPre = capFull(D.iprenom);
+  const hasIdent = !!(D.inom || D.ititre || D.iciv);
+  let yDest = 55;
+
   if(hasIdent){
-    const titre=[D.iciv,D.ititre].filter(Boolean).join(" ");
-    if(titre){doc.text(titre,xR,yD,{align:"right"});yD+=5;}
-    const nom=[iPre,iNom].filter(Boolean).join(" ");
-    if(nom){doc.text(nom,xR,yD,{align:"right"});yD+=5;}
+    // Titre complet : Civilité + Titre
+    const titre = [D.iciv, D.ititre].filter(Boolean).join(" ");
+    if(titre){
+      const tl = doc.splitTextToSize(titre, 80);
+      tl.forEach(l => { doc.text(l, xR, yDest, {align:"right"}); yDest += lh; });
+    }
+    // Nom Prénom
+    const nomPrenom = [iPre, iNom].filter(Boolean).join(" ");
+    if(nomPrenom){ doc.text(nomPrenom, xR, yDest, {align:"right"}); yDest += lh; }
   }
 
-  /* LIEU ET DATE — droite, sous destinataire */
-  yD+=3;
-  doc.text(`${capFull(D.ville)||"Paris"},`,xR,yD,{align:"right"});yD+=5;
-  doc.text(`le ${dateStr}`,xR,yD,{align:"right"});
+  /* ─────────────────────────────────────────
+     BLOC 3 — LIEU ET DATE
+     Droite, sous le destinataire (+6mm)
+     "Ville,"  puis  "le XX mois AAAA"
+  ───────────────────────────────────────── */
+  yDest += 6;
+  const villeEnvoi = capFull(D.ville) || "Paris";
+  doc.text(`${villeEnvoi},`, xR, yDest, {align:"right"});  yDest += lh;
+  doc.text(`le ${dateStr}`, xR, yDest, {align:"right"});
 
-  /* CORPS — y=95 */
-  let yc=95;
-  const lines=txt.split("\n").map(l=>l.trim()).filter((l,i,a)=>!(l===""&&(i===0||a[i-1]==="")));
+  /* ─────────────────────────────────────────
+     BLOC 4 — OBJET
+     Gauche, y=90, en gras
+  ───────────────────────────────────────── */
+  let yCorps = 90;
+
+  /* ─────────────────────────────────────────
+     BLOC 5 — CORPS DE LETTRE
+     Gauche x=20, commence à y=102 après l'objet
+     Ligne par ligne depuis la réponse ChatGPT
+     Saut de ligne supplémentaire après chaque point final
+  ───────────────────────────────────────── */
+  const lines = txt.split("\n").map(l => l.trim())
+    .filter((l,i,a) => !(l===""&&(i===0||a[i-1]==="")));
 
   for(const line of lines){
-    if(yc>270)break;
-    if(!line){yc+=4;continue;}
+    if(yCorps > 268) break;
+    if(!line){ yCorps += 4; continue; }
 
+    // Ligne "Objet :" → gras, à y=90
     if(/^objet\s*:/i.test(line)){
       doc.setFont("times","bold");
-      const w=doc.splitTextToSize(line,cW);
-      doc.text(w,xL,yc);
+      const w = doc.splitTextToSize(line, cW);
+      doc.text(w, xL, yCorps);
       doc.setFont("times","normal");
-      yc+=w.length*6+5;
+      yCorps += w.length * lhB + 6; // espace après objet
       continue;
     }
 
-    const w=doc.splitTextToSize(line,cW);
-    doc.text(w,xL,yc);
-    yc+=w.length*6+2;
-    if(line.endsWith(".")||line.endsWith("…")){yc+=4;}
+    // Corps normal
+    const w = doc.splitTextToSize(line, cW);
+    doc.text(w, xL, yCorps);
+    yCorps += w.length * lhB;
+
+    // Saut de ligne après point final (séparation paragraphes)
+    if(line.endsWith(".") || line.endsWith("…") || line.endsWith("!")){
+      yCorps += 4;
+    } else {
+      yCorps += 2;
+    }
   }
 
-  /* SIGNATURE — bas droite y=272 */
+  /* ─────────────────────────────────────────
+     BLOC 6 — SIGNATURE
+     Droite, y fixe = 272 (bas de page)
+     Prénom Nom
+  ───────────────────────────────────────── */
   doc.setFont("times","normal");
-  doc.text(candidat,xR,272,{align:"right"});
+  doc.text(candidat, xR, 272, {align:"right"});
 
   doc.save(fname);
-
-  // Stats
   lettreCount++;
-  localStorage.setItem("scribe_count",lettreCount);
+  localStorage.setItem("scribe_count", lettreCount);
   toast("PDF téléchargé ✓");
-
-  // QR code
-  const qrSection=$("qr-section");
-  if(qrSection){
-    qrSection.innerHTML=`<div class="qr-wrap">
-      <div class="qr-box" id="qr-canvas"></div>
-      <div class="qr-info"><strong style="font-size:.8rem">QR Code</strong><br>Flashez pour accéder à Scribe sur mobile et récupérer votre lettre.</div>
-    </div>`;
-    try{
-      if(qrInstance)qrInstance.clear();
-      qrInstance=new QRCode($("qr-canvas"),{text:window.location.href,width:80,height:80,colorDark:"#111",colorLight:"#fff"});
-    }catch(e){}
-  }
-
-  updateProgress();
-  renderPanel();
+  updateProg();
 }
 
-/* ══════════════════════════════════════
-   DOCX (simple via Blob)
-══════════════════════════════════════ */
 function buildDocx(){
-  if(!D.lettre){toast("Aucune lettre à exporter.");return;}
-  // Simple RTF en réalité, renommé .docx pour compatibilité
+  if(!D.lettre){toast("Aucune lettre.");return;}
   const cNom=capFull(D.nom),cPre=capFull(D.prenom);
-  const content=`${cNom} ${cPre}\n${D.adresse||""} ${D.cp||""} ${capFull(D.ville)||""}\n${D.email||""}\n${D.tel||""}\n\n\n${D.lettre}`;
-  const blob=new Blob([content],{type:"text/plain;charset=utf-8"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download=`lettre_${cNom.toLowerCase().replace(/\s+/g,"_")}.txt`;
-  a.click();
-  toast("Fichier texte téléchargé ✓");
+  const blob=new Blob([`${cNom} ${cPre}\n${D.adresse||""} ${D.cp||""} ${capFull(D.ville)||""}\n${D.email||""}\n${D.tel||""}\n\n\n${D.lettre}`],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`lettre_${cNom.toLowerCase().replace(/\s+/g,"_")}.txt`;a.click();
+  toast("Fichier téléchargé ✓");
 }
 
-/* ══════════════════════════════════════
-   NAV
-══════════════════════════════════════ */
-function goTo(i){save();cur=i;refresh();}
-
+/* ══ NAV ══ */
+function goTo(i){cur=i;qrDone=false;renderPanel();}
 function nav(d){
-  save();
   if(d>0){
     if(cur===0){
-      const ok=!!(D.offreText||D.offreUrl||D.posteVise);
-      if(!ok){errFields=[0];renderStepper();toast("Renseignez l'offre ou le poste visé.");setTimeout(()=>{errFields=[];renderStepper();},3000);return;}
+      if(!(D.offreText||D.offreUrl||D.posteVise)){errFields=[0];renderStepper();toast("Renseignez l'offre ou le poste visé.");setTimeout(()=>{errFields=[];renderStepper();},3000);return;}
       step3Skip=detectDest(D.offreText+D.offreUrl);
     }
     if(cur===1){
       const miss=!D.civ||!D.nom||!D.prenom||!D.adresse||!D.ville||!D.email;
       if(miss){errFields=[1];renderStepper();toast("Complétez vos informations.");setTimeout(()=>{errFields=[];renderStepper();},3000);return;}
-      if(step3Skip){cur=3;refresh();return;}
+      if(step3Skip){cur=3;qrDone=false;renderPanel();return;}
     }
-    if(cur===2&&step3Skip){cur=3;refresh();return;}
+    if(cur===2&&step3Skip){cur=3;qrDone=false;renderPanel();return;}
   }
-  if(d<0&&cur===3&&step3Skip){cur=1;refresh();return;}
+  if(d<0&&cur===3&&step3Skip){cur=1;renderPanel();return;}
   const n=cur+d;
   if(n<0||n>STEPS.length-1)return;
-  cur=n;refresh();
-}
-
-function refresh(){
-  renderStepper();renderPanel();updateProgress();
-  $("btn-prev").disabled=cur===0;
-  const bn=$("btn-next");
-  if(cur===STEPS.length-1){bn.style.display="none";}
-  else{bn.style.display="";bn.textContent="Suivant →";}
+  cur=n;qrDone=false;renderPanel();
 }
 
 function resetAll(){
   if(!confirm("Effacer toutes les informations saisies ?"))return;
-  Object.keys(D).forEach(k=>{ if(Array.isArray(D[k]))D[k]=[];else D[k]="";});
+  Object.keys(D).forEach(k=>{if(Array.isArray(D[k]))D[k]=[];else D[k]="";});
   D.offreMode="text";D.typeLettre="candidature";D.langue="fr";D.ton="formel";
-  rawPrompt="";step3Skip=false;errFields=[];cur=0;
-  localStorage.removeItem("scribe_candidat");
-  refresh();toast("Formulaire réinitialisé");
+  rawPrompt="";gptOpened=false;step3Skip=false;errFields=[];cur=0;qrDone=false;
+  localStorage.removeItem("scribe_c");renderPanel();toast("Formulaire réinitialisé");
 }
 
-/* ══════════════════════════════════════
-   KEYBOARD
-══════════════════════════════════════ */
+/* ══ KEYBOARD ══ */
 document.addEventListener("keydown",e=>{
   if(["INPUT","TEXTAREA","SELECT"].includes(e.target.tagName))return;
-  if(e.key==="ArrowRight"||e.key==="Tab"){e.preventDefault();nav(1);}
+  if(e.key==="ArrowRight"){nav(1);}
   else if(e.key==="ArrowLeft"){nav(-1);}
   else if(e.key==="g"||e.key==="G"){doGen();}
-  else if(e.key==="Escape"){closeFaqDirect();}
+  else if(e.key==="Escape"){closeFaq();}
 });
 
-/* ══════════════════════════════════════
-   INIT
-══════════════════════════════════════ */
-loadFromStorage();
-refresh();
-initTutorial();
+/* ══ INIT ══ */
+loadSt();renderPanel();renderStepper();initTut();
+
+/* ══ CONSTANTS & STATE ADDITIONS ══ */
+const PHRASES_GENERIQUES=["dynamique et motivé","passion pour","travail en équipe","grande capacité d'adaptation","rigoureux et organisé","force de proposition","orienté résultats","esprit d'initiative","sens des responsabilités","polyvalent","proactif"];
+const SUGGESTIONS_COMPETENCES={public:["Droit public","Marchés publics","Rédaction administrative","Gestion de projet territorial","Relations élus"],prive:["Développement commercial","Gestion P&L","Management d'équipe","Analyse financière","CRM"],asso:["Gestion bénévoles","Recherche de financements","Communication engagée","Montage de projets","Partenariats"],default:["Rédaction","Communication","Gestion de projet","Management","Analyse"]};
+const DEMO_DATA={offreMode:"text",offreText:"La Mairie de Paris recrute un(e) Chargé(e) de Communication (H/F)\nRéférence : 2026-COM-042\nContact : Madame Sophie Martin, DRH\n\nMissions : rédaction de contenus, gestion des réseaux sociaux, coordination des publications municipales.\n\nProfil : Bac+3/+5 communication, 3 ans expérience collectivité, maîtrise outils numériques.",posteVise:"Chargé de communication",typeLettre:"candidature",langue:"fr",ton:"institutionnel",civ:"Monsieur",nom:"Dupont",prenom:"Jean",adresse:"12 rue de la Paix",cp:"75001",ville:"Paris",email:"jean.dupont@email.fr",tel:"06 12 34 56 78",linkedin:"linkedin.com/in/jean-dupont",experience:"5",dernier_poste:"Chargé de communication",niveau:"bac5",secteur:"public",pointsForts:["Rédaction","Digital","Relations presse"],iciv:"Madame",ititre:"Directrice des Ressources Humaines",inom:"Martin",iprenom:"Sophie",formule:"inst",lettre:""};
+const ENCOURAGEMENTS=["Excellent travail ! Votre lettre est prête. Bonne chance pour cette candidature 💪","Votre lettre est générée. Chaque candidature est une opportunité — allez-y ! 🚀","Bravo ! Une lettre personnalisée, c'est déjà un avantage ✨","C'est parti ! Vous avez tout pour réussir 🎯"];
+const FORMULES_POLITESSE=[{id:"formal",label:"Formel",text:"Je vous prie d'agréer, [DEST], l'expression de mes salutations distinguées."},{id:"warm",label:"Chaleureux",text:"Dans l'attente de votre retour, je reste à votre entière disposition. Cordialement,"},{id:"dynamic",label:"Dynamique",text:"Je serais ravi(e) de vous rencontrer pour échanger sur ma candidature. Bien cordialement,"},{id:"inst",label:"Institutionnel",text:"Veuillez agréer, [DEST], mes respectueuses salutations."}];
+let offreAnalysis={};
+let analyzeTimer=null;
+let D_lettreVersion="safe";
+let D_lettre_safe="";
+let D_lettre_bold="";
+
+/* ══ ANALYSE OFFRE ══ */
+function analyzeOffre(txt){
+  const lower=txt.toLowerCase();
+  let typeEntite="entreprise";
+  if(/mairie|commune|ville de|département|région|préfecture|collectivité|administration|ministère/i.test(txt))typeEntite="administration";
+  else if(/startup|scale-up|levée de fonds|seed|serie/i.test(txt))typeEntite="startup";
+  else if(/pme|tpe|groupe familial/i.test(txt))typeEntite="pme";
+  else if(/association|asso|fondation|ong/i.test(txt))typeEntite="association";
+  const expMatch=txt.match(/(\d+)\s*an[s]?\s*(d['']expérience|minimum)/i);
+  const expReq=expMatch?parseInt(expMatch[1]):0;
+  const langue=(/\b(english|fluent|bilingual|anglais courant)\b/i.test(txt)&&!/\bfrançais\b/i.test(txt))?"en":"fr";
+  let secteur="public";
+  if(typeEntite==="startup"||typeEntite==="pme"||typeEntite==="entreprise")secteur="prive";
+  else if(typeEntite==="association")secteur="asso";
+  const redFlags=[];
+  if(!/salaire|rémunération|€|smic/i.test(txt))redFlags.push("Salaire non mentionné");
+  if(/disponible immédiatement|dès que possible|urgent/i.test(txt))redFlags.push("Recrutement urgent — vérifiez l'offre");
+  const allComps=SUGGESTIONS_COMPETENCES[secteur]||SUGGESTIONS_COMPETENCES.default;
+  const competences=[...new Set(allComps)].slice(0,5);
+  const questions=[
+    {q:`Pourquoi postuler ici spécifiquement ?`,r:"Préparez 2-3 éléments concrets sur l'entité."},
+    {q:"Décrivez une situation difficile et comment vous l'avez résolue.",r:"Méthode STAR : Situation, Tâche, Action, Résultat."},
+    {q:`Quelles compétences vous permettent de réussir dans ce poste ?`,r:"Liez chaque compétence à un exemple chiffré."},
+    {q:"Où vous voyez-vous dans 3 ans ?",r:"Ambition réaliste, alignée avec l'entité."},
+    {q:"Avez-vous des questions pour nous ?",r:"Préparez 2 questions sur les projets en cours."}
+  ];
+  return {typeEntite,expReq,langue,secteur,redFlags,competences,questions};
+}
+
+function debouncedAnalyze(){
+  clearTimeout(analyzeTimer);
+  analyzeTimer=setTimeout(()=>{
+    if(D.offreText||D.offreUrl)offreAnalysis=analyzeOffre(D.offreText||D.offreUrl);
+    renderPanel();
+  },700);
+}
+
+function extractEntite(txt){
+  const m=txt.match(/(?:la|le|les|chez|pour|entreprise|société|groupe|mairie|ville de|association)\s+([A-Z][A-Za-zÀ-ÿ\s&]+?)(?:\s+recrute|\s+recherche|\s*\n|,)/);
+  return m?m[1].trim():"";
+}
+
+/* ══ SCORE PERSONNALISATION ══ */
+function scorePersonalisation(lettre){
+  const capFull2=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  const checks=[
+    {label:"Nom du recruteur utilisé",ok:!!(D.inom&&lettre.includes(capFull2(D.inom)))},
+    {label:"Chiffres concrets présents",ok:/\d+\s*(%|ans?|mois|projets?|personnes?|€)/i.test(lettre)},
+    {label:"Formule de politesse correcte",ok:/je vous prie|veuillez agr|cordialement|salutations/i.test(lettre)},
+    {label:"Objet avec poste",ok:/objet\s*:/i.test(lettre)},
+    {label:"Sans phrases génériques",ok:!PHRASES_GENERIQUES.some(p=>lettre.toLowerCase().includes(p))},
+    {label:"Points forts intégrés",ok:D.pointsForts.length>0&&D.pointsForts.some(p=>lettre.toLowerCase().includes(p.toLowerCase().substring(0,5)))},
+    {label:"Longueur correcte (60-280 mots)",ok:(()=>{const w=lettre.split(/\s+/).filter(x=>x).length;return w>=60&&w<=280;})()},
+    {label:"Pas d'URL visible",ok:!/https?:\/\//.test(lettre)}
+  ];
+  const pct=Math.round(checks.filter(x=>x.ok).length/checks.length*100);
+  return {pct,checks};
+}
+
+/* ══ HIGHLIGHT ══ */
+function highlightGenerics(txt){
+  const escFn=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  let result=escFn(txt);
+  PHRASES_GENERIQUES.forEach(p=>{
+    const re=new RegExp(p.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&"),"gi");
+    result=result.replace(re,`<mark style="background:rgba(220,38,38,.12);border-bottom:1px dashed var(--red)" title="Passage générique">$&</mark>`);
+  });
+  return result;
+}
+
+/* ══ BUILDERS ══ */
+function buildSuivi(){
+  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  const dest=D.inom?`${D.iciv||""} ${cap(D.inom)}`.trim():"Madame, Monsieur";
+  return `Objet : Relance candidature — ${D.posteVise||"[Poste]"}\n\n${dest},\n\nJe me permets de revenir vers vous suite à ma candidature au poste de ${D.posteVise||"[Poste]"} transmise il y a quelques jours.\n\nToujours très motivé${D.civ==="Madame"?"e":""} par cette opportunité, je reste à votre disposition pour un entretien.\n\nCordialement,\n${cap(D.prenom)} ${cap(D.nom)}\n${D.tel||""}\n${D.email||""}`;
+}
+function buildMessageContact(){
+  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  const dest=D.inom?`${D.iciv||""} ${cap(D.inom)}`.trim():"Bonjour";
+  return `${dest},\n\nJe me permets de vous contacter au sujet du poste de ${D.posteVise||"[Poste]"}.\n\nMon parcours en ${D.dernier_poste||"[domaine]"} m'amène à penser que mon profil pourrait correspondre à vos besoins.\n\nSeriez-vous disponible pour un échange ?\n\nCordialement,\n${cap(D.prenom)} ${cap(D.nom)}`;
+}
+function buildMerci(){
+  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  const dest=D.inom?`${D.iciv||""} ${cap(D.inom)}`.trim():"Madame, Monsieur";
+  return `${dest},\n\nJe tiens à vous remercier pour le temps que vous m'avez accordé lors de notre entretien.\n\nNos échanges ont renforcé ma motivation pour rejoindre votre équipe. Je reste convaincu${D.civ==="Madame"?"e":""} que mon profil correspond au poste de ${D.posteVise||"[Poste]"}.\n\nCordialement,\n${cap(D.prenom)} ${cap(D.nom)}`;
+}
+function buildResumeCourt(){
+  if(!D.lettre)return "";
+  const lines=D.lettre.split("\n").filter(l=>l.trim()&&!/^objet/i.test(l)&&!/^(madame|monsieur)/i.test(l));
+  let r=lines.slice(0,3).join(" ").replace(/<[^>]+>/g,"").trim();
+  if(r.length>450)r=r.substring(0,447)+"...";
+  return r;
+}
+
+/* ══ CANDIDATURES ══ */
+function getCands(){try{return JSON.parse(localStorage.getItem("sc_cands")||"[]");}catch{return[];}}
+function saveCands(a){localStorage.setItem("sc_cands",JSON.stringify(a));}
+function addCand(entite,poste){
+  const cands=getCands();
+  const existing=cands.find(c=>c.entite&&entite&&c.entite.toLowerCase().includes(entite.toLowerCase().substring(0,6)));
+  if(existing){toast(`⚠️ Déjà candidaté chez ${existing.entite} le ${existing.date}`);return false;}
+  cands.unshift({id:Date.now(),entite,poste,date:new Date().toLocaleDateString("fr-FR"),statut:"envoyee"});
+  if(cands.length>100)cands.pop();
+  saveCands(cands);
+  return true;
+}
+function parseDate(str){if(!str)return null;const p=str.split("/");if(p.length!==3)return null;return new Date(p[2],p[1]-1,p[0]);}
+function statusLabel(s){return {envoyee:"Envoyée",relance:"Relance",entretien:"Entretien",refus:"Refus",acceptee:"Acceptée"}[s]||s;}
+function cycleStatus(i){const cands=getCands();const order=["envoyee","relance","entretien","refus","acceptee"];const idx=order.indexOf(cands[i].statut);cands[i].statut=order[(idx+1)%order.length];saveCands(cands);renderDash();}
+function deleteCand(i){const cands=getCands();cands.splice(i,1);saveCands(cands);renderDash();}
+
+/* ══ DASHBOARD ══ */
+function showDash(){
+  const aw=document.getElementById("app-wrap");
+  const dw=document.getElementById("dash-wrap");
+  if(aw)aw.style.display="none";
+  if(dw){dw.style.display="block";renderDash();}
+}
+function hideDash(){
+  const aw=document.getElementById("app-wrap");
+  const dw=document.getElementById("dash-wrap");
+  if(aw)aw.style.display="";
+  if(dw)dw.style.display="none";
+}
+
+function renderDash(){
+  const d=document.getElementById("dashboard");if(!d)return;
+  const cands=getCands();
+  const today=new Date();
+  const thisWeek=cands.filter(c=>{const cd=parseDate(c.date);return cd&&(today-cd)<7*24*3600*1000;});
+  const entretiens=cands.filter(c=>c.statut==="entretien").length;
+  const taux=cands.length?Math.round(entretiens/cands.length*100):0;
+  const objectif=parseInt(localStorage.getItem("sc_objectif")||"5");
+  const objPct=Math.min(100,Math.round(thisWeek.length/objectif*100));
+  const lc=parseInt(localStorage.getItem("scribe_count")||"0");
+  const badges=[
+    {icon:"🏆",label:"Première lettre",earned:lc>=1},
+    {icon:"🔥",label:"Candidat actif",earned:cands.length>=3},
+    {icon:"⭐",label:"Confirmé",earned:lc>=3},
+    {icon:"🎯",label:"Entretien obtenu",earned:entretiens>=1},
+    {icon:"🚀",label:"Expert",earned:lc>=10}
+  ];
+
+  d.innerHTML=`<div class="dash-header">
+    <div class="dash-title">Tableau de bord</div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <button class="btn ghost sm" onclick="exportCSV()">⬇ CSV</button>
+      <button class="btn ghost sm" onclick="hideDash()">← Retour</button>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">${cands.length}</div><div class="kpi-lbl">Candidatures</div><div class="kpi-trend">${thisWeek.length} cette semaine</div></div>
+    <div class="kpi"><div class="kpi-val">${entretiens}</div><div class="kpi-lbl">Entretiens</div><div class="kpi-trend">${taux}% de taux</div></div>
+    <div class="kpi"><div class="kpi-val">${lc}</div><div class="kpi-lbl">Lettres générées</div></div>
+    <div class="kpi"><div class="kpi-val">${cands.filter(c=>c.statut==="acceptee").length}</div><div class="kpi-lbl">Acceptées</div></div>
+  </div>
+  <div class="objectif-wrap">
+    <div class="obj-header">
+      <span>Objectif : <strong>${thisWeek.length} / ${objectif}</strong> candidatures / semaine</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <input type="number" min="1" max="20" value="${objectif}" style="width:45px;padding:2px 5px;border:1px solid var(--bg2);border-radius:4px;font-size:.72rem;background:var(--bg1)" onchange="localStorage.setItem('sc_objectif',this.value);renderDash()">
+      </div>
+    </div>
+    <div class="obj-bar"><div class="obj-fill" style="width:${objPct}%"></div></div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-card"><div class="chart-title">Statuts</div><canvas id="chart-statuts" height="160"></canvas></div>
+    <div class="chart-card"><div class="chart-title">Calendrier ${today.toLocaleDateString("fr-FR",{month:"long",year:"numeric"})}</div>${renderCalendar(cands)}</div>
+  </div>
+  <div class="chart-card" style="margin-top:.75rem"><div class="chart-title">Badges</div><div class="badges-wrap">${badges.map(b=>`<div class="badge-item ${b.earned?"earned":""}"><span>${b.icon}</span>${b.label}</div>`).join("")}</div></div>
+  <div class="chart-card" style="margin-top:.75rem;overflow-x:auto">
+    <div class="chart-title" style="display:flex;justify-content:space-between">Candidatures <button class="btn ghost xs" onclick="if(confirm('Effacer ?')){saveCands([]);renderDash();}">Effacer tout</button></div>
+    ${cands.length?`<table class="cand-table"><thead><tr><th>Entité</th><th>Poste</th><th>Date</th><th>Statut</th><th></th></tr></thead><tbody>${cands.map((c,i)=>`<tr><td>${c.entite||"—"}</td><td>${c.poste||"—"}</td><td style="font-family:var(--fm);font-size:.7rem">${c.date}</td><td><span class="status-badge ${c.statut}" onclick="cycleStatus(${i})">${statusLabel(c.statut)}</span></td><td><button class="btn ghost xs" onclick="deleteCand(${i})">✕</button></td></tr>`).join("")}</tbody></table>`:`<div style="text-align:center;padding:1.5rem;color:var(--ink3);font-size:.8rem">Aucune candidature.</div>`}
+  </div>`;
+
+  setTimeout(()=>{
+    const sc=document.getElementById("chart-statuts");
+    if(!sc)return;
+    const statuts={envoyee:0,relance:0,entretien:0,refus:0,acceptee:0};
+    cands.forEach(c=>{statuts[c.statut]=(statuts[c.statut]||0)+1;});
+    try{new Chart(sc,{type:"doughnut",data:{labels:["Envoyée","Relance","Entretien","Refus","Acceptée"],datasets:[{data:Object.values(statuts),backgroundColor:["#2563eb","#d97706","#7c3aed","#dc2626","#16a34a"],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:"right",labels:{font:{size:9}}}}}});}catch(e){}
+  },80);
+}
+
+function renderCalendar(cands){
+  const today=new Date();
+  const year=today.getFullYear(),month=today.getMonth();
+  const first=new Date(year,month,1);
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const startDay=first.getDay()||7;
+  const candDates={},relanceDates={};
+  cands.forEach(c=>{
+    const d=parseDate(c.date);if(!d)return;
+    const key=d.getDate()+"-"+d.getMonth();
+    candDates[key]=true;
+    const r=new Date(d);r.setDate(r.getDate()+10);
+    relanceDates[r.getDate()+"-"+r.getMonth()]=true;
+  });
+  const days=["L","M","M","J","V","S","D"];
+  let html=`<div class="cal-grid">${days.map(d=>`<div class="cal-day-name">${d}</div>`).join("")}`;
+  for(let i=1;i<startDay;i++)html+=`<div></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const key=d+"-"+month;
+    const isToday=d===today.getDate();
+    let cls="cal-day";
+    if(candDates[key])cls+=" has-cand";
+    if(relanceDates[key])cls+=" has-relance";
+    if(isToday)cls+=" today";
+    html+=`<div class="${cls}">${d}${(candDates[key]||relanceDates[key])?`<div class="cal-dot"></div>`:""}</div>`;
+  }
+  html+=`</div><div style="display:flex;gap:.75rem;margin-top:.4rem;font-size:.62rem;color:var(--ink3)"><span>🔵 Candidature</span><span>🟡 Relance J+10</span></div>`;
+  return html;
+}
+
+function exportCSV(){
+  const cands=getCands();
+  if(!cands.length){toast("Aucune candidature.");return;}
+  const csv="Entité,Poste,Date,Statut\n"+cands.map(c=>`"${c.entite||""}","${c.poste||""}","${c.date||""}","${statusLabel(c.statut)}"`).join("\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+  a.download="candidatures_scribe.csv";a.click();
+  toast("CSV exporté ✓");
+}
+
+/* ══ BIBLIO ══ */
+function getBiblio(){try{return JSON.parse(localStorage.getItem("sc_biblio")||"[]");}catch{return[];}}
+function saveBiblio(a){localStorage.setItem("sc_biblio",JSON.stringify(a));}
+function showBibliotheque(){
+  const bg=document.getElementById("biblio-bg");
+  if(!bg)return;
+  const biblio=getBiblio();
+  const el=document.getElementById("biblio-content");
+  if(el)el.innerHTML=biblio.length?biblio.map((b,i)=>`<div style="display:flex;align-items:flex-start;gap:.75rem;padding:.55rem 0;border-bottom:1px solid var(--bg2)"><div style="flex:1"><div style="font-size:.78rem;margin-bottom:.15rem">${b.phrase}</div><div style="font-size:.62rem;color:var(--ink3)">${b.date}</div></div><div style="display:flex;gap:.3rem;flex-shrink:0"><button class="btn ghost xs" onclick="navigator.clipboard.writeText(this.closest('div').previousElementSibling.firstChild.textContent)">Copier</button><button class="btn ghost xs" onclick="const b=getBiblio();b.splice(${i},1);saveBiblio(b);showBibliotheque()">✕</button></div></div>`).join(""):`<div style="text-align:center;padding:1.5rem;color:var(--ink3);font-size:.8rem">Bibliothèque vide.</div>`;
+  bg.style.display="flex";
+}
+function closeBiblio(){const bg=document.getElementById("biblio-bg");if(bg)bg.style.display="none";}
+
+/* ══ DEMO ══ */
+function loadDemo(){
+  Object.assign(D,DEMO_DATA);
+  offreAnalysis=analyzeOffre(D.offreText);
+  D_lettreVersion="safe";D_lettre_safe="";D_lettre_bold="";
+  renderPanel();
+  toast("Mode démo — données exemple chargées ✓");
+}
+
+/* ══ ACCESSIBILITY ══ */
+function toggleDyslexic(){
+  document.body.classList.toggle("dyslexic");
+  const btn=document.getElementById("m-dyslexic");
+  if(btn)btn.classList.toggle("on");
+}
+function toggleContrast(){
+  document.body.classList.toggle("high-contrast");
+  const btn=document.getElementById("m-contrast");
+  if(btn)btn.classList.toggle("on");
+}
+function speak(){
+  if(!D.lettre){toast("Aucune lettre.");return;}
+  const u=new SpeechSynthesisUtterance(D.lettre.replace(/<[^>]+>/g,""));
+  u.lang=D.langue==="en"?"en-US":"fr-FR";
+  speechSynthesis.speak(u);
+  toast("Lecture en cours…");
+}
+function printDirect(){
+  if(!D.lettre){toast("Aucune lettre.");return;}
+  const w=window.open("","_blank");
+  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  w.document.write(`<!DOCTYPE html><html><head><title>Lettre</title></head><body><pre style="font-family:'Times New Roman',serif;font-size:12pt;line-height:1.8;padding:2cm;white-space:pre-wrap">${D.lettre}</pre></body></html>`);
+  w.document.close();w.print();
+}
+
+/* ══ SCORE LETTRE ++ ══ */
+function buildScoreHTML(txt){
+  const words=txt?txt.split(/\s+/).filter(w=>w).length:0;
+  const hasObjet=/objet\s*:/i.test(txt||"");
+  const hasPolitesse=/je vous prie|veuillez agr|cordialement|salutations/i.test(txt||"");
+  const noGeneric=!PHRASES_GENERIQUES.some(p=>(txt||"").toLowerCase().includes(p));
+  const okLen=words>=60&&words<=280;
+  const score=Math.round(([hasObjet,hasPolitesse,okLen,noGeneric,words>10].filter(Boolean).length/5)*100);
+  const g=v=>v?"g":"b";
+  return {score,words,hasObjet,hasPolitesse,noGeneric,okLen,
+    html:`<div class="score-row">
+      <div class="score-item"><div class="score-v ${score>=80?"g":score>=50?"m":"b"}">${score}%</div><div class="score-l">Score</div></div>
+      <div class="score-item"><div class="score-v ${okLen?"g":"m"}">${words}</div><div class="score-l">Mots</div></div>
+      <div class="score-item"><div class="score-v ${g(hasObjet)}">${hasObjet?"✓":"✗"}</div><div class="score-l">Objet</div></div>
+      <div class="score-item"><div class="score-v ${g(noGeneric)}">${noGeneric?"✓":"✗"}</div><div class="score-l">Original</div></div>
+    </div>`};
+}
+
+/* ══ CELEBRATE ══ */
+function celebrate(msg){
+  const c=document.getElementById("celebration");
+  const m=document.getElementById("celeb-msg");
+  if(!c||!m)return;
+  const colors=["#2563eb","#16a34a","#d97706","#7c3aed","#dc2626"];
+  let h="";
+  for(let i=0;i<18;i++){
+    const x=Math.random()*100;const dl=Math.random()*1;const col=colors[Math.floor(Math.random()*colors.length)];
+    h+=`<div class="confetti" style="left:${x}%;animation-delay:${dl}s;background:${col}"></div>`;
+  }
+  m.innerHTML=`<span class="celeb-icon">🎉</span><div class="celeb-title">${msg}</div><div class="celeb-sub">Continuez comme ça !</div>`;
+  c.innerHTML=h;c.appendChild(m);c.style.display="flex";
+  setTimeout(()=>{c.style.display="none";},3500);
+}
+
+/* ══ XBLOCK ══ */
+function toggleXblock(header){
+  const body=header.nextElementSibling;
+  body.classList.toggle("open");
+}
+
+/* ══ COMPETENCES ══ */
+let D_competencesChecked=[];
+function toggleComp(c,el){
+  const idx=D_competencesChecked.indexOf(c);
+  if(idx>-1)D_competencesChecked.splice(idx,1);else D_competencesChecked.push(c);
+  el.classList.toggle("checked");
+  const chk=el.querySelector(".comp-check");
+  if(chk)chk.innerHTML=D_competencesChecked.includes(c)?`<svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>`:"";
+}
+function addPFDirect(v){
+  if(D.pointsForts.length>=3)return;
+  D.pointsForts.push(v);
+  saveSt();renderPanel();
+}
+function selectVersion(v){
+  D_lettreVersion=v;
+  if(v==="bold"&&D_lettre_bold)D.lettre=D_lettre_bold;
+  else if(v==="safe"&&D_lettre_safe)D.lettre=D_lettre_safe;
+  renderPanel();
+}
+
+/* ══ OVERRIDE onLettre ══ */
+const _onLettre_orig=onLettre;
+onLettre=function(ta){
+  D.lettre=ta.value;
+  if(!D_lettre_safe)D_lettre_safe=D.lettre;
+  const w=D.lettre.split(/\s+/).filter(x=>x).length;
+  const wc=document.getElementById("wc");if(wc)wc.textContent=w+" mot"+(w>1?"s":"");
+  const pb=document.getElementById("preview-box");if(pb)pb.innerHTML=highlightGenerics(D.lettre);
+};
+
+/* ══ OVERRIDE doGen ══ */
+const _doGen_orig=doGen;
+doGen=function(version){
+  version=version||"safe";
+  if(!checkReady())return;
+  D_lettreVersion=version;
+  if(version==="bold"){D_lettre_bold="";}else{D_lettre_safe="";}
+  D.lettre="";
+  const prompt=buildPromptExt(version);
+  rawPrompt=prompt;
+  gptOpened=false;
+  navigator.clipboard.writeText(prompt)
+    .then(()=>toast(`Prompt ${version==="bold"?"audacieux":"safe"} généré et copié ✓`))
+    .catch(()=>toast("Prompt généré ✓"));
+  renderPanel();
+};
+
+/* ══ PROMPT EXTENDED ══ */
+function buildPromptExt(version){
+  version=version||"safe";
+  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  const d=D;
+  const cNom=cap(d.nom),cPre=cap(d.prenom);
+  const accF=d.civ==="Madame";
+  const iNom=cap(d.inom),iPre=cap(d.iprenom);
+  const appel=d.inom?`${d.iciv||""} ${iNom},`.trim():"Madame, Monsieur,";
+  const ville=cap(d.ville)||"Paris";
+  const mairie=/mairie|commune|hôtel de ville|collectivité|ville de/i.test(d.offreText+d.offreUrl);
+  const offreContent=d.offreUrl?`URL de l'offre : ${d.offreUrl}`:d.offreText||"[Offre non renseignée]";
+  const tonMap={formel:"formel et soutenu",dynamique:"dynamique et engagé",institutionnel:"institutionnel et sobre"};
+  const langMap={fr:"Français",en:"English",es:"Español"};
+  const typeMap={candidature:"candidature classique",relance:"lettre de relance",spontanee:"candidature spontanée"};
+  const niveauMap={bac:"Bac",bac2:"Bac+2",bac3:"Bac+3",bac5:"Bac+5",doc:"Doctorat"};
+  const formuleObj=FORMULES_POLITESSE.find(f=>f.id===d.formule)||FORMULES_POLITESSE[0];
+  const politesse=d.inom?`${d.iciv||""} ${iNom}`.trim():"Madame, Monsieur";
+  const formuleFinal=formuleObj.text.replace("[DEST]",politesse);
+  const compTxt=D_competencesChecked.length?`\nCompétences confirmées : ${D_competencesChecked.join(", ")}`:""
+  const boldInstr=version==="bold"?"\nVERSION AUDACIEUSE : ton affirmé, accroche originale, personnalité forte mais professionnelle.":"\nVERSION SAFE : ton équilibré, professionnel, conforme aux attentes du secteur.";
+  const typeEntiteDetecte=offreAnalysis.typeEntite||"entreprise";
+  const source=d.source_offre||"annonce";
+  const sourceMap={annonce:"réponse à une annonce",linkedin:"LinkedIn",boite:"bouche-à-oreille",salon:"salon emploi"};
+
+  return `Tu es expert en rédaction de lettres de motivation françaises. Génère en ${langMap[d.langue]||"Français"} une lettre COMPLÈTE et PERSONNALISÉE.
+${boldInstr}
+
+=== CONTEXTE ===
+Type : ${typeMap[d.typeLettre]||"candidature"} | Ton : ${tonMap[d.ton]||"formel"} | Source : ${sourceMap[source]||"annonce"}
+${d.posteVise?"Poste visé : "+d.posteVise:""}
+
+=== CANDIDAT ===
+${cNom} ${cPre} | ${d.civ||"Monsieur"} | ${cap(d.adresse)||""} ${d.cp||""} ${ville} | ${d.email||""} | ${d.tel||""}
+${d.linkedin?"LinkedIn : "+d.linkedin:""}
+${d.experience?"Expérience : "+d.experience+" ans ":""} ${d.niveau?niveauMap[d.niveau]:""} ${d.secteur?"| Secteur : "+d.secteur:""}
+${d.dernier_poste?"Dernier poste : "+d.dernier_poste:""}
+${d.pointsForts.length?"Points forts : "+d.pointsForts.join(", "):""}${compTxt}
+
+=== OFFRE ===
+${offreContent}
+
+=== DESTINATAIRE ===
+${(d.inom||d.ititre)?`${d.iciv||""} ${d.ititre||""} ${iNom} ${iPre}`.trim():"Extraire depuis l'offre."}
+${mairie?"\nIMPORTANT : Adresser au Maire : Monsieur/Madame le/la Maire [Nom Prénom].":""}
+
+=== RÈGLES (ONISEP + France Travail) ===
+OBJECTIF : décrocher un entretien pour ${cPre} ${cNom}.
+- 10 à 15 lignes MAX — court et ciblé
+- ZÉRO phrase générique ("dynamique", "passionné", "polyvalent"…)
+- Reprendre les MOTS-CLÉS EXACTS de l'offre dans §2
+- Utiliser le prénom du recruteur si connu
+- Adapter au type d'entité : ${typeEntiteDetecte}
+- Détecter les valeurs de l'entité dans l'offre et les refléter
+${d.linkedin?"- Intégrer subtilement le LinkedIn si pertinent : "+d.linkedin:""}
+
+§1 ACCROCHE (2 PHRASES EXACTEMENT) :
+- Contexte de la candidature (source : ${sourceMap[source]||"annonce"})
+- 1 fait CONCRET sur l'entité (projet, actualité, valeur)
+
+§2 PROFIL (3 PHRASES EXACTEMENT) :
+- Lien direct compétences ↔ critères offre avec CHIFFRES précis
+- Points forts : ${d.pointsForts.join(", ")||"[profil]"}
+- Si profil partiel : valoriser compétences transférables
+
+§3 CONCLUSION (1 PHRASE EXACTEMENT) :
+- Demande d'entretien + disponibilité + CV joint
+
+FORMULE DE POLITESSE (utiliser EXACTEMENT) :
+${formuleFinal}
+
+§1 = 2 ph | §2 = 3 ph | §3 = 1 ph | Saut après chaque point | Vouvoiement strict | Accords ${accF?"féminin":"masculin"}
+RÉPONDRE UNIQUEMENT AVEC LA LETTRE, SANS COMMENTAIRE.`;
+}
+
+/* ══ OVERRIDE buildPDF ══ */
+const _buildPDF_orig=buildPDF;
+buildPDF=function(){
+  const raw=D.lettre.trim();
+  if(!raw){toast("Collez d'abord la réponse de ChatGPT.");return;}
+  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+  const txt=raw.replace(/https?:\/\/[^\s\n]*/g,"").replace(/\[source[^\]]*\]/gi,"").replace(/\n{3,}/g,"\n\n").trim();
+  const doc=new jsPDF({unit:"mm",format:"a4"});
+  const cNom=cap(D.nom),cPre=cap(D.prenom);
+  const dateStr=new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
+  const dateFile=new Date().toISOString().slice(0,10);
+  const fname=`lettre_${cNom.toLowerCase().replace(/\s+/g,"_")}_${dateFile}.pdf`;
+  const xL=20,xR=190,cW=xR-xL;const lh=5.5,lhB=6;
+  doc.setFont("times","normal");doc.setFontSize(11);doc.setTextColor(26,31,46);
+  let yE=20;
+  doc.text(`${cNom} ${cPre}`,xL,yE);yE+=lh+1;
+  const adrCp=[cap(D.adresse),D.cp].filter(Boolean).join(" ");
+  if(adrCp){doc.text(adrCp,xL,yE);yE+=lh;}
+  if(D.ville){doc.text(cap(D.ville),xL,yE);yE+=lh;}
+  if(D.email){doc.text(D.email,xL,yE);yE+=lh;}
+  if(D.tel){doc.text(D.tel,xL,yE);}
+  const iNom=cap(D.inom),iPre=cap(D.iprenom);
+  let yD=55;
+  if(D.inom||D.ititre){
+    const titre=[D.iciv,D.ititre].filter(Boolean).join(" ");
+    if(titre){doc.splitTextToSize(titre,80).forEach(l=>{doc.text(l,xR,yD,{align:"right"});yD+=lh;});}
+    const nom=[iPre,iNom].filter(Boolean).join(" ");
+    if(nom){doc.text(nom,xR,yD,{align:"right"});yD+=lh;}
+  }
+  yD+=6;doc.text(`${cap(D.ville)||"Paris"},`,xR,yD,{align:"right"});yD+=lh;
+  doc.text(`le ${dateStr}`,xR,yD,{align:"right"});
+  let yc=90;
+  const lines=txt.split("\n").map(l=>l.trim()).filter((l,i,a)=>!(l===""&&(i===0||a[i-1]==="")));
+  for(const line of lines){
+    if(yc>270)break;
+    if(!line){yc+=3;continue;}
+    if(/^objet\s*:/i.test(line)){
+      doc.setFont("times","bold");
+      const w=doc.splitTextToSize(line,cW);doc.text(w,xL,yc);doc.setFont("times","normal");
+      yc+=w.length*lhB+4;continue;
+    }
+    const w=doc.splitTextToSize(line,cW);doc.text(w,xL,yc);
+    yc+=w.length*lhB+2;
+    if(line.endsWith(".")||line.endsWith("…")||line.endsWith("!")){yc+=3;}
+  }
+  doc.text(`${cPre} ${cNom}`,xR,272,{align:"right"});
+  doc.save(fname);
+  const entite=extractEntite(D.offreText)||D.posteVise||"[Entité]";
+  addCand(entite,D.posteVise||"[Poste]");
+  const lc=parseInt(localStorage.getItem("scribe_count")||"0")+1;
+  localStorage.setItem("scribe_count",lc);
+  const enc=ENCOURAGEMENTS[Math.floor(Math.random()*ENCOURAGEMENTS.length)];
+  toast(enc);
+  if(lc%3===0)setTimeout(()=>celebrate(`${lc} lettres générées !`),500);
+  updateProg();renderPanel();
+};
+
 </script>
 </body>
 </html>
