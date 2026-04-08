@@ -916,7 +916,7 @@ const STEPS=[
 /* ══ DATA ══ */
 const D={
   offreMode:"text",offreText:"",offreUrl:"",posteVise:"",
-  typeLettre:"candidature",langue:"fr",ton:"formel",
+  typeLettre:"candidature",langue:"fr",ton:"formel",formule:"formal",source_offre:"annonce",
   civ:"",nom:"",prenom:"",adresse:"",cp:"",ville:"",email:"",tel:"",linkedin:"",
   experience:"",dernier_poste:"",niveau:"",secteur:"",pointsForts:[],
   iciv:"",ititre:"",inom:"",iprenom:"",
@@ -927,6 +927,10 @@ let cur=0,step3Skip=false,errFields=[],mode="guide",tutStep=0;
 let lettreCount=parseInt(localStorage.getItem("scribe_count")||"0");
 let rawPrompt="",gptOpened=false;
 let qrDone=false,fsBase=15;
+let offreAnalysis={};
+let analyzeTimer=null;
+let D_lettreVersion="safe",D_lettre_safe="",D_lettre_bold="";
+let D_competencesChecked=[];
 
 /* ══ UTILS ══ */
 const $=id=>document.getElementById(id);
@@ -1773,7 +1777,7 @@ document.addEventListener("keydown",e=>{
 });
 
 /* ══ INIT ══ */
-loadSt();renderPanel();renderStepper();initTut();
+/* INIT MOVED TO END */
 
 /* ══ CONSTANTS & STATE ADDITIONS ══ */
 const PHRASES_GENERIQUES=["dynamique et motivé","passion pour","travail en équipe","grande capacité d'adaptation","rigoureux et organisé","force de proposition","orienté résultats","esprit d'initiative","sens des responsabilités","polyvalent","proactif"];
@@ -1781,11 +1785,7 @@ const SUGGESTIONS_COMPETENCES={public:["Droit public","Marchés publics","Rédac
 const DEMO_DATA={offreMode:"text",offreText:"La Mairie de Paris recrute un(e) Chargé(e) de Communication (H/F)\nRéférence : 2026-COM-042\nContact : Madame Sophie Martin, DRH\n\nMissions : rédaction de contenus, gestion des réseaux sociaux, coordination des publications municipales.\n\nProfil : Bac+3/+5 communication, 3 ans expérience collectivité, maîtrise outils numériques.",posteVise:"Chargé de communication",typeLettre:"candidature",langue:"fr",ton:"institutionnel",civ:"Monsieur",nom:"Dupont",prenom:"Jean",adresse:"12 rue de la Paix",cp:"75001",ville:"Paris",email:"jean.dupont@email.fr",tel:"06 12 34 56 78",linkedin:"linkedin.com/in/jean-dupont",experience:"5",dernier_poste:"Chargé de communication",niveau:"bac5",secteur:"public",pointsForts:["Rédaction","Digital","Relations presse"],iciv:"Madame",ititre:"Directrice des Ressources Humaines",inom:"Martin",iprenom:"Sophie",formule:"inst",lettre:""};
 const ENCOURAGEMENTS=["Excellent travail ! Votre lettre est prête. Bonne chance pour cette candidature 💪","Votre lettre est générée. Chaque candidature est une opportunité — allez-y ! 🚀","Bravo ! Une lettre personnalisée, c'est déjà un avantage ✨","C'est parti ! Vous avez tout pour réussir 🎯"];
 const FORMULES_POLITESSE=[{id:"formal",label:"Formel",text:"Je vous prie d'agréer, [DEST], l'expression de mes salutations distinguées."},{id:"warm",label:"Chaleureux",text:"Dans l'attente de votre retour, je reste à votre entière disposition. Cordialement,"},{id:"dynamic",label:"Dynamique",text:"Je serais ravi(e) de vous rencontrer pour échanger sur ma candidature. Bien cordialement,"},{id:"inst",label:"Institutionnel",text:"Veuillez agréer, [DEST], mes respectueuses salutations."}];
-let offreAnalysis={};
-let analyzeTimer=null;
-let D_lettreVersion="safe";
-let D_lettre_safe="";
-let D_lettre_bold="";
+// variables declared above (offreAnalysis, analyzeTimer, D_lettreVersion, D_lettre_safe, D_lettre_bold)
 
 /* ══ ANALYSE OFFRE ══ */
 function analyzeOffre(txt){
@@ -1853,8 +1853,9 @@ function autoDetectContact(txt){
     }
   }
   // Détecter titre (DRH, etc.)
-  const titreMatch=txt.match(/(?:contact\s*:?\s*(?:madame|monsieur)\s+\S+\s*,\s*)([A-Za-zÀ-ÿ\s]+?)(?:
-|$)/i);
+  const titreMatch=txt.match(/contact\s*:?\s*(?:madame|monsieur)\s+([A-Za-z\u00C0-\u00FF][A-Za-z\u00C0-\u00FF\s]+?)(?:\n|,|$)/i);
+
+
   if(titreMatch&&!D.ititre)D.ititre=titreMatch[1].trim();
 }
 
@@ -2172,7 +2173,7 @@ function toggleXblock(header){
 }
 
 /* ══ COMPETENCES ══ */
-let D_competencesChecked=[];
+// D_competencesChecked declared above
 function toggleComp(c,el){
   const idx=D_competencesChecked.indexOf(c);
   if(idx>-1)D_competencesChecked.splice(idx,1);else D_competencesChecked.push(c);
@@ -2375,6 +2376,12 @@ buildPDF=function(){
   updateProg();renderPanel();
 };
 
+
+/* ══ INIT ══ */
+loadSt();
+renderPanel();
+renderStepper();
+initTut();
 </script>
 </body>
 </html>
