@@ -2319,59 +2319,208 @@ ${formuleFinal}
 RÉPONDRE UNIQUEMENT AVEC LA LETTRE, SANS COMMENTAIRE.`;
 }
 
-/* ══ OVERRIDE buildPDF ══ */
-const _buildPDF_orig=buildPDF;
+/* ══ buildPDF — AFNOR NF Z 11-001 ══ */
 buildPDF=function(){
   const raw=D.lettre.trim();
   if(!raw){toast("Collez d'abord la réponse de ChatGPT.");return;}
-  const cap=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
-  const txt=raw.replace(/https?:\/\/[^\s\n]*/g,"").replace(/\[source[^\]]*\]/gi,"").replace(/\n{3,}/g,"\n\n").trim();
-  const doc=new jsPDF({unit:"mm",format:"a4"});
-  const cNom=cap(D.nom),cPre=cap(D.prenom);
+
+  /* ── helpers ── */
+  const capW=s=>s?s.split(/\s+/).map(w=>w?w[0].toUpperCase()+w.slice(1).toLowerCase():"").join(" "):"";
+
+  /* ── nettoyage texte ── */
+  const txt=raw
+    .replace(/https?:\/\/[^\s\n]*/g,"")
+    .replace(/\[source[^\]]*\]/gi,"")
+    .replace(/\n{3,}/g,"\n\n")
+    .trim();
+
+  /* ── doc A4 ── */
+  const doc=new jsPDF({unit:"mm",format:"a4",orientation:"portrait"});
+  doc.setFont("times","normal");
+  doc.setFontSize(11);
+  doc.setTextColor(26,31,46);
+
+  /* ── constantes AFNOR ── */
+  const M=25;          // marges 25 mm
+  const PW=210;        // largeur A4
+  const xL=M;          // 25 mm gauche
+  const xR=PW-M;       // 185 mm
+  const LH=5.5;        // interligne corps
+  const LHB=6;         // interligne bold (objet)
+
+  /* ── identité candidat ── */
+  const cNom=capW(D.nom||""), cPre=capW(D.prenom||"");
+  const villeEnvoi=capW(D.ville||"Paris");
   const dateStr=new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
   const dateFile=new Date().toISOString().slice(0,10);
-  const fname=`lettre_${cNom.toLowerCase().replace(/\s+/g,"_")}_${dateFile}.pdf`;
-  const xL=20,xR=190,cW=xR-xL;const lh=5.5,lhB=6;
-  doc.setFont("times","normal");doc.setFontSize(11);doc.setTextColor(26,31,46);
-  let yE=20;
-  doc.text(`${cNom} ${cPre}`,xL,yE);yE+=lh+1;
-  const adrCp=[cap(D.adresse),D.cp].filter(Boolean).join(" ");
-  if(adrCp){doc.text(adrCp,xL,yE);yE+=lh;}
-  if(D.ville){doc.text(cap(D.ville),xL,yE);yE+=lh;}
-  if(D.email){doc.text(D.email,xL,yE);yE+=lh;}
-  if(D.tel){doc.text(D.tel,xL,yE);}
-  const iNom=cap(D.inom),iPre=cap(D.iprenom);
-  let yD=55;
-  if(D.inom||D.ititre){
-    const titre=[D.iciv,D.ititre].filter(Boolean).join(" ");
-    if(titre){doc.splitTextToSize(titre,80).forEach(l=>{doc.text(l,xR,yD,{align:"right"});yD+=lh;});}
-    const nom=[iPre,iNom].filter(Boolean).join(" ");
-    if(nom){doc.text(nom,xR,yD,{align:"right"});yD+=lh;}
+  const fname=`lettre_${(cNom||"candidat").toLowerCase().replace(/\s+/g,"_")}_${dateFile}.pdf`;
+
+  /* ══════════════════════════════════
+     1. EXPÉDITEUR — top-left (25, 25)
+  ══════════════════════════════════ */
+  let yExp=M;
+  doc.setFont("times","bold");
+  doc.text(`${cPre} ${cNom}`,xL,yExp); yExp+=LH+1;
+  doc.setFont("times","normal");
+  const adrLine=[capW(D.adresse),D.cp].filter(Boolean).join(" ");
+  if(adrLine){doc.text(adrLine,xL,yExp);yExp+=LH;}
+  if(D.ville) {doc.text(villeEnvoi,xL,yExp);yExp+=LH;}
+  if(D.email) {doc.text(D.email,xL,yExp);yExp+=LH;}
+  if(D.tel)   {doc.text(D.tel,xL,yExp);}
+
+  /* ══════════════════════════════════
+     2. DATE — top-right, alignée droite
+        (AFNOR : entre 25 et 35 mm du haut)
+  ══════════════════════════════════ */
+  const yDate=M+2;
+  doc.text(`À ${villeEnvoi}, le ${dateStr}`,xR,yDate,{align:"right"});
+
+  /* ══════════════════════════════════
+     3. DESTINATAIRE — x=105 mm, y=90 mm
+        largeur ≈ 80 mm (zone fenêtre enveloppe)
+  ══════════════════════════════════ */
+  const xDest=105;
+  const wDest=80;
+  let yDest=90;
+
+  /* Titre civilité — obligatoire AFNOR */
+  let civTitle="Madame, Monsieur";
+  if(D.iciv==="Monsieur")      civTitle="Monsieur";
+  else if(D.iciv==="Madame")   civTitle="Madame";
+
+  const iNom=capW(D.inom||""), iPre=capW(D.iprenom||"");
+  const nomComplet=[iPre,iNom].filter(Boolean).join(" ");
+
+  /* Entreprise / entité */
+  const entiteLine=(()=>{
+    const m=(D.offreText||"").match(/(?:mairie|commune|ville de|société|groupe|entreprise|association)\s+([A-Z][A-Za-zÀ-ÿ\s&\-]+?)(?:\s+recrute|\s*\n|,)/i);
+    return m?capW(m[1].trim()):"";
+  })();
+  if(entiteLine){
+    doc.setFont("times","bold");
+    doc.splitTextToSize(entiteLine,wDest).forEach(l=>{doc.text(l,xDest,yDest);yDest+=LH;});
+    doc.setFont("times","normal");
   }
-  yD+=6;doc.text(`${cap(D.ville)||"Paris"},`,xR,yD,{align:"right"});yD+=lh;
-  doc.text(`le ${dateStr}`,xR,yD,{align:"right"});
-  let yc=90;
-  const lines=txt.split("\n").map(l=>l.trim()).filter((l,i,a)=>!(l===""&&(i===0||a[i-1]==="")));
-  for(const line of lines){
-    if(yc>270)break;
-    if(!line){yc+=3;continue;}
-    if(/^objet\s*:/i.test(line)){
-      doc.setFont("times","bold");
-      const w=doc.splitTextToSize(line,cW);doc.text(w,xL,yc);doc.setFont("times","normal");
-      yc+=w.length*lhB+4;continue;
+
+  /* "À l'attention de [Titre Nom]" */
+  const attnName=nomComplet?`${civTitle} ${nomComplet}`:civTitle;
+  const attnLine=`À l'attention de ${attnName}`;
+  doc.splitTextToSize(attnLine,wDest).forEach(l=>{doc.text(l,xDest,yDest);yDest+=LH;});
+
+  /* Titre fonction */
+  if(D.ititre){
+    doc.splitTextToSize(capW(D.ititre),wDest).forEach(l=>{doc.text(l,xDest,yDest);yDest+=LH;});
+  }
+
+  /* ══════════════════════════════════
+     4. OBJET — sous destinataire +15 mm
+  ══════════════════════════════════ */
+  const yObj=Math.max(yDest+15, 130);
+
+  /* Extraire ligne Objet du texte sinon construire */
+  let objetLine="";
+  const objMatch=txt.match(/^objet\s*:\s*(.+)/im);
+  if(objMatch){
+    objetLine="Objet : "+objMatch[1].trim();
+  } else if(D.posteVise){
+    objetLine="Objet : Candidature — "+D.posteVise;
+  } else {
+    objetLine="Objet : Candidature spontanée";
+  }
+  doc.setFont("times","bold");
+  const objLines=doc.splitTextToSize(objetLine,xR-xL);
+  doc.text(objLines,xL,yObj);
+  doc.setFont("times","normal");
+
+  /* ══════════════════════════════════
+     5. CORPS — sous objet +10 mm
+  ══════════════════════════════════ */
+  let yCorps=yObj+objLines.length*LHB+10;
+
+  /* Découper le texte en lignes, sauter la ligne Objet si déjà dans le texte */
+  const rawLines=txt.split("\n").map(l=>l.trim());
+
+  /* Formule d'appel — civilité obligatoire */
+  const appel=nomComplet?`${civTitle} ${iNom},`:`${civTitle},`;
+
+  /* Trouver si une formule d'appel existe déjà dans le texte */
+  const hasAppel=rawLines.some(l=>/^(madame|monsieur)\b/i.test(l));
+
+  const bodyLines=[];
+  rawLines.forEach((l,i)=>{
+    if(/^objet\s*:/i.test(l)) return; // déjà placé
+    bodyLines.push(l);
+  });
+
+  /* Injecter formule d'appel si absente */
+  if(!hasAppel) bodyLines.unshift(appel,"");
+
+  /* Rendu corps */
+  const cW=xR-xL;
+  let prevEmpty=false;
+  for(const line of bodyLines){
+    if(yCorps>268) break;
+    if(!line){
+      if(!prevEmpty) yCorps+=LH*0.8; // saut de paragraphe allégé
+      prevEmpty=true;
+      continue;
     }
-    const w=doc.splitTextToSize(line,cW);doc.text(w,xL,yc);
-    yc+=w.length*lhB+2;
-    if(line.endsWith(".")||line.endsWith("…")||line.endsWith("!")){yc+=3;}
+    prevEmpty=false;
+
+    /* Formule d'appel en italique */
+    const isAppelLine=/^(madame|monsieur)[,\s]/i.test(line);
+    if(isAppelLine){
+      doc.setFont("times","italic");
+      doc.text(line,xL,yCorps);
+      doc.setFont("times","normal");
+      yCorps+=LH+3; // espace après appel
+      continue;
+    }
+
+    const w=doc.splitTextToSize(line,cW);
+    doc.text(w,xL,yCorps);
+    yCorps+=w.length*LH;
+    /* Saut de ligne après phrase terminée */
+    if(/[.!…]$/.test(line)) yCorps+=LH*0.6;
   }
-  doc.text(`${cPre} ${cNom}`,xR,272,{align:"right"});
+
+  /* ══════════════════════════════════
+     6. FORMULE DE POLITESSE — +10 mm
+        Format strict AFNOR
+  ══════════════════════════════════ */
+  const yPolitesse=Math.min(yCorps+10, 250);
+  const destPolitesse=nomComplet?`${civTitle} ${iNom}`:civTitle;
+
+  /* Vérifier si la formule est déjà dans le texte */
+  const hasFormule=/(je vous prie|veuillez agréer|salutations|cordialement)/i.test(txt);
+
+  if(!hasFormule){
+    const politesse=`Je vous prie d'agréer, ${destPolitesse}, l'expression de mes salutations distinguées.`;
+    const wPol=doc.splitTextToSize(politesse,cW);
+    doc.text(wPol,xL,yPolitesse);
+  }
+
+  /* ══════════════════════════════════
+     7. SIGNATURE — alignée droite
+        +25 mm après politesse
+  ══════════════════════════════════ */
+  const ySig=Math.min(yPolitesse+25, 278);
+  doc.setFont("times","italic");
+  doc.setTextColor(120,120,120);
+  doc.text("Signature",xR,ySig-5,{align:"right"});
+  doc.setFont("times","bold");
+  doc.setTextColor(26,31,46);
+  doc.text(`${cPre} ${cNom}`,xR,ySig,{align:"right"});
+
+  /* ── enregistrement ── */
   doc.save(fname);
-  const entite=extractEntite(D.offreText)||D.posteVise||"[Entité]";
+
+  /* ── post-PDF ── */
+  const entite=entiteLine||D.posteVise||"[Entité]";
   addCand(entite,D.posteVise||"[Poste]");
   const lc=parseInt(localStorage.getItem("scribe_count")||"0")+1;
   localStorage.setItem("scribe_count",lc);
-  const enc=ENCOURAGEMENTS[Math.floor(Math.random()*ENCOURAGEMENTS.length)];
-  toast(enc);
+  toast(ENCOURAGEMENTS[Math.floor(Math.random()*ENCOURAGEMENTS.length)]);
   if(lc%3===0)setTimeout(()=>celebrate(`${lc} lettres générées !`),500);
   updateProg();renderPanel();
 };
