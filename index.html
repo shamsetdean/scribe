@@ -299,7 +299,8 @@ body.dark .topbar{background:rgba(19,18,16,.95)}
 
 /* MOBILE */
 @media(max-width:768px){
-  .app-shell{grid-template-columns:1fr}
+  .app-shell{grid-template-columns:minmax(0,1fr)}
+  .main-area{min-width:0}
   .sidebar{display:none}
   .ph{padding:1.25rem 1rem 0}
   .content{padding:1rem 1rem 5rem}
@@ -426,6 +427,16 @@ mark.generic{background:rgba(155,35,53,.1);border-bottom:1px dashed var(--red)}
   .sidebar.open{display:flex!important;position:fixed;top:84px;left:0;right:0;bottom:0;z-index:250;width:100%;background:var(--bg);border-right:none;border-bottom:1px solid var(--bg2)}
   .sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:240}
   .sidebar-backdrop.open{display:block}
+  /* Barre du haut sur téléphone : on garde le nom Scribe et les réglages, sans débordement */
+  .topbar{padding:0 .5rem;gap:.25rem}
+  .tb-brand{min-width:0;flex-shrink:0;gap:.4rem}
+  .tb-logo,.tb-divider,.tb-tagline{display:none}
+  .tb-actions{min-width:0;flex-shrink:1;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tb-actions::-webkit-scrollbar{display:none}
+  .tb-sep{display:none}
+  .tba{padding:5px 6px}
+  /* Indicateurs sur deux colonnes (la règle à quatre colonnes, plus bas dans le fichier, écrasait celle-ci) */
+  .kpi-row-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
 </style>
@@ -1016,7 +1027,7 @@ PAGES.ressources = () => `
       <div class="card" style="font-size:.74rem;color:var(--ink2);line-height:1.7">
         <p><strong>Éditeur :</strong> Guettaf Shams — Anthropotech · Lab — shamsetdean@gmail.com</p>
         <p><strong>Hébergement :</strong> GitHub Pages — Microsoft Corporation, San Francisco CA</p>
-        <p><strong>Données personnelles :</strong> Aucune donnée collectée ni transmise. Tout reste dans votre navigateur (localStorage). Conformité RGPD totale. Effacement possible à tout moment.</p>
+        <p><strong>Données personnelles :</strong> Aucune donnée collectée ni transmise. Tout reste dans votre navigateur (localStorage). Si vous utilisez ChatGPT pour votre lettre, c'est vous qui y collez la consigne : elle contient l'offre, votre expérience et vos points forts, mais jamais vos nom, prénom, adresse, e-mail, téléphone ni LinkedIn, qui sont ajoutés seulement dans le PDF, sur votre appareil. Conformité RGPD totale. Effacement possible à tout moment.</p>
         <p><strong>Référentiel éditorial :</strong> ONISEP, France Travail, Conseil général de Seine-et-Marne.</p>
         <p style="color:var(--ink4);font-size:.68rem;margin-top:.5rem">CC BY-NC-ND 4.0 · Scribe v2 · Anthropotech Lab · Avril 2026</p>
         <button class="btn ghost sm" style="margin-top:.75rem" onclick="if(confirm('Effacer toutes les données Scribe ?')){['scribe_cv','scribe_lettre','scribe_cands','scribe_biblio','scribe_count','scribe_obj','scribe_bilan','scribe_ent_ck','scribe_dash_ck'].forEach(k=>localStorage.removeItem(k));toast('Données effacées ✓')}">Effacer toutes mes données</button>
@@ -1725,8 +1736,7 @@ Type : ${typeMap[D.typeLettre]||'candidature'} | Ton : ${tonMap[D.ton]||'formel'
 ${D.poste?'Poste visé : '+D.poste:''}
 
 === CANDIDAT ===
-${cNom} ${cPre} | ${D.civ||'Monsieur'} | ${cap(D.adresse)||''} ${D.cp||''} ${villeEnvoi}
-${D.email||''} | ${D.tel||''}${D.linkedin?' | '+D.linkedin:''}
+${D.civ==='Madame'?'Une candidate':'Un candidat'} (identité et coordonnées volontairement non transmises : elles sont ajoutées par Scribe dans le PDF)
 ${D.experience?'Expérience : '+D.experience+' ans':''} ${D.posteActuel?'| '+D.posteActuel:''}
 ${D.pf.length?'Points forts : '+D.pf.join(', '):''}
 ${compChecked.length?'Compétences cochées : '+compChecked.join(', '):''}
@@ -1739,13 +1749,15 @@ ${(D.inom||D.ititre)?(D.iciv+' '+D.ititre+' '+iNom+' '+iPre).trim():'Extraire de
 ${isMairie?'\nIMPORTANT : Adresser au Maire — Monsieur/Madame le/la Maire.':''}
 
 === RÈGLES (ONISEP + France Travail) ===
-OBJECTIF : donner envie de rencontrer ${cPre} ${cNom} en entretien.
+OBJECTIF : donner envie de rencontrer ${D.civ==='Madame'?'la candidate':'le candidat'} en entretien.
 - 10 à 15 lignes MAX
 - ZÉRO phrase générique (dynamique, passionné, polyvalent…)
 - Reprendre les MOTS-CLÉS EXACTS de l'offre dans §2
 - Plan : §1=2ph accroche entreprise | §2=3ph profil chiffré | §3=1ph conclusion+entretien
 - Formule de politesse EXACTE : ${formuleFin}
 - Accords genre : ${D.civ==='Madame'?'féminin':'masculin'}
+- Format : une ligne « Objet : ... », puis l'appel, le corps et la formule de politesse
+- AUCUN en-tête, AUCUNE coordonnée, AUCUNE signature, AUCUN nom de candidat (ni réel ni inventé, ni [Prénom Nom]) : Scribe les ajoute lui-même
 - RÉPONDRE UNIQUEMENT AVEC LA LETTRE, SANS COMMENTAIRE.`;
 }
 
